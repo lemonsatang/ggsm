@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'NS';
+    src:
+        local('PretendardVariable'),
+        url('/public/fonts/PretendardVariable.woff2') format('woff2-variations');
+	font-weight: 100 900;
+    font-style: normal;
+    font-display: swap; // 폰트 다운로드 전 텍스트 미리보기
+}
+
+
+@font-face {
+    font-family: 'NS-Neo';
+    src:
+        local('NanumSquareNeo Variable'),
+        url('/public/fonts/NS-Variable.ttf') format('woff2-variations');
+	font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+#app {
+    overflow: auto;
+}
+
+:root {
+    font-family: 'NS-Neo';
+    font-size: 16px;
+}
+
+#wrap {
+    min-height: calc(100vh - 13rem);
+}
+
+// #wrap {
+//     min-height: calc(100vh - 12.5rem);
+// }
+
+.common-inner {
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 0 .5rem;
+}
+
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+::-webkit-scrollbar {
+    background-color: transparent;
+    width: 1rem;
+    filter: drop-shadow(-4px 0 8px rgba(var(--deepblue), .15));
+    position: absolute;
+    
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--deepblue), .15);
+    border-radius: .5rem;
+
+}
+
+
+
+[data-common-head-title] {
+    @apply w-full;
+
+    font-weight: 700;
+    margin: 3rem 0 4rem;
+    font-size: var(--font32);
+    animation-name: move_down;
+    animation-duration: 1s;
+
+}
+
+@keyframes move_down {
+    from {
+        opacity: 0;
+        transform: translateY(15%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.common-button-style {
+    @apply cursor-pointer flex justify-center items-center absolute;
+
+    background-color: rgb(var(--white));
+    width: 3.5rem;
+    height: 2.5rem;
+    border-radius: .25rem;
+    filter: drop-shadow(0 6px 2px rgba(var(--black) 0.3));
+    margin-left: auto;
+    bottom: 1rem;
+    right: 1rem;
+
+    svg {
+        color: rgba(var(--deepblue), 1);
+    }
+
+    font-awesome-icon {
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
+.common-button-style:hover {
+    background-color: rgba(var(--deepblue), 1);
+
+    svg {
+        color: rgba(var(--white), 1);
+    }
+}
+
+// animate 공통
+
+.ani_down {
+    animation-name: move_down;
+    animation-duration: 1s;        
+}
+
+@keyframes move_down {
+    from {
+        opacity: 0;
+        transform: translateY(-3%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+//말줄임효과 - 사용시 line clamp(줄 수)와 height(높이) 각 아이템에 맞게 수정
+.common-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+    //mediaquery
+    @media (max-width: 767px) {
+        body [data-common-head-title] {
+            // font-size: var(--fontST);
+            margin: 4rem 0 4rem;
+        }
+    }

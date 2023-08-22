@@ -1,0 +1,47 @@
+/* _variable.scss */
+
+:root {
+
+    //size
+    --fontBase: 1rem;
+    --fontM: 14px;
+    --font13: 13px;
+    --font32: 2rem;
+
+    //게시판 500px 이하 사이즈 타이틀 
+    --fontMT: 1.25rem;
+
+    //서브타이틀
+    --fontST: 1.5rem;
+
+    //타이틀
+    --fontT: 2rem;
+
+    //color
+    --black: 0, 0, 0,;
+    --white: 255, 255, 255;
+    --main-clr: 46, 63, 88;
+    // --main-clr: 19, 57, 81;
+    --sub-clr: 35, 47, 66;
+    --main-black: 77, 77, 77;
+    --yellow: 255, 210, 100;
+    --deepblue: 16, 87, 182;
+    --midblue: 17, 161, 253;
+    --softblue: 10, 232, 248;
+    --exgreen: 2, 123, 117;
+    --dustgray: 235, 234, 221;
+    --alertred: 230, 0, 35;
+
+    --scm-body: 244, 246, 250;
+
+
+    $main-clr: hsl(231, 75%, 20%);
+    // --yellow: 253, 183, 0;
+    
+    --darkblue: 5, 25, 55;
+
+    //screen size
+    $breakpoint-mobile: 768px;
+    $breakpoint-tablet: 1280px;
+    
+}
