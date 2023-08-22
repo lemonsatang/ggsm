@@ -12,6 +12,10 @@
                     </hgroup>
                     <p data-news-link>{{ item.linkTo }}</p>
                     <p data-news-text>{{ item.subTexts }}</p>
+                    <label data-news-item-showmore>
+                        <font-awesome-icon icon="fa-link" />
+                        go to see
+                    </label>
                 </a>
             </div>
         </div>
@@ -43,7 +47,7 @@
         @apply flex flex-col cursor-pointer;
 
         border: 1px solid rgba(var(--main-clr), 1);
-        padding: 1.5rem 1rem;
+        padding: 1rem 1rem 1.5rem;
 
         img {
             @apply w-full;
@@ -93,8 +97,8 @@
     //item hover
     [data-news-item]:hover {
         background-color: rgba(var(--deepblue), 1);
-        border: 1px solid rgba(var(--deepblue), 1);
-        filter: drop-shadow(0 0 10px rgba(var(--deepblue), .5));
+        // border: 1px solid rgba(var(--deepblue), 1);
+        // filter: drop-shadow(0 0 10px rgba(var(--deepblue), .5));
 
         hgroup {
             h2 {
@@ -106,8 +110,29 @@
             }
         }
 
+        label {
+            color: rgba(var(--white), .6);
+            border-bottom: 1px solid rgba(var(--white), .6);
+        }
+
         [data-news-text], [data-news-link] {
             color: rgba(var(--white), .6);
+        }
+    }
+
+    [data-news-item-showmore] {
+        margin: 1.5rem 1rem 0 auto;
+        color: rgba(var(--main-black), .5);
+        border-bottom: 1px solid rgba(var(--main-black), .35);
+        display: flex;
+        align-items: center;
+        width: fit-content;
+
+        svg {
+            padding-top: .15rem;
+            font-size: 13px;
+            margin-right: .5rem;
+            opacity: .5;
         }
     }
 

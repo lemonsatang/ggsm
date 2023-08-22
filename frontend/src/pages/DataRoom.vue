@@ -48,7 +48,7 @@
 
         padding: 1.8rem;
         gap: 2rem;
-        background-color: rgba(var(--black) 0.045);
+        background-color: rgba(var(--black) 0.025);
         border-radius: 0.25rem;
         // border: 1px solid rgba(var(--black) .1);
 

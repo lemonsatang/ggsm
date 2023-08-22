@@ -5,13 +5,23 @@
             <h1>Login <span>to</span> <label class="display-block">SCM<span>.</span></label> </h1>
             <div data-login-input-box>
                 <font-awesome-icon icon="fa-solid fa-user" />
-                <input type="text" id="loginId" placeholder="ID" v-model="userData.userID">
+                <input @keyup.enter="postUserData()" type="text" id="loginId" placeholder="거래처코드" v-model="userData.userID">
             </div>
             <div data-login-input-box>
                 <font-awesome-icon icon="fa-solid fa-lock" />
-                <input type="text" id="loginPw" placeholder="Password" v-model="userData.userPW">
+                <input @keyup.enter="postUserData()" type="password" ref="inputPW" id="loginPw" placeholder="Password" v-model="userData.userPW">
+                <!-- 비밀번호 보기 버튼 -->
+                <button class="login-pw-show-hide" data-pw-show-button v-show="pwHide == false" @click="pwHide = true" type="button">
+                    <font-awesome-icon icon="fa-eye" />
+                </button>
+                <!-- 비밀번호 숨기기 버튼 -->
+                <button class="login-pw-show-hide" data-pw-hide-button v-show="pwHide == true" @click="pwHide = false" type="button">
+                    <font-awesome-icon icon="fa-eye-slash" />
+                </button>
             </div>
-            <p>{{ loginMsg }}</p>
+            <p class="login-msg-alert">
+                <span v-if="loginMsgAlert">아이디 또는 비밀번호가 일치하지 않습니다. 입력하신 사항을 다시 확인해 주세요.</span>
+            </p>
             <button class="bg-bid-blue" data-login-button type="button" @click="postUserData()">LOGIN</button>
         </div>
     </section>
@@ -25,6 +35,7 @@
     import { storeToRefs } from 'pinia'
     import { useRouter } from 'vue-router'
     import axios from 'axios'
+    import { toast } from 'vue3-toastify';
     //import { toast } from 'vue3-toastify' // 토스트 알림
 
     const dataStore = useDataStore()
@@ -33,6 +44,9 @@
     const userData = ref({}) // 사용자 정보
     const { userID, userPW } = userData.value
     const loginMsg = ref('')
+    const pwHide = ref(true)
+    const inputPW = ref()
+    const loginMsgAlert = ref(false)
 
     async function postUserData() {
         if (!!userData.value.userID === false) {
@@ -60,7 +74,11 @@
 
                     toast.success('로그인에 성공했습니다.')
                 } else {
-                    loginMsg.value = '아이디 또는 비밀번호가 일치하지 않습니다. 입력하신 사항을 다시 확인해 주세요.'
+                    loginMsgAlert.value = true
+                    setTimeout(() => {
+                        loginMsgAlert.value = false
+                    }, 4000)
+                    
 
                     return toast.error('로그인에 실패하였습니다.', { position: 'top-center' })
                 }
@@ -69,6 +87,18 @@
             console.warn('Error : ' + error)
         }
     }
+
+    watch(pwHide, (newValue, oldValue) => {
+        console.log(newValue)
+
+        if( pwHide.value == true ) {
+            inputPW.value.type = 'password'
+            // console.log(recentPW.value[0].type)
+            // console.log(recentPW)
+        } else {
+            inputPW.value.type = 'text'
+        }
+    })
     
 </script>
 
@@ -143,7 +173,7 @@
     [data-login-input-box] {
         position: relative;
 
-        svg {
+        > svg {
             position: absolute;
             top: 50%;
             left: 1rem;
@@ -152,6 +182,24 @@
             color: rgba(var(--black) .25);
             font-size: 1.25rem;
         }
+
+        button.login-pw-show-hide {
+            position: absolute;
+            top: 52%;
+            right: 1rem;
+            transform: translateY(-50%);
+            z-index: 2;
+
+            &:hover svg {
+                color: rgba(var(--black) .5);
+            }
+
+            svg {
+                color: rgba(var(--black) .25);
+                font-size: 1.25rem
+            }
+            
+        }
     }
 
     [data-login-button-container] {
@@ -159,7 +207,7 @@
     }
 
     [data-login-button] {
-        margin-top: 6rem;
+        margin-top: 3rem;
         padding: 1.25rem 1rem;
         // background-color: rgba(var(--deepblue), 1);
         border-radius: 3rem;
@@ -176,6 +224,16 @@
         }
     }
 
+    .login-msg-alert {
+        height: 3rem;
+
+        span {
+            color: rgba(var(--alertred), 1);
+            font-weight: 700;
+        }
+
+    }
+
     [data-login-subt] {
         font-size: 1rem;
         // filter: drop-shadow(0 0 8px rgba(var(--black) .5));
@@ -185,4 +243,5 @@
     .display-block {
         display: block;
     }
+
 </style>
