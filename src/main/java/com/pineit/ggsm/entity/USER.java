@@ -12,33 +12,19 @@ import org.hibernate.annotations.DynamicInsert;
 @DynamicInsert
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="zUSRLST")
+@Table(name = "CVMAST")
 @ToString
 public class USER {
 
     @Id
-    private String usrcd;
-    private String usrid;
-    private String usrnm;
+    private String cvcod;
     private String passwd;
-    private String useyn;
-    private String insano;
-    private String uslvl;
-    private String entdt;
-    private String deptcd;
-    private String jkwicd;
-    private String jkmunm;
-    private String moblno;
-    private String email;
-    private String newyn;
-    private String rk;
-    private String cdate;
-    private String cuser;
-    private String mdate;
-    private String muser;
+    private String cvgu;
+    private String cvnam;
+    private String cvnae;
 
-    public USER(String usrid, String passwd) {
-        this.usrid = usrid;
+    public USER(String cvcod, String passwd) {
+        this.cvcod = cvcod;
         this.passwd = passwd;
     }
 }
