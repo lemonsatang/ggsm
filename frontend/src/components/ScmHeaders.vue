@@ -46,53 +46,87 @@
             <div class="usr-info-head">
                 <p>
                     <font-awesome-icon icon="fa-solid fa-user" />
-                    회원정보
+                    회사정보변경
                 </p>
                 <font-awesome-icon @click="closeUsrInfo()" icon="fa-regular fa-circle-xmark" />
             </div>
             <div v-for="item in copyOfUsr" class="usr-info-body">
-                <ul class="usr-info-body-list">
-                    <li>
-                        <p class="usr-info-body-title">고객사명</p>
-                        <input class="usr-info-body-text" type="text" v-model="item.NAME">
-                    </li>
-                    <li>
-                        <p class="usr-info-body-title">사업자등록번호</p>
-                        <input class="usr-info-body-text" type="text" v-model="item.SANO">
-                    </li>
-                    <li>
-                        <p class="usr-info-body-title">
-                            비밀번호 변경
-                        </p>
-                        <div data-usrinfo-pw-change>
-                            <input ref="recentPW" class="usr-info-body-text" type="password" placeholder="현재 비밀번호">
-                            <!-- 비밀번호 보기 버튼 -->
-                            <button data-pw-show-button v-show="pwHide == false" @click="pwHide = true" type="button">
-                                <font-awesome-icon icon="fa-eye" />
-                            </button>
-                            <!-- 비밀번호 숨기기 버튼 -->
-                            <button data-pw-hide-button v-show="pwHide == true" @click="pwHide = false" type="button">
-                                <font-awesome-icon icon="fa-eye-slash" />
-                            </button>
-                        </div>
-                        <div data-usrinfo-pw-change>
-                            <input ref="newPW" @input="isSameChk()" class="usr-info-body-text" type="password" placeholder="비밀번호 확인">
-                            <!-- 비밀번호 보기 버튼 -->
-                            <button data-pw-show-button v-show="pwHide == false" @click="pwHide = true" type="button">
-                                <font-awesome-icon icon="fa-eye" />
-                            </button>
-                            <!-- 비밀번호 숨기기 버튼 -->
-                            <button data-pw-hide-button v-show="pwHide == true" @click="pwHide = false" type="button">
-                                <font-awesome-icon icon="fa-eye-slash" />
-                            </button>
-                        </div>
-                        <div data-usrinfo-pw-alert-container>
-                            <p data-usrinfo-pw-alert-yes v-if="isSamePW == 'true'">비밀번호가 동일합니다.</p>
-                            <p data-usrinfo-pw-alert-no v-if="isSamePW == 'false'">비밀번호가 동일하지 않습니다.</p>
-                        </div>
+                <div class="usr-info-body-list">
+                    <h2 class="usr-info-title">회원정보</h2>
+                    <div class="usr-info-line" data-usr-info-nameline>
+                        <article>
+                            <p class="usr-info-body-title">고객사명</p>
+                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                        </article>
+                        <article>
+                            <p class="usr-info-body-title">사업자등록번호</p>
+                            <input class="usr-info-body-text" type="text" v-model="item.SANO">
+                        </article>
+                        <article>
+                            <p class="usr-info-body-title">대표자</p>
+                            <input class="usr-info-body-text" type="text">
+                        </article>
+                    </div>
+
+                    <div class="usr-info-line" data-usr-info-cateline>
+                        <article>
+                            <p class="usr-info-body-title">업태</p>
+                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                        </article>
+                        <article>
+                            <p class="usr-info-body-title">종목</p>
+                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                        </article>
+                    </div>
+
+                    <div class="usr-info-line" data-usr-info-localine>
+                        <article>
+                            <p class="usr-info-body-title">우편번호</p>
+                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                        </article>
+                        <article>
+                            <p class="usr-info-body-title">소재지</p>
+                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                        </article>
+                    </div>
+                    
+                    <h2 class="usr-info-title">비밀번호 변경</h2>
+                    <div class="usr-info-line" data-usr-info-pwline>
+                        <article>
+                            <p class="usr-info-body-title">
+                                비밀번호 변경
+                            </p>
+                            <div data-usrinfo-pw-change>
+                                <input ref="recentPW" class="usr-info-body-text" type="password" placeholder="현재 비밀번호">
+                                <!-- 비밀번호 보기 버튼 -->
+                                <button data-pw-show-button v-show="pwHide == false" @click="pwHide = true" type="button">
+                                    <font-awesome-icon icon="fa-eye" />
+                                </button>
+                                <!-- 비밀번호 숨기기 버튼 -->
+                                <button data-pw-hide-button v-show="pwHide == true" @click="pwHide = false" type="button">
+                                    <font-awesome-icon icon="fa-eye-slash" />
+                                </button>
+                            </div>
+                            <div data-usrinfo-pw-change>
+                                <input ref="newPW" @input="isSameChk()" class="usr-info-body-text" type="password" placeholder="비밀번호 확인">
+                                <!-- 비밀번호 보기 버튼 -->
+                                <button data-pw-show-button v-show="pwHide == false" @click="pwHide = true" type="button">
+                                    <font-awesome-icon icon="fa-eye" />
+                                </button>
+                                <!-- 비밀번호 숨기기 버튼 -->
+                                <button data-pw-hide-button v-show="pwHide == true" @click="pwHide = false" type="button">
+                                    <font-awesome-icon icon="fa-eye-slash" />
+                                </button>
+                            </div>
+                            <div data-usrinfo-pw-alert-container>
+                                <p data-usrinfo-pw-alert-yes v-if="isSamePW == 'true'">비밀번호가 동일합니다.</p>
+                                <p data-usrinfo-pw-alert-no v-if="isSamePW == 'false'">비밀번호가 동일하지 않습니다.</p>
+                            </div>
+                        </article>
                         
-                    </li>
-                </ul>
+                        
+                    </div>
+                </div>
                 <div class="usr-info-buttons">
                     <p data-usr-info-alert v-show="usrInfoSaveText == true">
                         <font-awesome-icon icon="check" />
@@ -176,13 +210,11 @@
     // }
 
     watch(pwHide, (newValue, oldValue) => {
-        console.log(newValue)
 
         if( pwHide.value == true ) {
             recentPW.value[0].type = 'password'
             newPW.value[0].type = 'password'
-            // console.log(recentPW.value[0].type)
-            // console.log(recentPW)
+            
         } else {
             recentPW.value[0].type = 'text'
             newPW.value[0].type = 'text'
@@ -328,7 +360,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        min-width: 30rem;
+        width: 35rem;
 
         svg {
             cursor: pointer;
@@ -338,15 +370,22 @@
         input {
             background-color: rgba(var(--deepblue), 0.095);
             font-size: var(--fontM);
+            width: 100%;
         }
 
+    }
+
+    .usr-info-title {
+        font-size: var(--fontMT);
+        font-weight: 700;
+        margin-top: .5rem;
     }
 
     #usrInfoContainer .usr-info-head {
         background-color: rgba(var(--deepblue), 1);
         color: rgb(var(--white));
         border-radius: .5rem .5rem 0 0;
-        padding: .75rem;
+        padding: .5rem .75rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -355,6 +394,7 @@
             display: flex;
             align-items: center;
             gap: .5rem;
+            font-size: var(--fontM);
 
             svg {
                 font-size: var(--fontM);
@@ -371,21 +411,44 @@
     .usr-info-body-list {
         display: flex;
         flex-direction: column;
-        gap: .75rem;
+        gap: 1rem;
         align-items: flex-start;
 
-        li {
-            display: flex;
-            flex-direction: column;
-            gap: .25rem;
-            align-items: flex-start;
+        .usr-info-line {
+            display: grid;
+            // flex-direction: column;
+            gap: .5rem;
+            align-items: center;
+            width: 100%;
+
+            &[data-usr-info-nameline], &[data-usr-info-cateline] {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            &[data-usr-info-localine] {
+                grid-template-columns: 1fr 2fr;
+            }
+
+            
+        }
+    }
+
+    .usr-info-line article {
+        display: flex;
+        flex-wrap: wrap;
+
+        .usr-info-body-title {
+            width: 100%;
         }
     }
 
     #usrInfoContainer .usr-info-body-title {
-        color: rgba(var(--main-black), .5);
+        // color: rgba(var(--main-black), .5);
+        font-size: var(--fontM);
+        margin-bottom: .5rem;
         display: flex;
         align-items: center;
+        user-select: none;
 
         svg {
             font-size: var(--fontM);
@@ -516,6 +579,10 @@
     #usrInfoContainer [data-usrinfo-pw-change] {
         position: relative;
 
+        & + [data-usrinfo-pw-change] {
+            margin-left: .5rem;
+        }
+
         button {
             position: absolute;
             top: 50%;
@@ -532,6 +599,10 @@
             &[data-pw-hide-button] {
                 svg {
                     color: rgba(var(--main-black), .35);
+                }
+
+                &:hover svg {
+                    color: rgba(var(--main-black), .65);
                 }
             }
 

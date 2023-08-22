@@ -198,7 +198,6 @@
         return parseInt(x) + parseInt(y.WEIGHT);
     }, 0);
 
-    console.log(totalQuantity)
 
     
 </script>
