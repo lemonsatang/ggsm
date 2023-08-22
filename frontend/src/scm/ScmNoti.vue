@@ -92,7 +92,7 @@
     const totalPageNum = Math.ceil(copyOfData.length / perPage) // 페이지가 총 몇 페이지 나와야하는지 계산
 
     const totalPages = Array.from({ length: totalPageNum }, (v, i) => i+1); // 모든 페이지 구하기(1페이지~마지막 페이지까지) -> 예시) <  1 2 3 4 5  >
-    console.log(totalPages)
+    
 
     //각 페이지마다 들어가야할 데이터들 분류하기( pagesDivide() + dataPerPage )
     function pagesDivide(data = [], size = 1) {
@@ -107,7 +107,7 @@
 
     const dataPerPage = pagesDivide(copyOfData, perPage)
 
-    console.log(dataPerPage)
+    
 
     const recentPage = ref(0)  // 현재페이지
 

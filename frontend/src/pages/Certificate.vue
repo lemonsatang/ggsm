@@ -69,7 +69,7 @@
             font-weight: bold;
             margin-bottom:.75rem;
             width: 100%;
-            border-bottom: 2px solid rgba(var(--main-black), .2);
+            border-bottom: 1px solid rgba(var(--main-black), .2);
             text-align: center;
             padding-bottom: .5rem;
         }
