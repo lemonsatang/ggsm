@@ -82,7 +82,7 @@
         aspect-ratio: 1/1;
 
         img {
-            @apply w-full;
+            @apply w-full h-full;
             
             object-fit: cover;
         }
