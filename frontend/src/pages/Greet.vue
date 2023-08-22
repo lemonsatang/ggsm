@@ -72,7 +72,7 @@
     }
 
     [data-grt-subt] {
-        color: rgba(var(--deepblue), .75);
+        color: rgba(var(--main-black), .5);
         font-size:1.25rem;
         margin-top: 1rem;
     }

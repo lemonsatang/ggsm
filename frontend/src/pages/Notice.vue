@@ -7,13 +7,17 @@
             <!-- <div v-for="item in copyOfData" data-notice-item @click="[isOpened = true, getNum(item.index)]"> -->
             <div v-for="item in copyOfData" data-notice-item @click="[isOpened = true, getThisMdData(item.index)]">
                 <div data-notice-item-dates>
-                    <h2>{{ item.regMonth }}</h2>
-                    <h2>{{ item.regDay }}</h2>
+                    <p>{{ item.year }}</p>
+                    <h2>{{ item.regMonth }}.{{ item.regDay }}</h2>
                 </div>
                 <div data-notice-item-texts>
                     <h3>{{ item.title }}</h3>
                     <p v-for="subItem in item.text">{{ subItem.texts }}</p>
                 </div>
+                <p data-notice-item-showmore>
+                    <font-awesome-icon icon="fa-angle-right" />
+                    show more
+                </p>
             </div>
             <!-- item end -->
             
@@ -115,7 +119,7 @@
     [data-notice-item] {
         @apply flex flex-col cursor-pointer;
 
-        padding: 1rem 1.5rem 2rem;
+        padding: 1rem 1.5rem 1.5rem;
         // background-color: rgba(var(--black) .045);
         border-radius: .25rem;
         border: 1px solid rgba(var(--black) 1);
@@ -127,7 +131,7 @@
         &:hover {
             background-color: rgba(var(--deepblue), 1);
             border: 1px solid rgba(var(--deepblue), 1);
-            filter: drop-shadow(0 0 10px rgba(var(--deepblue), .5));
+            // filter: drop-shadow(0 0 10px rgba(var(--deepblue), .5));
 
             & * {
                 color: rgba(var(--white), 1);
@@ -143,7 +147,15 @@
         @apply flex flex-col;
 
         border-bottom: 1px solid rgba(var(--black) 1);
-        padding-bottom: 1rem;
+        padding-bottom: .5rem;
+
+        p {
+            opacity: .3;
+            font-weight: 700;
+            width: 100%;
+            padding: .15rem .5rem;
+            background-color: rgba(var(--main-black), .15);
+        }
 
         h2 {
             font-size: 2rem;
@@ -151,6 +163,13 @@
             text-align: left;
             line-height: 1.35;
             color: rgba(var(--deepblue), .75);
+            margin-top: .5rem;
+        }
+    }
+
+    [data-notice-modal] [data-notice-item-dates] {
+        p {
+            background: transparent;
         }
     }
 
@@ -183,6 +202,21 @@
         }
 
 
+    }
+
+    [data-notice-item-showmore] {
+        margin: 1rem 0 0 auto;
+        opacity: .5;
+        border-bottom: 1px solid rgba(var(--main-black), .5);
+        display: flex;
+        align-items: center;
+
+        svg {
+            padding-top: .15rem;
+            font-size: 13px;
+            margin-right: .5rem;
+            opacity: .5;
+        }
     }
 
     //상세페이지 modal
