@@ -13,6 +13,7 @@
     "@headlessui/vue": "^1.7.14",
     "@popperjs/core": "^2.11.8",
     "@vueup/vue-quill": "^1.2.0",
+    "axios": "^1.4.0",
     "pinia": "^2.0.35",
     "swiper": "^9.2.4",
     "tui-grid": "^4.21.12",

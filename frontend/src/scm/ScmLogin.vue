@@ -5,15 +5,14 @@
             <h1>Login <span>to</span> <label class="display-block">SCM<span>.</span></label> </h1>
             <div data-login-input-box>
                 <font-awesome-icon icon="fa-solid fa-user" />
-                <input type="text" id="loginId" placeholder="ID">
+                <input type="text" id="loginId" placeholder="ID" v-model="userData.userID">
             </div>
             <div data-login-input-box>
                 <font-awesome-icon icon="fa-solid fa-lock" />
-                <input type="text" id="loginPw" placeholder="Password">
+                <input type="text" id="loginPw" placeholder="Password" v-model="userData.userPW">
             </div>
-            <router-link :to="{name: 'Scm', params: {category: 'fwd'}}" data-login-button-container>
-                <button class="bg-bid-blue" data-login-button type="button">LOGIN</button>
-            </router-link>
+            <p>{{ loginMsg }}</p>
+            <button class="bg-bid-blue" data-login-button type="button" @click="postUserData()">LOGIN</button>
         </div>
     </section>
 </template>
@@ -23,11 +22,53 @@
 
     //store에서 영역별 데이터 import
     import { useDataStore } from '@/store/dataStore'
-    import { storeToRefs } from 'pinia';
-    import { useRoute } from 'vue-router'
+    import { storeToRefs } from 'pinia'
+    import { useRouter } from 'vue-router'
+    import axios from 'axios'
+    //import { toast } from 'vue3-toastify' // 토스트 알림
 
     const dataStore = useDataStore()
     const { dataGroup } = storeToRefs(dataStore)
+    const router = useRouter() // 라우터
+    const userData = ref({}) // 사용자 정보
+    const { userID, userPW } = userData.value
+    const loginMsg = ref('')
+
+    async function postUserData() {
+        if (!!userData.value.userID === false) {
+            return toast.error('ID는 필수 입력 사항입니다.', { position: 'top-center' })
+        } else if (!!userData.value.userPW === false) {
+            return toast.error('비밀번호는 필수 입력 사항입니다.', { position: 'top-center' })
+        }
+
+        try {
+            loginMsg.value = ''
+
+            const response = await axios.post('/api/user/check',
+                {
+                    usrid: userData.value.userID,
+                    passwd: userData.value.userPW
+                }
+            )
+
+            console.log(response)
+
+            if (response.status === 200) {
+                if (response.data.result == "Success") {
+
+                    router.push('/scm/fwd')
+
+                    toast.success('로그인에 성공했습니다.')
+                } else {
+                    loginMsg.value = '아이디 또는 비밀번호가 일치하지 않습니다. 입력하신 사항을 다시 확인해 주세요.'
+
+                    return toast.error('로그인에 실패하였습니다.', { position: 'top-center' })
+                }
+            }
+        } catch (error) {
+            console.warn('Error : ' + error)
+        }
+    }
     
 </script>
 

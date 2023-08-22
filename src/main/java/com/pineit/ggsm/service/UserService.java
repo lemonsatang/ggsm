@@ -1,5 +1,7 @@
 package com.pineit.ggsm.service;
 
+import java.util.Map;
+
 import com.pineit.ggsm.dto.UserDTO;
 import com.pineit.ggsm.entity.USER;
 
@@ -30,6 +32,5 @@ public interface UserService {
         return entity;
     }
 
-
-    UserDTO getUserCheck(UserDTO dto);
+    Map<String, Object> getUserCheck(UserDTO dto);
 }
