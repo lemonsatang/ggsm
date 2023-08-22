@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<USER, String> {
 
-    @Query(value = "SELECT * FROM zUSRLST WHERE USRID = :#{#param.usrid} AND PASSWD = HASHBYTES('SHA2_256', CONVERT(VARCHAR, :#{#param.passwd})) ", nativeQuery = true)
+    @Query(value = "SELECT * FROM CVMAST WHERE CVCOD = :#{#param.cvcod} AND PASSWD = HASHBYTES('SHA2_256', CONVERT(VARCHAR, :#{#param.passwd})) ", nativeQuery = true)
     Optional<USER> getUserCheck(@Param("param") USER user);
 
 }

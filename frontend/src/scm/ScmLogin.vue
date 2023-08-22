@@ -60,7 +60,7 @@
 
             const response = await axios.post('/api/user/check',
                 {
-                    usrid: userData.value.userID,
+                    cvcod: userData.value.userID,
                     passwd: userData.value.userPW
                 }
             )

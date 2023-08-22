@@ -9,25 +9,11 @@ public interface UserService {
 
     default USER dtoToEntity(UserDTO dto) {
         USER entity = USER.builder()
-                .usrcd(dto.getUsrcd())
-                .usrid(dto.getUsrid())
-                .usrnm(dto.getUsrnm())
+                .cvcod(dto.getCvcod())
                 .passwd(dto.getPasswd())
-                .useyn(dto.getUseyn())
-                .insano(dto.getInsano())
-                .uslvl(dto.getUslvl())
-                .entdt(dto.getEntdt())
-                .deptcd(dto.getDeptcd())
-                .jkwicd(dto.getJkwicd())
-                .jkmunm(dto.getJkmunm())
-                .moblno(dto.getMoblno())
-                .email(dto.getEmail())
-                .newyn(dto.getNewyn())
-                .rk(dto.getRk())
-                .cdate(dto.getCdate())
-                .cuser(dto.getCuser())
-                .mdate(dto.getMdate())
-                .muser(dto.getMuser())
+                .cvgu(dto.getCvgu())
+                .cvnam(dto.getCvnam())
+                .cvnae(dto.getCvnae())
                 .build();
         return entity;
     }
