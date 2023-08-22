@@ -16,7 +16,7 @@ public class UserRepositoryTest {
 
     @Test
     public void getUserCheck() {
-        String usrid = "admin";
+        String usrid = "00001";
         String passwd = "0+";
 
         System.out.println(passwd);
