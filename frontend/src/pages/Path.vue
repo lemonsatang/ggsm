@@ -2,8 +2,9 @@
     <SubpHero />
         <section class="common-inner">
             <h1 data-common-head-title>
-                Map
-                <p>귀하의 방문을 환영합니다.</p>
+                오시는 길
+                <span data-common-head-subtitle>Directions</span>
+                <!-- <p>귀하의 방문을 환영합니다.</p> -->
             </h1>
 
             <div v-for="item in pathGroup" data-path-item>
@@ -74,8 +75,17 @@
             font-weight: bold;
             margin-left: 1.85rem;
             color: rgba(var(--black) 1);
+            position: relative;
 
-
+            &:after {
+                position: absolute;
+                bottom: -.5rem;
+                left: 0;
+                content: '';
+                width: -webkit-fill-available;
+                height: 5px;
+                background-color: rgba(var(--deepblue), .5);
+            }
         }
     }
 

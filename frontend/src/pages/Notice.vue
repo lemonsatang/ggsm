@@ -34,16 +34,15 @@
                     </div>
                     <ul class="notice-milestone-container">
                         <li v-if="mdItem.index > 0" class="notice-milestone-item">
-                            <!-- <a href="#" @click="getPrevMdData(item.index)" v-for="subItem in copyOfData.find((x) => x.index === mdItem.index - 1)"> -->
                             <a href="#" @click="getPrevMdData(mdItem.index)" v-for="subItem in copyOfData.filter((x) => x.index === mdItem.index - 1)">
                                 <p>이전글</p>
                                 <p class="notice-milestone-title">{{ subItem.title }}</p>
                                 <p class="notice-milestone-date">{{ subItem.year }}.{{ subItem.regMonth }}.{{ subItem.regDay }}</p>
                             </a>
                         </li>
-                        <li v-else class="notice-milestone-item">
+                        <!-- <li v-else class="notice-milestone-item">
                             <p>이전 글이 없습니다.</p>
-                        </li>
+                        </li> -->
                         <li v-if="mdItem.index < copyOfData.length" class="notice-milestone-item">
                             <a href="#" @click="getNextMdData(mdItem.index)" v-for="subItem in copyOfData.filter((x) => x.index === mdItem.index + 1)">
                                 <p>다음글</p>
@@ -51,9 +50,9 @@
                                 <p class="notice-milestone-date">{{ subItem.year }}.{{ subItem.regMonth }}.{{ subItem.regDay }}</p>
                             </a>
                         </li>
-                        <li v-else class="notice-milestone-item">
+                        <!-- <li v-else class="notice-milestone-item">
                             <p>다음 글이 없습니다.</p>
-                        </li>
+                        </li> -->
                         
                     </ul>
                     <button @click="isOpened = !isOpened" class="common-button-style">
@@ -92,7 +91,6 @@
 
     function getThisMdData(i) {
         isViewModal.value = copyOfData.filter((x) => x.index == i);
-        console.log(isViewModal.value)
     }
 
     function getPrevMdData(i) {

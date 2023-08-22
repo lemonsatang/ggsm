@@ -32,9 +32,9 @@ export const usehfStore = defineStore('hdFt', () => {
             title: '제품소개',
             subT: 'BUSINESS',
             childrens: [
-                { subTo: '/prod', subTitle: '스티프너', category: 'stiffener' },
-                { subTo: '/prod', subTitle: '도어 임팩트 빔', category: 'doorImpactBeam' },
-                { subTo: '/prod', subTitle: '후방범퍼 빔', category: 'bumperBackBeam' },
+                { subTo: '/prod', subTitle: '냉연강판', category: 'CR' },
+                { subTo: '/prod', subTitle: '열연 Coil', category: 'HRC' },
+                { subTo: '/prod', subTitle: '열연 Plate', category: 'HRP' },
             ]
         },
         {
@@ -46,7 +46,7 @@ export const usehfStore = defineStore('hdFt', () => {
                 { subTo: '/noti', subTitle: '공지사항' },
                 { subTo: '/data', subTitle: '자료실' },
                 { subTo: '/news', subTitle: '뉴스' },
-                { subTo: '/cont', subTitle: '문의하기' },
+                // { subTo: '/cont', subTitle: '문의하기' },
             ]
         },
         {

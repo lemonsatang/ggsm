@@ -1,7 +1,7 @@
 <template>
     <SubpHero />
         <section class="common-inner">
-            <h1 data-common-head-title>인증서</h1>
+            <h1 data-common-head-title>인증서<span data-common-head-subtitle>Certificate</span></h1>
             <div id="cerTexts" class="ani_down">
                 <div @click="item.detailView = !item.detailView" v-for="item in certGroup" data-cert-item>
                     <article>
@@ -52,19 +52,26 @@
     [data-cert-item] {
         background-color: rgba(var(--black) .025);
         aspect-ratio: 1/1;
+        padding: 2rem;
+        border-radius: 1rem;
 
         [data-cert-thumnail] {
             border-radius: 50%;
-            width: 8.5rem;
+            width: 9.5rem;
             aspect-ratio: 1/1;
             object-fit: cover;
             margin-bottom: 1.75rem;
+            filter: drop-shadow(0 0 16px rgba(var(--main-black), .15));
         }
 
         h3 {
-            font-size: 1.125rem;
+            font-size: var(--fontMT);
             font-weight: bold;
-            margin-bottom:.35rem;
+            margin-bottom:.75rem;
+            width: 100%;
+            border-bottom: 2px solid rgba(var(--main-black), .2);
+            text-align: center;
+            padding-bottom: .5rem;
         }
 
         p {

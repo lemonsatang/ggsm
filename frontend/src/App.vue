@@ -21,7 +21,7 @@
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #mainView {
   /* padding-bottom: 10rem; */
   padding-bottom: 4.9rem;
@@ -33,8 +33,6 @@
   
   min-width: 100rem;
 }
-
-
 
 .logo {
   height: 6em;
