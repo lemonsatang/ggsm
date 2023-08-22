@@ -1,7 +1,7 @@
 <template>
     <SubpHero />
         <section id="histBody" class="common-inner">
-            <h1 data-common-head-title>연혁</h1>
+            <h1 data-common-head-title>연혁<span data-common-head-subtitle>History</span></h1>
             <div id="histTexts" class="ani_down">
                 <div data-hist-line v-for="item in hsGroup">
                     <article data-hist-years>
@@ -47,11 +47,17 @@
         @apply w-full flex flex-col;
 
         max-width: 1300px;
-        gap: 5.5rem;
     }
 
     [data-hist-line] {
         @apply flex;
+
+        padding: 2rem 0;
+        border-bottom: 1px solid rgba(var(--main-black), .15);
+
+        &:last-child {
+            border-bottom: 0;
+        }
 
         &:nth-child(even) [data-hist-years] {
             background-color: rgb(var(--deepblue));
@@ -64,26 +70,29 @@
         [data-hist-years] {
             @apply flex flex-col items-end relative;
 
-            width: 8rem;
+            width: 9rem;
             height: 8rem;
             background-color: rgba(var(--black) .05);
             margin-right: 4rem;
             flex-shrink: 0;
-            border-radius: .5rem;
+            border-radius: 50%;
             user-select: none;
             
             section {
                 @apply relative;
 
-                padding: 1rem 1rem 40px 0;
+                padding: 1.5rem 2rem 40px 0;
                 overflow-y: clip;
             }
 
             p {
                 font-size: 1.75rem;
-                font-weight: bold;
             }
         }
+
+        // &:nth-child(even) {
+        //     background-color: rgba(var(--main-black), .05);
+        // }
     }
 
     [data-hist-years-back] {
@@ -97,7 +106,7 @@
             @apply absolute;
 
             display: block;
-            background-color: rgb(var(--main-clr));
+            background-color: rgb(var(--deepblue), .5);
             height: 2px;
             width: 11rem;
             transform: rotate(135deg);
@@ -129,14 +138,14 @@
 
             height: 2px;
             margin-top: 1.8rem;
-            background-color: rgb(var(--main-clr));
+            background-color: rgb(var(--deepblue), .5);
 
             &:after {
                 @apply absolute;
 
                 content: '';
                 display: block;
-                background-color: rgb(var(--main-clr));
+                background-color: rgb(var(--deepblue));
                 width: .7rem;
                 height: .7rem;
                 border-radius: 1rem;
@@ -150,12 +159,17 @@
         ul {
             @apply flex flex-col;
 
-            margin-left: 2.5rem;
+            margin-left: 2rem;
             margin-top: 2rem;
             user-select: none;
 
             li {
                 line-height: 1.75;
+                padding: 0 .5rem;
+
+                &:nth-child(even) {
+                    background-color: rgba(var(--main-black), .075);
+                }
             }
         }
     }

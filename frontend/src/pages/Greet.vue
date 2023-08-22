@@ -1,7 +1,7 @@
 <template>
     <SubpHero />
     <section class="common-inner">
-        <h1 data-common-head-title>인사말</h1>
+        <h1 data-common-head-title>인사말<span data-common-head-subtitle>Greeting</span></h1>
         <div id="grtGroup" v-for="item in grtGroup" class="ani_down">
             <img :src="item.img" alt="ceo-image">
             <div data-right-div>
@@ -56,6 +56,19 @@
         font-weight: 700;
         color: rgba(var(--deepblue), 1);
         font-size:2rem;
+        position: relative;
+        display: inline-block;
+
+        &:before {
+            position: absolute;
+            bottom: .25rem;
+            left: 0;
+            content: "";
+            width: -webkit-fill-available;
+            height: 1rem;
+            background-color: rgba(var(--main-black), 0.15);
+        }
+        
     }
 
     [data-grt-subt] {

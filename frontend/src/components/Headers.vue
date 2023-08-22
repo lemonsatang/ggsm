@@ -197,6 +197,8 @@
         height: fit-content;
         padding: 1.5rem 1.5rem;
         width: 10rem;
+        font-size: var(--fontMT);
+        font-weight: 700;
     }
 
     [data-nav-inner-sub] {
@@ -221,7 +223,7 @@
         right: 50%;
         transform: translateX(50%);
         z-index: 99;
-        background-color: rgba(var(--white), .5);
+        background-color: rgba(var(--white), .75);
         padding-top: 1rem;
         transition: all 1s;
     }

@@ -53,12 +53,21 @@
 }
 
 [data-common-head-title] {
-  @apply w-full;
+  @apply w-full flex;
+  align-items: flex-end;
   font-weight: 700;
   margin: 3rem 0 4rem;
   font-size: var(--font32);
   animation-name: move_down;
   animation-duration: 1s;
+  gap: 0.5rem;
+}
+
+[data-common-head-subtitle] {
+  font-size: var(--fontBase);
+  opacity: 0.5;
+  font-weight: 500;
+  padding-bottom: 0.25rem;
 }
 
 @keyframes move_down {
