@@ -14,4 +14,6 @@ public interface ScmMapper {
 
     public List<Map<String, Object>> fwdList(ScmDTO scmDTO);
 
+    public List<Map<String, Object>> invCsList(ScmDTO scmDTO);
+
 }

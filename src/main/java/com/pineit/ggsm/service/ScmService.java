@@ -9,4 +9,6 @@ public interface ScmService {
 
     List<Map<String, Object>> fwdList(ScmDTO scmDTO);
 
+    List<Map<String, Object>> invCsList(ScmDTO scmDTO);
+
 }

@@ -27,4 +27,9 @@ public class ScmServiceImpl implements ScmService {
         return scmMapper.fwdList(scmDTO);
     }
 
+    @Override
+    public List<Map<String, Object>> invCsList(ScmDTO scmDTO) {
+        return scmMapper.invCsList(scmDTO);
+    }
+
 }

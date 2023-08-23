@@ -127,6 +127,9 @@
     //store에서 영역별 데이터 import
     import { useScmInvStore } from '@/store/scmInvStore'
     import { storeToRefs } from 'pinia';
+    import { computed, onMounted } from 'vue'
+    import axios from 'axios'
+    import { toast } from 'vue3-toastify';
 
     const scmInvStore = useScmInvStore()
     const { scmInvGroup } = storeToRefs(scmInvStore)
@@ -146,7 +149,15 @@
         return parseInt(x) + parseInt(y.WEIGHT);
     }, 0);
 
-    
+    invCsList()        
+
+    function invCsList() {
+        axios.post('/api/invCsList', { })
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(error => { toast.error('목록을 불러오지 못했습니다.') })
+    }
 </script>
 
 <style lang="scss" scoped>
