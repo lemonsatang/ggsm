@@ -17,36 +17,54 @@
             </div>
             <div class="wr-body">
                 <QuillEditor :options="editorOption" theme="snow" />
-                <!-- <div class="wr-upload-container">
-                    <h2 class="wr-input-title">파일 첨부</h2>
-                    <div class="wr-upload-body">
-                        <div class="wr-upload-location" @drop.prevent="dragToUpload" @dragenter.prevent @dragover.prevent>
-                            <div class="wr-drag-location">
-                                <font-awesome-icon icon="fa-file-import" />
-                                <p data-drag-here-note>drag to here</p>
+                <div class="wr-upload-container">
+                    <h2 class="wr-input-title">이미지 첨부</h2>
+                    <div class="wr-upload-body wr-img-upload-body">
+                        <!-- 이미지 드래그 영역 -->
+                        <div class="wr-upload-location wr-img-upload-location" @drop.prevent="dragToUpload" @dragenter.prevent @dragover.prevent>
+                            <div class="drag-img-container">
+                                <div class="wr-img-upload-plus">
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <font-awesome-icon class="wr-upload-for-img" icon="fa-regular fa-image" />
                             </div>
-                            <p>or</p>                        
-                            <label class="wr-upload-label" for="wrUploadOrigin">
+                            <p data-drag-here-note>Drag to image</p>
+                            <p>or</p>
+                            <!-- input 버튼 -->
+                            <label class="wr-upload-label" for="wrImgUploadOrigin">
                                 <font-awesome-icon icon="fa-folder-open" />
                                 Browse
                             </label>
-                            <input id="wrUploadOrigin" type="file" multiple @change="inputToUpload">
+                            <input id="wrImgUploadOrigin" @change="inputToUpload" type="file"/>        
+                            <!-- 업로드된 파일명 -->
+                            <div class="wr-img-upload-note">
+                                <h3>현재 선택된 파일명</h3>
+                                <h4>{{ selectedFile.name }} {{ selectedFile.size }}</h4>
+                            </div>
                         </div>
-                        <div class="wr-up-list-location">
-                            <p class="up-list-title">Uploaded files list</p>
+                        
+                    </div>
 
-                            <ul v-for="(item, i) in recentFileList" class="wr-uploaded-list">
-                                <li @click="recentFileList.splice(i, 1)">
-                                    <font-awesome-icon icon="fa-regular fa-file" />
-                                    <p>{{ item.name }}<span data-file-size>({{ Math.floor(item.size / 1024) }}kb) {{ i }}</span></p>
-                                    <font-awesome-icon icon="trash-can" />
-                                </li>
-                            </ul>
-
+                    <div v-if="imgUpAlert" class="wr-common-alert-back">
+                        <div class="wr-common-alert-inner">
+                            <font-awesome-icon icon="fa-exclamation" />
+                            <div class="wr-alert-texts">
+                                <p>업로드할 수 없는 형식의 파일입니다.</p>
+                                <p>사용 가능한 이미지파일 형식 : </p>
+                                <p>jpg, jpeg, png, gif</p>
+                            </div>
+                            
+                            <div class="common-board-button-line">
+                                <button @click="imgUpAlert = false" type="button" class="common-board-button">
+                                    닫기
+                                </button>
+                            </div>
+                            
                         </div>
                     </div>
-                    
-                </div> -->
+                </div>
+
             </div>
             <div class="common-board-button-line">
                 <router-link :to="{ name: 'Notice'}">
@@ -69,51 +87,65 @@
 
     import { useRoute } from 'vue-router'
 
+    const imgUpAlert = ref(false)
+
     //드래그로 업로드하는 파일 정보 가져오기
     let recentFile = {}
     const recentFileList = reactive([])
+    const selectedFile = reactive({})
         
     let dragToUpload = (e) => {
-
         const datas = ref(e.dataTransfer.files)
+        let getExt = datas.value[0].name.slice(-3).toLowerCase();
 
-        for(let i=0; i < datas.value.length ; i++) {
-            recentFile.name = datas.value[i].name;
-            recentFile.size = datas.value[i].size;
+        selectedFile.name = ''
+        selectedFile.size = ''
 
-            Object.assign(recentFileList, datas.value[i])
+        if(getExt == 'jpg' || getExt == 'jpeg' || getExt == 'png' || getExt == 'bmp' || getExt == 'gif') {
+            selectedFile.name = datas.value[0].name;
+            selectedFile.size = '(' + Math.floor(datas.value[0].size / 1024) + 'kb)';    
+        } else {
+            imgUpAlert.value = true
 
-            recentFileList.push({...recentFile})
+            return false
         }
-
     }
-    //
 
     //input type="file"로 업로드 파일 정보 가져오기
     const inputToUpload = (e) => {
         const inputDatas = ref(e.currentTarget.files)
+        let getExt = inputDatas.value[0].name.slice(-3).toLowerCase();
 
-        console.log(inputDatas.value)
-        
-        for(let i=0; i<inputDatas.value.length; i++) {
-            recentFile.name = inputDatas.value[i].name;
-            recentFile.size = inputDatas.value[i].size;
+        selectedFile.name = ''
+        selectedFile.size = ''
 
-            Object.assign(recentFileList, inputDatas.value[i])
+        if(getExt == 'jpg' || getExt == 'jpeg' || getExt == 'png' || getExt == 'bmp' || getExt == 'gif') {
+            selectedFile.name = inputDatas.value[0].name;
+            selectedFile.size = '(' + Math.floor(inputDatas.value[0].size / 1024) + 'kb)';    
+        } else {
+            imgUpAlert.value = true
 
-            recentFileList.push({...recentFile})
+            return false
         }
+
     }
     //
 
+    // function fileTypeCheck(e) {
+    //     let getData = e.currentTarget.files
+    //     let getExt = getData[0].name.slice(-3).toLowerCase();
 
+
+
+    //     console.log(getExt)
+    // }
 
 
 
 
     //Quill editor 옵션(바인드 되어있음)
     const editorOption = ref({
-        placeholder: '본문을 작성해주세요.',
+        placeholder: '저작권 문제가 발생할 우려가 있는 관계로 기사의 본문은 두 줄까지만 작성해주세요.',
         modules: {
             toolbar: [
                 ["bold", "italic", "underline", "strike"], // <strong>, <em>, <u>, <s>
@@ -128,7 +160,7 @@
                 [{ font: [] }], // 글꼴 class로 제어
                 [{ color: [] }, { background: [] }], //style="color: rgb(230, 0, 0);", style="background-color: rgb(230, 0, 0);"
                 [{ align: [] }], // class
-                ["link", "image", "video"],
+                // ["link", "image", "video"],
             ]
         }
     }) 

@@ -630,8 +630,8 @@
     background-color: rgba(var(--deepblue), .035);
     padding: .75rem;
     display: flex;
+    flex-wrap: wrap;
     gap: 1.25rem;
-
 }
 
 //실제 파일 업로드영역(드래그+인풋)
@@ -670,25 +670,61 @@
     }
 }
 
-
 .wr-upload-location.wr-img-upload-location {
+    width: 100%;
+    padding-top: 3rem;
+
+    p {
+        margin-top: .25rem;
+        margin-bottom: .25rem;
+        font-size: var(--fontM);
+        
+    }
+
+    input[type=file] {
+        display: none;
+    }
+}
+
+.wr-img-upload-note {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+    height: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h3 {
+        margin-bottom: .5rem;
+        color: rgba(var(--main-black), .5);
+    }
+
+    h4 {
+        
+    }
+}
+
+
+.drag-img-container {
     position: relative;
 
     .wr-img-upload-plus {
         position: absolute;
-        bottom: 12px;
+        right: -.5rem;
+        bottom: -6px;
         border-radius: 50%;
         width: 1.5rem;
         height: 1.5rem;
-        border: 1px solid rgba(var(--deepblue), .5);
+        background-color: rgba(var(--deepblue), 1);
 
         span {
             position:absolute;
             top: 50%;
-            left: 3px;
-            width: 1rem;
+            left: 6px;
+            width: .75rem;
             height: 2px;
-            background-color: rgba(var(--deepblue), .5);
+            background-color: rgba(var(--white), 1);
             display: block;
 
             &:last-child {
@@ -702,12 +738,7 @@
     color: rgba(var(--deepblue), .2);
     font-size: 3rem;
     position: relative;
-
-    &:before {
-        position: absolute;
-        bottom: -50%;
-        content: '';
-    }
+    
 }       
 
 
