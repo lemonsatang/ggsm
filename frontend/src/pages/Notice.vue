@@ -66,6 +66,14 @@
             </div>
             <!-- 상세페이지 modal end -->
         </div>
+        <div class="filter-button-container web-common-button-container">
+            <router-link :to="{name: 'NoticeWr'}">
+                <button class="common-filter-button" id="scmSearchBtn" type="button">
+                    <font-awesome-icon icon="fa-solid fa-pen" />
+                    <p>글쓰기</p>
+                </button>
+            </router-link>
+        </div>
     </section>
 </template>
 

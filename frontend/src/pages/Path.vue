@@ -69,6 +69,8 @@
         @apply flex justify-between items-center;
 
         margin-top: 2rem;
+        border-bottom: 1px solid rgba(var(--main-black), .25);
+        padding-bottom: 1.5rem;
 
         h1 {
             font-size: 1.5rem;

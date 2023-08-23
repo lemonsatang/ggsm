@@ -54,13 +54,21 @@
 
 [data-common-head-title] {
   @apply w-full flex;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: flex-start;
   font-weight: 700;
   margin: 3rem 0 4rem;
   font-size: var(--font32);
   animation-name: move_down;
   animation-duration: 1s;
   gap: 0.5rem;
+}
+
+[data-common-head-title-add] {
+  display: inline-block;
+  font-size: var(--fontMT);
+  font-weight: 500;
+  opacity: 0.25;
 }
 
 [data-common-head-subtitle] {
@@ -80,6 +88,11 @@
     transform: translateY(0);
   }
 }
+.web-common-button-container {
+  margin-top: 2rem;
+  justify-content: flex-end;
+}
+
 .common-button-style {
   @apply cursor-pointer flex justify-center items-center absolute;
   background-color: rgb(var(--white));
@@ -554,6 +567,53 @@
   color: rgba(var(--deepblue), 1);
 }
 
+.wr-common-alert-back {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(var(--black) 0.75);
+  width: 100vw;
+  height: 100vh;
+}
+
+.wr-common-alert-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(var(--white));
+  width: 19rem;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+.wr-common-alert-inner svg {
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  font-size: var(--fontT);
+}
+.wr-common-alert-inner p {
+  font-size: var(--fontM);
+}
+.wr-common-alert-inner button {
+  font-size: var(--fontM);
+}
+
+.wr-alert-texts {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.wr-alert-texts p:first-child {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
 .ql-editor {
   min-height: 50vh;
 }
@@ -568,8 +628,18 @@
   width: 100%;
 }
 
+.wr-body {
+  margin-top: 1rem;
+}
+
+.wr-input-title {
+  margin-bottom: 1rem;
+  font-size: var(--fontST);
+  font-weight: 700;
+}
+
 .wr-upload-body {
-  background-color: rgba(var(--main-black), 0.035);
+  background-color: rgba(var(--deepblue), 0.035);
   padding: 0.75rem;
   display: flex;
   gap: 1.25rem;
@@ -581,7 +651,7 @@
   align-items: center;
   gap: 0.5rem;
   border: 1px dashed rgba(var(--main-black), 0.25);
-  background-color: rgba(var(--main-black), 0.045);
+  background-color: rgba(var(--white), 1);
   padding: 1.25rem 2rem;
   border-radius: 0.5rem;
 }
@@ -589,10 +659,57 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+  opacity: 0.5;
+  margin-bottom: 0.5rem;
 }
-.wr-upload-location [data-drag-here-note] {
+.wr-upload-location p[data-drag-here-note] {
   font-size: var(--fontM);
   color: rgba(var(--deepblue), 1);
+  font-weight: 900;
+  opacity: 1;
+  margin-bottom: 0;
+}
+.wr-upload-location.wr-img-upload-location {
+  background-color: rgba(var(--white), 1);
+}
+
+.wr-upload-location .wr-drag-location svg {
+  color: rgba(var(--deepblue), 0.2);
+}
+
+.wr-upload-location.wr-img-upload-location {
+  position: relative;
+}
+.wr-upload-location.wr-img-upload-location .wr-img-upload-plus {
+  position: absolute;
+  bottom: 12px;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid rgba(var(--deepblue), 0.5);
+}
+.wr-upload-location.wr-img-upload-location .wr-img-upload-plus span {
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: 1rem;
+  height: 2px;
+  background-color: rgba(var(--deepblue), 0.5);
+  display: block;
+}
+.wr-upload-location.wr-img-upload-location .wr-img-upload-plus span:last-child {
+  transform: rotate(90deg);
+}
+
+.wr-upload-location svg.wr-upload-for-img {
+  color: rgba(var(--deepblue), 0.2);
+  font-size: 3rem;
+  position: relative;
+}
+.wr-upload-location svg.wr-upload-for-img:before {
+  position: absolute;
+  bottom: -50%;
+  content: "";
 }
 
 .wr-drag-location {
@@ -688,4 +805,29 @@
 }
 #mainView .scm-table-footer.scm-table-line li p {
   font-weight: 600;
+}
+
+#scmNotiWr {
+  display: flex;
+  flex-direction: column;
+}
+
+.wr-input-container {
+  border: 1px solid rgba(var(--main-black), 0.15);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  position: relative;
+}
+.wr-input-container svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1rem;
+  font-size: var(--fontM);
+  color: rgba(var(--deepblue), 1);
+}
+.wr-input-container .wr-input {
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+  width: 100%;
+  outline: 0;
 }/*# sourceMappingURL=style.css.map */

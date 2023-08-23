@@ -1,8 +1,8 @@
 <template>
-    <ScmHeaders />
+    <SubpHero />
 
-    <section class="scm-common-board-inner">
-        <h1 data-common-head-title>글쓰기</h1>
+    <section class="common-inner">
+        <h1 data-common-head-title><span data-common-head-title-add>뉴스</span>글쓰기</h1>
 
         <div id="scmNotiWr" class="ani_down">
             <div class="wr-top-inputs">
@@ -18,6 +18,40 @@
             <div class="wr-body">
                 <QuillEditor :options="editorOption" theme="snow" />
                 <div class="wr-upload-container">
+                    <h2 class="wr-input-title">이미지 첨부</h2>
+                    <div class="wr-upload-body wr-img-upload-body">
+                        <div class="wr-upload-location wr-img-upload-location" @drop.prevent="dragToUpload" @dragenter.prevent @dragover.prevent>
+                            <div class="wr-img-upload-plus">
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <font-awesome-icon class="wr-upload-for-img" icon="fa-regular fa-image" />
+                        </div>
+                    </div>
+
+
+
+                    <input @change="fileTypeCheck" type="file" name="filename" accept="image/gif, image/jpeg, image/jpg, image/png, image/bmp" />
+                    <div v-if="imgUpAlert" class="wr-common-alert-back">
+                        <div class="wr-common-alert-inner">
+                            <font-awesome-icon icon="fa-exclamation" />
+                            <div class="wr-alert-texts">
+                                <p>업로드할 수 없는 형식의 파일입니다.</p>
+                                <p>사용 가능한 이미지파일 형식 : </p>
+                                <p>jpg, jpeg, png, gif</p>
+                            </div>
+                            
+                            <div class="common-board-button-line">
+                                <button @click="imgUpAlert = false" type="button" class="common-board-button">
+                                    <!-- <font-awesome-icon icon="fa-pen" /> -->
+                                    닫기
+                                </button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="wr-upload-container">
                     <h2 class="wr-input-title">파일 첨부</h2>
                     <div class="wr-upload-body">
                         <div class="wr-upload-location" @drop.prevent="dragToUpload" @dragenter.prevent @dragover.prevent>
@@ -46,10 +80,10 @@
                         </div>
                     </div>
                     
-                </div>
+                </div> -->
             </div>
             <div class="common-board-button-line">
-                <router-link :to="{ name: 'Scm', params: {category: 'scmNoti'}}">
+                <router-link :to="{ name: 'News'}">
                     <button type="button" class="common-board-button">
                         <font-awesome-icon icon="fa-pen" />
                         작성
@@ -62,11 +96,14 @@
     
 </template>
 <script setup>
-    import ScmHeaders from '@/components/ScmHeaders.vue';
+    import SubpHero from '@/components/SubpHero.vue';
+
     import { QuillEditor } from '@vueup/vue-quill'
     import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
     import { useRoute } from 'vue-router'
+
+    const imgUpAlert = ref(false)
 
     //드래그로 업로드하는 파일 정보 가져오기
     let recentFile = {}
@@ -105,14 +142,26 @@
     }
     //
 
+    function fileTypeCheck(e) {
+        let getData = e.currentTarget.files
+        let getExt = getData[0].name.slice(-3).toLowerCase();
 
+        if(getExt == 'jpg' || getExt == 'jpeg' || getExt == 'png' || getExt == 'bmp' || getExt == 'gif') {
+            
+        } else {
+            imgUpAlert.value = true
+
+        }
+
+        console.log(getExt)
+    }
 
 
 
 
     //Quill editor 옵션(바인드 되어있음)
     const editorOption = ref({
-        placeholder: '본문을 작성해주세요.',
+        placeholder: '저작권 문제가 발생할 우려가 있는 관계로 기사의 본문은 두 줄까지만 작성해주세요.',
         modules: {
             toolbar: [
                 ["bold", "italic", "underline", "strike"], // <strong>, <em>, <u>, <s>
@@ -127,7 +176,7 @@
                 [{ font: [] }], // 글꼴 class로 제어
                 [{ color: [] }, { background: [] }], //style="color: rgb(230, 0, 0);", style="background-color: rgb(230, 0, 0);"
                 [{ align: [] }], // class
-                ["link", "image", "video"],
+                // ["link", "image", "video"],
             ]
         }
     }) 
@@ -135,6 +184,38 @@
 
 </script>
 <style lang="scss" scoped>
+    #scmNotiWr {
+        display: flex;
+        flex-direction: column;
+    }
 
+    .wr-input-container {
+        border: 1px solid rgba(var(--main-black), .15);
+        border-radius: .5rem;
+        padding: .5rem .75rem;
+        position: relative;
+
+        svg {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 1rem;
+            font-size: var(--fontM);
+            color: rgba(var(--deepblue), 1);
+        }
+
+        .wr-input {
+            padding: .5rem .75rem .5rem 2.25rem;
+            width: 100%;
+            outline: 0;
+        }
+    }
+
+    .wr-input {
+
+    }
+    .wr-body {
+        margin-top: 1rem;
+    }
 
 </style>
