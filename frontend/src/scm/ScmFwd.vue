@@ -145,8 +145,10 @@
 <script setup>
     //store에서 영역별 데이터 import
     import { useScmFwdStore } from '@/store/scmFwdStore'
-    import { storeToRefs } from 'pinia';
-    import { computed } from 'vue';
+    import { storeToRefs } from 'pinia'
+    import { computed, onMounted } from 'vue'
+    import axios from 'axios'
+    import { toast } from 'vue3-toastify';
 
     const scmFwdStore = useScmFwdStore()
     const { scmFwdGroup } = storeToRefs(scmFwdStore)
@@ -198,7 +200,19 @@
         return parseInt(x) + parseInt(y.WEIGHT);
     }, 0);
 
+    
 
+    onMounted(() => {
+        getList()        
+    })
+
+    function getList() {
+        axios.post('/api/fwdList', { })
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(error => { toast.error('목록을 불러오지 못했습니다.') })
+    }
     
 </script>
 
