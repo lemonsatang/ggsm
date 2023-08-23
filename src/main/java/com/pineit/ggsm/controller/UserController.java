@@ -23,9 +23,6 @@ public class UserController {
     public Map<String, Object> getUserCheck(@RequestBody UserDTO userDTO) {
         log.info("User Check.........");
 
-        System.out.println("==============CVCOD: " + userDTO.getCvcod());
-        System.out.println("==============PASSWD: " + userDTO.getPasswd());
-
         Map<String, Object> result = userService.getUserCheck(userDTO);
 
         System.out.println("==============RESULT: " + result);
