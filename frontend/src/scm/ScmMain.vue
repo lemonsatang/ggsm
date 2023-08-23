@@ -1,7 +1,7 @@
 <template>
     <ScmHeaders />
 
-    <section class="common-inner scm-min-height scm-common-inner">
+    <!-- <section class="common-inner scm-min-height scm-common-inner">
 
         <div v-show="getCate == 'fwd'">
             <ScmFwd />
@@ -11,13 +11,13 @@
         </div>
         <div v-show="getCate == 'reqReg'">
             <ScmReqReg />
-        </div>
+        </div> -->
 
-        <div v-show="getCate == 'scmNoti'">
+        <!-- <div v-show="getCate == 'scmNoti'">
             <ScmNotice />
-        </div>        
+        </div>         
         
-    </section>
+    </section> -->
 
 </template>
 
@@ -51,9 +51,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .scm-min-height {
-        min-height: 60vh;    
-    }   
+
 
     
 </style>

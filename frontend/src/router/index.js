@@ -94,6 +94,23 @@ const routes = [
     name: 'Scm',
     component: () => import( /* webpackChunkName: 'ScmMain' */ '@/scm/ScmMain.vue')
   },
+
+  {  
+    path: '/scm/fwd',
+    name: 'ScmFwd',
+    component: () => import( /* webpackChunkName: 'ScmFwd' */ '@/scm/ScmFwd.vue')
+  },
+  {  
+    path: '/scm/invCs',
+    name: 'ScmInvCs',
+    component: () => import( /* webpackChunkName: 'ScmInvCs' */ '@/scm/ScmInvCs.vue')
+  },
+  {  
+    path: '/scm/reqReg',
+    name: 'ScmReqReg',
+    component: () => import( /* webpackChunkName: 'ScmReqReg' */ '@/scm/ScmReqReg.vue')
+  },
+
   {  
     path: '/scm/scmNoti/:id',
     name: 'ScmDetail',

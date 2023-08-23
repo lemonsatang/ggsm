@@ -18,6 +18,7 @@
   import Footers from './components/Footers.vue';
 
   import { useRoute } from 'vue-router'
+import { onMounted } from 'vue';
 
 </script>
 
