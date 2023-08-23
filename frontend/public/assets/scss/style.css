@@ -704,6 +704,10 @@
   margin-bottom: 0.5rem;
   color: rgba(var(--main-black), 0.5);
 }
+.scm-min-height {
+  min-height: 60vh;
+}
+
 .drag-img-container {
   position: relative;
 }

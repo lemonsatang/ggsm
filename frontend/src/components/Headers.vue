@@ -1,5 +1,5 @@
 <template>
-    <header :class="[{'nav-back-transp': useRoute().path == '/'}, {'nav-close': useRoute().name == 'Scm'}, {'nav-close': useRoute().name == 'ScmLogin'}, {'nav-close': useRoute().name == 'ScmDetail'}, {'nav-close': useRoute().name == 'ScmNotiWr'} ]">
+    <header :class="[{'nav-back-transp': useRoute().path == '/'}, {'nav-close': useRoute().name == 'Scm'}, {'nav-close': useRoute().name == 'ScmLogin'}, {'nav-close': useRoute().name == 'ScmFwd'}, {'nav-close': useRoute().name == 'ScmInvCs'}, {'nav-close': useRoute().name == 'ScmReqReg'} ]">
         <div class="common-inner">
             <router-link to="/">
                 <img v-if="useRoute().path == '/'" data-main-logo src="/logo_w.png" alt="메인 로고 이미지">
@@ -79,11 +79,10 @@
     //store에서 영역별 데이터 import
     import { usehfStore } from '@/store/hfStore'
     import { storeToRefs } from 'pinia';
+    import { watch } from 'vue';
 
     const hfStore = usehfStore()
     const { navGroup, navText } = storeToRefs(hfStore)
-    
-    const isLoginPg = ref(false)
 
     const navModalSt = ref(false)
     var mobVerIsShow = ref(false)
@@ -95,12 +94,11 @@
         mobVerIsShow.value = true
     }
 
-
+    
     const subOpen = ref(false);
 
-    import { useRoute } from 'vue-router'
+    import { useRoute} from 'vue-router'
     const route = useRoute()
-
 
     watch(route, (to, from) => {
         //페이지 이동시 메뉴팝업 닫기

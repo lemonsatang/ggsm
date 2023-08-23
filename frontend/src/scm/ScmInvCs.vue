@@ -1,128 +1,132 @@
 <template>
-    <!-- filter -->
-    <div class="common-filter-body">
-        <div class="common-filter-container">
-            <div class="each-filter">
-                <h2 class="ft-header">재고구분</h2>
-                <div class="filter-type-checkbox">
-                    <label>
-                        <input type="checkbox" name="stockCate" value="rawMt">
-                        원소재
-                    </label>
-                    <label>
-                        <input type="checkbox" name="stockCate" value="prod">
-                        제품
-                    </label>
-                    <label>
-                        <input type="checkbox" name="stockCate" value="stProd">
-                        보관품
-                    </label>
+    <ScmHeaders />
+
+    <section class="common-inner scm-min-height scm-common-inner">
+        <!-- filter -->
+        <div class="common-filter-body">
+            <div class="common-filter-container">
+                <div class="each-filter">
+                    <h2 class="ft-header">재고구분</h2>
+                    <div class="filter-type-checkbox">
+                        <label>
+                            <input type="checkbox" name="stockCate" value="rawMt">
+                            원소재
+                        </label>
+                        <label>
+                            <input type="checkbox" name="stockCate" value="prod">
+                            제품
+                        </label>
+                        <label>
+                            <input type="checkbox" name="stockCate" value="stProd">
+                            보관품
+                        </label>
+                    </div>
                 </div>
+                
+                <div class="each-filter">
+                    <h2 class="ft-header">품목</h2>
+                    <input type="text">
+                </div>
+                <div class="each-filter">
+                    <h2 class="ft-header">재질</h2>
+                    <input type="text">
+                </div>
+                <!-- -->
+                <div class="each-filter">
+
+                </div>
+                <div class="each-filter">
+                    <h2 class="ft-header">두께</h2>
+                    <input data-filter-thick-min type="text">
+                    <input data-filter-thick-max type="text">
+                </div>
+                <div class="each-filter">
+                    <h2 class="ft-header">폭</h2>
+                    <input data-filter-width-min type="text">
+                    <input data-filter-width-max type="text">
+                </div>
+
+            </div>
+            <div class="filter-button-container">
+                <button class="common-filter-button" id="scmSearchBtn" type="button">
+                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                    <p>Search</p>
+                </button>
+                <button class="common-filter-button bg-excel-green" id="scmExcelBtn" type="button">
+                    <font-awesome-icon icon="fa-regular fa-file-excel" />
+                    <p>Excel</p>
+                </button>
+                <button class="common-filter-button" id="scmPrintBtn" type="button">
+                    <font-awesome-icon icon="fa-solid fa-print" />
+                    <p>Print</p>
+                </button>
             </div>
             
-            <div class="each-filter">
-                <h2 class="ft-header">품목</h2>
-                <input type="text">
-            </div>
-            <div class="each-filter">
-                <h2 class="ft-header">재질</h2>
-                <input type="text">
-            </div>
-            <!-- -->
-            <div class="each-filter">
-
-            </div>
-            <div class="each-filter">
-                <h2 class="ft-header">두께</h2>
-                <input data-filter-thick-min type="text">
-                <input data-filter-thick-max type="text">
-            </div>
-            <div class="each-filter">
-                <h2 class="ft-header">폭</h2>
-                <input data-filter-width-min type="text">
-                <input data-filter-width-max type="text">
-            </div>
-
         </div>
-        <div class="filter-button-container">
-            <button class="common-filter-button" id="scmSearchBtn" type="button">
-                <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                <p>Search</p>
-            </button>
-            <button class="common-filter-button bg-excel-green" id="scmExcelBtn" type="button">
-                <font-awesome-icon icon="fa-regular fa-file-excel" />
-                <p>Excel</p>
-            </button>
-            <button class="common-filter-button" id="scmPrintBtn" type="button">
-                <font-awesome-icon icon="fa-solid fa-print" />
-                <p>Print</p>
-            </button>
-        </div>
-        
-    </div>
 
-    <!-- 본문 -->
-    <div id="scmTexts" class="ani_down scm-common-body">
-        <div class="scm-common-table">
-            <div class="scm-table-header bg-bid-blue">
-                <ul class="scm-table-line scm-data-table-line" data-scm-table-header>
-                    <li>품목</li>
-                    <li>강종</li>
-                    <li>재질</li>
-                    <li>도금량</li>
-                    <li>치수</li>
-                    <li>수량</li>
-                    <li>중량</li>
-                    <li>창고</li>
-                    <li>입고일자</li>
-                    <li>제품번호</li>
-                    <li>코일번호</li>
-                    <li>비고</li>
+        <!-- 본문 -->
+        <div id="scmTexts" class="ani_down scm-common-body">
+            <div class="scm-common-table">
+                <div class="scm-table-header bg-bid-blue">
+                    <ul class="scm-table-line scm-data-table-line" data-scm-table-header>
+                        <li>품목</li>
+                        <li>강종</li>
+                        <li>재질</li>
+                        <li>도금량</li>
+                        <li>치수</li>
+                        <li>수량</li>
+                        <li>중량</li>
+                        <li>창고</li>
+                        <li>입고일자</li>
+                        <li>제품번호</li>
+                        <li>코일번호</li>
+                        <li>비고</li>
+                    </ul>
+                </div>
+                <div class="scm-table-body">
+                    <ul v-for="item in copyOfData" class="scm-table-line">
+                        <li>{{ item.ITEM }}</li>
+                        <li>{{ item.STGRADE }}</li>
+                        <li>{{ item.MATERIAL }}</li>
+                        <li>{{ item.MOP }}</li>
+                        <li>{{ item.SIZE }}</li>
+                        <li>{{ item.QUANTITY }}</li>
+                        <li>{{ item.WEIGHT }}</li>
+                        <li>{{ item.WARE }}</li>
+                        <li>{{ item.RCVDATE }}</li>
+                        <li>{{ item.PRODNO }}</li>
+                        <li>{{ item.COILNO }}</li>
+                        <li>{{ item.NOTE }}</li>
+                        
+                    </ul>
+                </div>
+                <ul v-for="item in isViewList" class="scm-table-footer scm-table-line">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 18L12.6796 12L5 6V4H19V6H8.26348L16 12L8.26348 18H19V20H5V18Z"></path></svg>
+                        <p class="scm-footer-titles">
+                            합계 <span>{{ isViewList.length }}</span>건
+                        </p>
+                        
+                    </li>
+                    <li>
+                        <p class="scm-footer-titles">
+                            <span>{{ totalQuantity }}</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p class="scm-footer-titles">
+                            <span>{{ totalWeight }}</span>
+                        </p>
+                    </li>
+                    <li></li>
                 </ul>
             </div>
-            <div class="scm-table-body">
-                <ul v-for="item in copyOfData" class="scm-table-line">
-                    <li>{{ item.ITEM }}</li>
-                    <li>{{ item.STGRADE }}</li>
-                    <li>{{ item.MATERIAL }}</li>
-                    <li>{{ item.MOP }}</li>
-                    <li>{{ item.SIZE }}</li>
-                    <li>{{ item.QUANTITY }}</li>
-                    <li>{{ item.WEIGHT }}</li>
-                    <li>{{ item.WARE }}</li>
-                    <li>{{ item.RCVDATE }}</li>
-                    <li>{{ item.PRODNO }}</li>
-                    <li>{{ item.COILNO }}</li>
-                    <li>{{ item.NOTE }}</li>
-                    
-                </ul>
-            </div>
-            <ul v-for="item in isViewList" class="scm-table-footer scm-table-line">
-                <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 18L12.6796 12L5 6V4H19V6H8.26348L16 12L8.26348 18H19V20H5V18Z"></path></svg>
-                    <p class="scm-footer-titles">
-                        합계 <span>{{ isViewList.length }}</span>건
-                    </p>
-                    
-                </li>
-                <li>
-                    <p class="scm-footer-titles">
-                        <span>{{ totalQuantity }}</span>
-                    </p>
-                </li>
-                <li>
-                    <p class="scm-footer-titles">
-                        <span>{{ totalWeight }}</span>
-                    </p>
-                </li>
-                <li></li>
-            </ul>
         </div>
-    </div>
+    </section>
 </template>
 
 <script setup>
-    import SubpHero from '@/components/SubpHero.vue';
+    import ScmHeaders from '@/components/ScmHeaders.vue';
 
     //store에서 영역별 데이터 import
     import { useScmInvStore } from '@/store/scmInvStore'

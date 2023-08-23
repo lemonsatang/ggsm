@@ -27,8 +27,8 @@
                     </button>
                 </div>
                 <ul id="scmNav">
-                    <router-link :to="{name: 'Scm', params: {category: item.category}}" v-for="item in scmGroup" @click="isTap = item.category">
-                        <li :class="{'recent-page':item.category == getCate}">{{ item.name }}</li>
+                    <router-link :to="item.path" v-for="item in scmGroup" @click="isTap = item.category">
+                        <li :class="{'recent-page':item.category == getPg}">{{ item.name }}</li>
                     </router-link>
                 </ul>
             </div>
@@ -169,6 +169,9 @@
 
     const getParams = useRoute().params
     const getCate = useRoute().params.category
+    const getPg = useRoute().path.split('/')[2]
+
+    console.log(getPg)
 
     const recentPW = ref()
     const newPW = ref()

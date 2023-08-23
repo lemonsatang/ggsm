@@ -8,14 +8,17 @@ export const useScmStore = defineStore('scm', () => {
         {
             name: '출고관리',
             category: 'fwd',
+            path: '/scm/fwd'
         },
         {
             name: '재고현황',
             category: 'invCs',
+            path: '/scm/invCs'
         },
         {
             name: '주문의뢰서 접수',
             category: 'reqReg',
+            path: '/scm/reqReg',
         },
 
         // {

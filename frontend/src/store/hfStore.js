@@ -5,6 +5,7 @@ import { defineStore } from "pinia"
 export const usehfStore = defineStore('hdFt', () => {
 
     //Header
+    const isScmStat = reactive(false)
 
     const navText = ref([
         {
@@ -74,5 +75,5 @@ export const usehfStore = defineStore('hdFt', () => {
     ])
     
 
-    return { ftGroup, navGroup, navText }
+    return { ftGroup, navGroup, navText, isScmStat }
 })
