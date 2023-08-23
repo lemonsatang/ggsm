@@ -44,6 +44,7 @@ export const usehfStore = defineStore('hdFt', () => {
             subT: 'CUSTOMER',
             childrens: [
                 { subTo: '/noti', subTitle: '공지사항' },
+                // { subTo: '/notiWr', subTitle: '공지사항' },
                 { subTo: '/data', subTitle: '자료실' },
                 { subTo: '/news', subTitle: '뉴스' },
                 // { subTo: '/cont', subTitle: '문의하기' },

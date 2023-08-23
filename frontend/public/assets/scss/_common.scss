@@ -70,13 +70,21 @@
 [data-common-head-title] {
     @apply w-full flex;
 
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: flex-start;
     font-weight: 700;
     margin: 3rem 0 4rem;
     font-size: var(--font32);
     animation-name: move_down;
     animation-duration: 1s;
     gap: .5rem;
+}
+
+[data-common-head-title-add] {
+    display: inline-block;
+    font-size: var(--fontMT);
+    font-weight: 500;
+    opacity: .25;
 }
 
 [data-common-head-subtitle] {
@@ -96,6 +104,11 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.web-common-button-container {
+    margin-top: 2rem;
+    justify-content: flex-end;
 }
 
 .common-button-style {

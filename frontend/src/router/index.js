@@ -53,14 +53,29 @@ const routes = [
     component: () => import( /* webpackChunkName: 'Notice' */ '@/pages/Notice.vue')
   },
   {  
+    path: '/notiWr',
+    name: 'NoticeWr',
+    component: () => import( /* webpackChunkName: 'NoticeWr' */ '@/pages/NoticeWr.vue')
+  },
+  {  
     path: '/data',
     name: 'DataRoom',
     component: () => import( /* webpackChunkName: 'DataRoom' */ '@/pages/DataRoom.vue')
   },
   {  
+    path: '/dataWr',
+    name: 'DataRoomWr',
+    component: () => import( /* webpackChunkName: 'DataRoomWr' */ '@/pages/DataRoomWr.vue')
+  },
+  {  
     path: '/news',
     name: 'News',
     component: () => import( /* webpackChunkName: 'News' */ '@/pages/News.vue')
+  },
+  {  
+    path: '/newsWr',
+    name: 'NewsWr',
+    component: () => import( /* webpackChunkName: 'NewsWr' */ '@/pages/NewsWr.vue')
   },
   {  
     path: '/cont',

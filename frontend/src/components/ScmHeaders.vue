@@ -52,7 +52,10 @@
             </div>
             <div v-for="item in copyOfUsr" class="usr-info-body">
                 <div class="usr-info-body-list">
-                    <h2 class="usr-info-title">회원정보</h2>
+                    <h2 class="usr-info-title">
+                        <font-awesome-icon icon="fa-user" />
+                        회원정보
+                    </h2>
                     <div class="usr-info-line" data-usr-info-nameline>
                         <article>
                             <p class="usr-info-body-title">고객사명</p>
@@ -90,34 +93,40 @@
                         </article>
                     </div>
                     
-                    <h2 class="usr-info-title">비밀번호 변경</h2>
+                    <h2 class="usr-info-title">
+                        <font-awesome-icon icon="fa-lock" />
+                        비밀번호 변경
+                    </h2>
                     <div class="usr-info-line" data-usr-info-pwline>
                         <article>
                             <p class="usr-info-body-title">
                                 비밀번호 변경
                             </p>
-                            <div data-usrinfo-pw-change>
-                                <input ref="recentPW" class="usr-info-body-text" type="password" placeholder="현재 비밀번호">
-                                <!-- 비밀번호 보기 버튼 -->
-                                <button data-pw-show-button v-show="pwHide == false" @click="pwHide = true" type="button">
-                                    <font-awesome-icon icon="fa-eye" />
-                                </button>
-                                <!-- 비밀번호 숨기기 버튼 -->
-                                <button data-pw-hide-button v-show="pwHide == true" @click="pwHide = false" type="button">
-                                    <font-awesome-icon icon="fa-eye-slash" />
-                                </button>
+                            <div data-usr-pwchange-container>
+                                <div data-usrinfo-pw-change>
+                                    <input ref="recentPW" class="usr-info-body-text" type="password" placeholder="변경할 비밀번호">
+                                    <!-- 비밀번호 보기 버튼 -->
+                                    <button data-pw-show-button v-show="pwHide == false" @click="pwHide = true" type="button">
+                                        <font-awesome-icon icon="fa-eye" />
+                                    </button>
+                                    <!-- 비밀번호 숨기기 버튼 -->
+                                    <button data-pw-hide-button v-show="pwHide == true" @click="pwHide = false" type="button">
+                                        <font-awesome-icon icon="fa-eye-slash" />
+                                    </button>
+                                </div>
+                                <div data-usrinfo-pw-change>
+                                    <input ref="newPW" @input="isSameChk()" class="usr-info-body-text" type="password" placeholder="비밀번호 확인">
+                                    <!-- 비밀번호 보기 버튼 -->
+                                    <button data-pw-show-button v-show="pwHide == false" @click="pwHide = true" type="button">
+                                        <font-awesome-icon icon="fa-eye" />
+                                    </button>
+                                    <!-- 비밀번호 숨기기 버튼 -->
+                                    <button data-pw-hide-button v-show="pwHide == true" @click="pwHide = false" type="button">
+                                        <font-awesome-icon icon="fa-eye-slash" />
+                                    </button>
+                                </div>
                             </div>
-                            <div data-usrinfo-pw-change>
-                                <input ref="newPW" @input="isSameChk()" class="usr-info-body-text" type="password" placeholder="비밀번호 확인">
-                                <!-- 비밀번호 보기 버튼 -->
-                                <button data-pw-show-button v-show="pwHide == false" @click="pwHide = true" type="button">
-                                    <font-awesome-icon icon="fa-eye" />
-                                </button>
-                                <!-- 비밀번호 숨기기 버튼 -->
-                                <button data-pw-hide-button v-show="pwHide == true" @click="pwHide = false" type="button">
-                                    <font-awesome-icon icon="fa-eye-slash" />
-                                </button>
-                            </div>
+                            
                             <div data-usrinfo-pw-alert-container>
                                 <p data-usrinfo-pw-alert-yes v-if="isSamePW == 'true'">비밀번호가 동일합니다.</p>
                                 <p data-usrinfo-pw-alert-no v-if="isSamePW == 'false'">비밀번호가 동일하지 않습니다.</p>
@@ -375,10 +384,26 @@
 
     }
 
-    .usr-info-title {
+    #usrInfoContainer .usr-info-title {
         font-size: var(--fontMT);
         font-weight: 700;
         margin-top: .5rem;
+        position: relative;
+
+        svg {
+            font-size: var(--font13);
+            margin-right: .25rem;
+        }
+
+        &::after {
+            position: absolute;
+            bottom: -.05rem;
+            content: '';
+            display: block;            
+            width: -webkit-fill-available;
+            height: 10px;
+            background-color: rgba(var(--deepblue), .25);
+        }
     }
 
     #usrInfoContainer .usr-info-head {
@@ -389,6 +414,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        user-select: none;
 
         p {
             display: flex;
@@ -428,9 +454,12 @@
             &[data-usr-info-localine] {
                 grid-template-columns: 1fr 2fr;
             }
-
-            
         }
+    }
+
+    [data-usr-pwchange-container] {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .usr-info-line article {
