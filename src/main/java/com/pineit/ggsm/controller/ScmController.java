@@ -20,6 +20,7 @@ import lombok.extern.log4j.Log4j2;
 public class ScmController {
     private final ScmService scmService;
 
+    /* 출고관리 */
     @PostMapping("/fwdList")
     public List<Map<String, Object>> fwdList(@RequestBody ScmDTO scmDTO) {
         log.info("GET FWD LIST.........");
@@ -28,4 +29,18 @@ public class ScmController {
 
         return result;
     }
+
+    /* 출고관리 끝 */
+
+    /* 재고관리 */
+    @PostMapping("/invCsList")
+    public List<Map<String, Object>> invCsList(@RequestBody ScmDTO scmDTO) {
+        log.info("GET INVCS LIST.........");
+
+        List<Map<String, Object>> result = scmService.invCsList(scmDTO);
+
+        return result;
+    }
+
+    /* 재고관리 끝 */
 }
