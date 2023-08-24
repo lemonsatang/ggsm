@@ -27,44 +27,44 @@
                 </div>
                 <div class="each-filter">
                     <h2 class="ft-header">품목</h2>
-                    <input type="text">
+                    <input ref="ITNAM" type="text">
                 </div>
                 <div class="each-filter">
                     <h2 class="ft-header">재질</h2>
-                    <input type="text">
+                    <input ref="MATRL" type="text">
                 </div>
                 <!-- -->
                 <div class="each-filter">
                     <h2 class="ft-header">재고구분</h2>
                     <div class="filter-type-checkbox">
                         <label>
-                            <input type="checkbox" name="stockCate" value="rawMt">
+                            <input ref="CATE_E" type="checkbox" name="stockCate" value="E">
                             원소재
                         </label>
                         <label>
-                            <input type="checkbox" name="stockCate" value="prod">
+                            <input ref="CATE_P" type="checkbox" name="stockCate" value="P">
                             제품
                         </label>
                         <label>
-                            <input type="checkbox" name="stockCate" value="stProd">
+                            <input ref="CATE_K" type="checkbox" name="stockCate" value="K">
                             보관품
                         </label>
                     </div>
                 </div>
                 <div class="each-filter">
                     <h2 class="ft-header">두께</h2>
-                    <input data-filter-thick-min type="text">
-                    <input data-filter-thick-max type="text">
+                    <input ref="I_STSZ1" data-filter-thick-min type="text">
+                    <input ref="I_EDSZ1" data-filter-thick-max type="text">
                 </div>
                 <div class="each-filter">
                     <h2 class="ft-header">폭</h2>
-                    <input data-filter-width-min type="text">
-                    <input data-filter-width-max type="text">
+                    <input ref="I_STSZ2" data-filter-width-min type="text">
+                    <input ref="I_EDSZ2" data-filter-width-max type="text">
                 </div>
 
             </div>
             <div class="filter-button-container">
-                <button class="common-filter-button" id="scmSearchBtn" type="button">
+                <button @click="searchFwd" @keyup.enter="searchFwd" class="common-filter-button" id="scmSearchBtn" type="button">
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                     <p>Search</p>
                 </button>
@@ -102,39 +102,45 @@
                     </ul>
                 </div>
                 <div class="scm-table-body">
-                    <ul v-for="item in copyOfData.value" class="scm-table-line">
-                        <li>{{ item.TDATE }}</li>
-                        <li>{{ item.STNO }}</li>
-                        <li>{{ item.ITEM }}</li>
-                        <li>{{ item.STGRADE }}</li>
-                        <li>{{ item.MATERIAL }}</li>
-                        <li>{{ item.MOP }}</li>
-                        <li>{{ item.SIZE }}</li>
-                        <li>{{ item.QUANTITY }}</li>
-                        <li>{{ item.WEIGHT }}</li>
-                        <li>{{ item.WARE }}</li>
-                        <li>{{ item.PRODNO }}</li>
-                        <li>{{ item.COILNO }}</li>
-                        <li>{{ item.REQNO }}</li>
-                        <li>{{ item.NOTE }}</li>
+                    <ul v-for="(item, i) in copyOfData.value" class="scm-table-line">
+                        <li>{{ item.TDATE }}</li><!-- 출고일자 -->
+                        <li>{{ item.SLINO }}</li><!-- 전표번호 -->
+                        <li>{{ item.ITNAM }}</li><!-- 품목 -->
+                        <li>{{ item.JJNAS }}</li><!-- 강종 -->
+                        <li>{{ item.MATRL }}</li><!-- 재질 -->
+                        <li>{{ item.GOLDW }}</li><!-- 도금량 -->
+                        <li>{{ item.ISIZE }}</li><!-- 치수 -->
+                        <li>{{ item.TRQTY }}</li><!-- 수량 -->
+                        <li>{{ item.TRWGT }}</li><!-- 중량 -->
+                        <li>{{ item.HOUSE }}</li><!-- 창고 -->
+                        <li class="have-a-tooltip" @mouseover="showDetailP(i, event)" @mouseleave="closeDetailP(i)">
+                            <span>{{ item.MITNO }}</span>
+                            <p class="table-hidden-modal" v-if="item.isShowMd === true">
+                                <font-awesome-icon icon="fa-eye" />
+                                <span v-html="TooltipText"></span>
+                            </p>
+                        </li><!-- 제품번호 -->
+                        <li>{{ item.COILNO }}</li><!-- 코일번호 -->
+                        <li>{{ item.SUJNO }}</li><!-- 의뢰번호 -->
+                        <li>{{ item.RK }}</li><!-- 비고 -->
                     </ul>
                 </div>
-                <ul v-for="item in isViewList" class="scm-table-footer scm-table-line">
+                <ul class="scm-table-footer scm-table-line">
                     <li>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 18L12.6796 12L5 6V4H19V6H8.26348L16 12L8.26348 18H19V20H5V18Z"></path></svg>
                         <p class="scm-footer-titles">
-                            합계 <span>{{ isViewList.length }}</span>건
+                            합계 <span>{{ viewTotalLine.totalNum }}</span>건
                         </p>
                         
                     </li>
                     <li>
                         <p class="scm-footer-titles">
-                            <span>{{ totalQuantity }}</span>
+                            <span>{{ viewTotalLine.totalQuantity }}</span>
                         </p>
                     </li>
                     <li>
                         <p class="scm-footer-titles">
-                            <span>{{ totalWeight }}</span>
+                            <span>{{ viewTotalLine.totalWeight }}</span>
                         </p>
                     </li>
                     <li></li>
@@ -153,9 +159,11 @@
     //store에서 영역별 데이터 import
     import { usehfStore } from '@/store/hfStore'
     import { storeToRefs } from 'pinia'
-    import { computed, onMounted } from 'vue'
+    import { onMounted } from 'vue'
     import axios from 'axios'
     import { toast } from 'vue3-toastify';
+
+    const TooltipText = ref()
 
     const hfStore = usehfStore()
     const { navGroup, navText } = storeToRefs(hfStore)
@@ -167,8 +175,80 @@
     const inputValue = ref(new Date())
     const hdCheck = ref([])
 
-    //조회된 리스트 배열 여기 담기(copyOfData에서 필터링을 거친 후 여기 담기 / 지금은 임시)
-    const isViewList = ref([...copyOfData])
+    //필터링 거친 데이터 여기 담기
+    const isViewList = ref([])
+
+    //**입력된 필터 데이터들 읽어들일것들
+
+    const ITNAM = ref()
+    const MATRL = ref()
+    //재고구분
+    const CATE_E = ref()
+    const CATE_P = ref()
+    const CATE_K = ref()
+    //두께
+    const I_STSZ1 = ref()
+    const I_EDSZ1 = ref()
+    //폭
+    const I_STSZ2 = ref()
+    const I_EDSZ2 = ref()
+    //일자
+    const dateObj = { stDate: '', edDate: '' }
+
+    //**필터 데이터 받아서 서버에 전달할 애들(일자는 dataObj로 별도)
+    const sendDataList = ref({
+        I_MITGU: '',
+        I_ITCOD: '',
+        I_MATRL: '',
+        I_STSZ1: '',
+        I_EDSZ1: '',
+        I_STSZ2: '',
+        I_EDSZ2: '',
+    })
+
+    function searchFwd() {        
+
+        //시작 연, 월, 일 가져오기
+        let getStYear = range.value.start.getFullYear()
+        let getStMonth = range.value.start.getMonth() + 1
+        let getStDay = range.value.start.getDate()
+
+        let startDay = getStYear + '-' + getStMonth + '-' + getStDay
+
+        //끝 연, 월, 일 가져오기
+        let getEdYear = range.value.end.getFullYear()
+        let getEdMonth = range.value.end.getMonth() + 1
+        let getEdDay = range.value.end.getDate()
+
+        let endDay = getEdYear + '-' + getEdMonth + '-' + getEdDay
+
+        //날짜
+        dateObj.stDate = startDay
+        dateObj.edDate = endDay
+        
+        sendDataList.value.I_ITCOD = ITNAM.value.value//품목
+        sendDataList.value.I_MATRL = MATRL.value.value//재질
+
+        //재고구분(E=원소지, P=제품, K=보관품)
+        if(CATE_E.value.checked) {
+            sendDataList.value.I_MITGU = 'E'
+        } else if(CATE_P.value.checked) {
+            sendDataList.value.I_MITGU = 'P'
+        } else if(CATE_K.value.checked) {
+            sendDataList.value.I_MITGU = 'K'
+        }
+        
+        //두께
+        sendDataList.value.I_STSZ1 = I_STSZ1.value.value
+        sendDataList.value.I_EDSZ1 = I_EDSZ1.value.value
+
+        //폭
+        sendDataList.value.I_STSZ2 = I_STSZ2.value.value
+        sendDataList.value.I_EDSZ2 = I_EDSZ2.value.value
+
+        console.log(sendDataList.value)
+        
+    }
 
     function chkView() {
         console.log()
@@ -197,35 +277,58 @@
                 copyOfData[i].CHK = false
             }
         }
-         
     })
 
-    //수량 합계
-    const totalQuantity = isViewList.value.reduce((x, y) => {
-        return parseInt(x) + parseInt(y.QUANTITY);
-    }, 0);
-
-    //중량 합계
-    const totalWeight = isViewList.value.reduce((x, y) => {
-        return parseInt(x) + parseInt(y.WEIGHT);
-    }, 0);
-
+    //합계 라인
+    const viewTotalLine = ref({
+        totalQuantity: '',
+        totalWeight: '',
+        totalNum: ''
+    })
     
-
     onMounted(() => {
-        // isScmStat.value = true
         getList()        
+            
     })
 
     function getList() {
-        axios.post('/api/fwdList', { })
+        axios.post('/api/fwdList', {})
             .then(res => {
-                
                 copyOfData.value = [...res.data]
 
+                //mouse hover시 툴팁출력을 위하여 가져온 배열들마다 isShowMd key와 false value를 추가
+                for(let i=0; i < copyOfData.value.length; i++ ) {
+                    copyOfData.value[i] = Object.assign(copyOfData.value[i], {isShowMd: false})
+                }
+
+                isViewList.value = Object.assign(copyOfData.value)
+
+                viewTotalLine.value.totalQuantity = isViewList.value.reduce((x, y) => {
+                    return parseInt(x) + parseInt(y.TRQTY);
+                }, 0);
+
+                viewTotalLine.value.totalWeight = isViewList.value.reduce((x, y) => {
+                    return parseInt(x) + parseInt(y.TRWGT);
+                }, 0);
+
+                viewTotalLine.value.totalNum = isViewList.value.length
+                
+                console.log(isViewList.value)
                 console.log(copyOfData.value)
+
+                // copyOfData.value.push({...isViewList})
+                
             })
             .catch(error => { toast.error('목록을 불러오지 못했습니다.') })
+    }
+
+    function showDetailP(i, event) {
+        copyOfData.value[i].isShowMd = true
+        TooltipText.value = copyOfData.value[i].MITNO
+    }
+
+    function closeDetailP(i) {
+        copyOfData.value[i].isShowMd = false
     }
     
 </script>
@@ -243,7 +346,8 @@
     // table
 
     .scm-table-line {
-        grid-template-columns: minmax(7.5rem, 1fr) 1fr 1.25fr .75fR 1fr 1fr .75fr .75fr 1fr 1fr 1fr 1fr minmax(11rem, 1.5fr) 2fr;
+        grid-template-columns: 7.5rem 1.1fr .75fr .5fR 1fr .75fr 1fr 4.5rem .75fr .75fr 12rem 1fr 10rem 1.5fr;
+        padding: 0;
     }
 
     .scm-table-header {
