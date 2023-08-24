@@ -1,6 +1,12 @@
 import { createRouter, createWebHistory, useRoute } from 'vue-router'
 import Main from '@/pages/Main.vue'
+import { loginDataStore } from '@/store/userStore'
+import { storeToRefs } from 'pinia'
 
+//const userStore = loginDataStore() // 회원정보
+//const { userGroup } = storeToRefs(userStore)
+
+//console.log(userGroup.value[0].CVCOD);
 
 const routes = [
   { 

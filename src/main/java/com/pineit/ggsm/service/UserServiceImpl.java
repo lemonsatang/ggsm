@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
         if (check.isPresent()) {
             result.put("result", "Success");
             result.put("msg", "로그인에 성공했습니다.");
+            result.put("info", check);
         } else {
             result.put("result", "Fail");
             result.put("msg", "아이디 또는 비밀번호가 일치하지 않습니다. 입력하신 사항을 다시 확인해 주세요.");
