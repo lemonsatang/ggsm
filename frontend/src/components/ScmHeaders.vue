@@ -67,33 +67,33 @@
                         </article>
                         <article>
                             <p class="usr-info-body-title">대표자</p>
-                            <input class="usr-info-body-text" type="text">
+                            <input class="usr-info-body-text" type="text" v-model="item.OWNAM">
                         </article>
                     </div>
 
                     <div class="usr-info-line" data-usr-info-cateline>
                         <article>
                             <p class="usr-info-body-title">업태</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                            <input class="usr-info-body-text" type="text" v-model="item.UPTAE">
                         </article>
                         <article>
                             <p class="usr-info-body-title">종목</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                            <input class="usr-info-body-text" type="text" v-model="item.JONGK">
                         </article>
                     </div>
 
                     <div class="usr-info-line" data-usr-info-localine>
                         <article>
                             <p class="usr-info-body-title">우편번호</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                            <input class="usr-info-body-text" type="text" v-model="item.ZIPCD">
                         </article>
                         <article>
                             <p class="usr-info-body-title">소재지</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                            <input class="usr-info-body-text" type="text" v-model="item.ADDR1">
                         </article>
                         <article>
                             <p class="usr-info-body-title">상세주소</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                            <input class="usr-info-body-text" type="text" v-model="item.ADDR2">
                         </article>
                     </div>
                     
@@ -250,6 +250,17 @@
             isSamePW.value = ''
         }, 3000)
     }
+
+    console.log(scmUsr.value[0].CVCOD)
+
+    console.log(scmUsr.value)
+    console.log(copyOfUsr)
+
+    const CompModify = ref({
+        new_pw: '',
+    })
+
+
 
 </script>
 
