@@ -197,13 +197,13 @@
 
     //**필터 데이터 받아서 서버에 전달할 애들(일자는 dataObj로 별도)
     const sendDataList = ref({
-        I_MITGU: '',
-        I_ITCOD: '',
-        I_MATRL: '',
-        I_STSZ1: '',
-        I_EDSZ1: '',
-        I_STSZ2: '',
-        I_EDSZ2: '',
+        i_mitgu: '',
+        i_itcod: '',
+        i_matrl: '',
+        i_stsz1: '',
+        i_edsz1: '',
+        i_stsz2: '',
+        i_edsz2: '',
     })
 
     function searchFwd() {        
@@ -226,28 +226,29 @@
         dateObj.stDate = startDay
         dateObj.edDate = endDay
         
-        sendDataList.value.I_ITCOD = ITNAM.value.value//품목
-        sendDataList.value.I_MATRL = MATRL.value.value//재질
+        sendDataList.value.i_itcod = ITNAM.value.value//품목
+        sendDataList.value.i_matrl = MATRL.value.value//재질
 
         //재고구분(E=원소지, P=제품, K=보관품)
         if(CATE_E.value.checked) {
-            sendDataList.value.I_MITGU = 'E'
+            sendDataList.value.i_mitgu = 'E'
         } else if(CATE_P.value.checked) {
-            sendDataList.value.I_MITGU = 'P'
+            sendDataList.value.i_mitgu = 'P'
         } else if(CATE_K.value.checked) {
-            sendDataList.value.I_MITGU = 'K'
+            sendDataList.value.i_mitgu = 'K'
         }
         
         //두께
-        sendDataList.value.I_STSZ1 = I_STSZ1.value.value
-        sendDataList.value.I_EDSZ1 = I_EDSZ1.value.value
+        sendDataList.value.i_stsz1 = I_STSZ1.value.value
+        sendDataList.value.i_edsz1 = I_EDSZ1.value.value
 
         //폭
-        sendDataList.value.I_STSZ2 = I_STSZ2.value.value
-        sendDataList.value.I_EDSZ2 = I_EDSZ2.value.value
+        sendDataList.value.i_stsz2 = I_STSZ2.value.value
+        sendDataList.value.i_edsz2 = I_EDSZ2.value.value
 
         console.log(sendDataList.value)
         
+        getList()
     }
 
     function chkView() {
@@ -291,8 +292,12 @@
             
     })
 
-    function getList() {
-        axios.post('/api/fwdList', {})
+    async function getList() {
+        console.log()
+
+        console.log(sendDataList.value.I_STSZ2)
+
+        axios.post('/api/fwdList', sendDataList.value)
             .then(res => {
                 copyOfData.value = [...res.data]
 
@@ -313,9 +318,6 @@
 
                 viewTotalLine.value.totalNum = isViewList.value.length
                 
-                console.log(isViewList.value)
-                console.log(copyOfData.value)
-
                 // copyOfData.value.push({...isViewList})
                 
             })

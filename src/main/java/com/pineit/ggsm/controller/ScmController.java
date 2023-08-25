@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pineit.ggsm.dto.ScmDTO;
-import com.pineit.ggsm.dto.UserDTO;
 import com.pineit.ggsm.service.ScmService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +24,8 @@ public class ScmController {
     public List<Map<String, Object>> fwdList(@RequestBody ScmDTO scmDTO) {
         log.info("GET FWD LIST.........");
 
+        System.out.println("===================scmDTO: " + scmDTO);
+
         List<Map<String, Object>> result = scmService.fwdList(scmDTO);
 
         return result;
@@ -36,6 +37,8 @@ public class ScmController {
     @PostMapping("/invCsList")
     public List<Map<String, Object>> invCsList(@RequestBody ScmDTO scmDTO) {
         log.info("GET INVCS LIST.........");
+
+        System.out.println("===================scmDTO: " + scmDTO);
 
         List<Map<String, Object>> result = scmService.invCsList(scmDTO);
 
