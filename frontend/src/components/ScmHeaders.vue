@@ -202,9 +202,9 @@
 
     //로그아웃
     function scmLogout() {
-        router.push({
-            path: '/login'
-        })
+        localStorage.removeItem('CVCOD')
+
+        router.push('/')
     }
 
     //테스트용
