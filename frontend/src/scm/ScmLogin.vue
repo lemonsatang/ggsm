@@ -63,8 +63,16 @@
             if (response.status === 200) {
                 if (response.data.result == "Success") {
 
+                    console.log(response.data.info)
                     localStorage.setItem('CVCOD', response.data.info.cvcod)
                     localStorage.setItem('CVNAM', response.data.info.cvnam)
+                    localStorage.setItem('SANO', response.data.info.sano)
+                    localStorage.setItem('OWNAM', response.data.info.ownam)
+                    localStorage.setItem('UPTAE', response.data.info.uptae)
+                    localStorage.setItem('JONGK', response.data.info.jongk)
+                    localStorage.setItem('ZIPCD', response.data.info.zipcd)
+                    localStorage.setItem('ADDR1', response.data.info.addr1)
+                    localStorage.setItem('ADDR2', response.data.info.addr2)
 
                     router.push('/scm/fwd')
 
