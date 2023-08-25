@@ -8,10 +8,8 @@ import Vue3Toastify from 'vue3-toastify'
 import '/public/assets/scss/style.css'
 import 'vue3-toastify/dist/index.css'
 
-
 const pinia = createPinia()
 const app = createApp(App)
-
 
 app.use(pinia)
 app.use(router)

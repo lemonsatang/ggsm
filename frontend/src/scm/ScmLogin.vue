@@ -31,18 +31,10 @@
     import SubpHero from '@/components/SubpHero.vue';
 
     //store에서 영역별 데이터 import
-    import { useDataStore } from '@/store/dataStore'
-    import { loginDataStore } from '@/store/userStore'
-    import { storeToRefs } from 'pinia'
     import { useRouter } from 'vue-router'
     import axios from 'axios'
     import { toast } from 'vue3-toastify';
-    //import { toast } from 'vue3-toastify' // 토스트 알림
 
-    const dataStore = useDataStore()
-    const { dataGroup } = storeToRefs(dataStore)
-    const userStore = loginDataStore() // 회원정보
-    const { userGroup } = storeToRefs(userStore)
     const router = useRouter() // 라우터
     const userData = ref({}) // 사용자 정보
     const { userID, userPW } = userData.value
@@ -71,8 +63,8 @@
             if (response.status === 200) {
                 if (response.data.result == "Success") {
 
-                    userGroup.value[0].CVCOD = response.data.info.cvcod;
-                    userGroup.value[0].CVNAM = response.data.info.cvnam;
+                    localStorage.setItem('CVCOD', response.data.info.cvcod)
+                    localStorage.setItem('CVNAM', response.data.info.cvnam)
 
                     router.push('/scm/fwd')
 

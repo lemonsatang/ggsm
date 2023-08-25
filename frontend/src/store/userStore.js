@@ -4,12 +4,10 @@ import { defineStore } from "pinia"
 
 export const loginDataStore = defineStore('userst', () => {
 
-    const userGroup = ref([
-        {
-            'CVCOD': '',
-            'CVNAM': ''
-        }
-    ])
+    const userGroup = ref({
+        CVCOD: '',
+        CVNAM: ''
+    })
 
     return { userGroup }
 })

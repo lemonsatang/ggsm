@@ -1,12 +1,6 @@
 import { createRouter, createWebHistory, useRoute } from 'vue-router'
 import Main from '@/pages/Main.vue'
 import { loginDataStore } from '@/store/userStore'
-import { storeToRefs } from 'pinia'
-
-//const userStore = loginDataStore() // 회원정보
-//const { userGroup } = storeToRefs(userStore)
-
-//console.log(userGroup.value[0].CVCOD);
 
 const routes = [
   { 
@@ -14,7 +8,6 @@ const routes = [
     name: 'Main',
     component: Main,
   },
-
   //회사소개
   {  
       path: '/greet',
@@ -127,16 +120,29 @@ const routes = [
     name: 'ScmNotiWr',
     component: () => import( /* webpackChunkName: 'ScmNotiWr' */ '@/scm/ScmNotiWr.vue')
   }
-
-  
-
-
 ]
 
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+router.beforeEach((to, from) => {
+  const route = useRoute()
+  const loginUserData = localStorage.getItem('CVCOD')
+
+  if (to.path.includes('scm')) {
+    if (loginUserData === null) {
+      return 'login'
+    }
+  }
+
+  if (to.name === 'ScmLogin') {
+    if (loginUserData !== null) {
+      return '/scm/fwd'
+    }
+  }
 })
 
 export default router
