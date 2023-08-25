@@ -27,11 +27,28 @@ export const useScmStore = defineStore('scm', () => {
         // }
     ])
 
+    const cvcodData = localStorage.getItem('CVCOD') // 거래처 코드
+    const cvnamData = localStorage.getItem('CVNAM') // 거래처 명
+    const sanoData = localStorage.getItem('SANO') // ?
+    const ownamData = localStorage.getItem('OWNAM') // 대표자명
+    const uptaeData = localStorage.getItem('UPTAE') // 업태
+    const jongkData = localStorage.getItem('JONGK') // 종목
+    const zipcdData = localStorage.getItem('ZIPCD') // 우편번호
+    const addr1Data = localStorage.getItem('ADDR1') // 기본주소
+    const addr2Data = localStorage.getItem('ADDR2') // 상세주소
+
     const scmUsr = ref([
         {
-            NAME: '농심',
-            SANO: '735-86-01813',
-            PASSWORD: '12345678',
+            CVCOD: cvcodData,
+            NAME: cvnamData,
+            SANO: sanoData,
+            OWNAM: ownamData,
+            UPDAE: uptaeData,
+            JONGK: jongkData,
+            ZIPCD: zipcdData,
+            ADDR1: addr1Data,
+            ADDR2: addr2Data
+            
         },
     ])
 

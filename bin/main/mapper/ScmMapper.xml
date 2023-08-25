@@ -2,70 +2,70 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pineit.ggsm.mapper.ScmMapper">
 
-    <select id="fwdList" resultType="map">
-    <![CDATA[
-        DECLARE 
-            @I_JCODE VARCHAR(6)='A1',
-            @I_HOUSE      VARCHAR(6)='',
-            @I_CVCOD      VARCHAR(6)='D202',
-            @I_MITGU      VARCHAR(1)='',   
-            @I_ITCOD		 VARCHAR(6)='',  
-            @I_JJNAS		 VARCHAR(30)='',  
-            @I_MATRL		 VARCHAR(30)='', 
-            @I_STSZ1      NUMERIC(12,3)=0, 
-            @I_EDSZ1      NUMERIC(12,3)=0,
-            @I_STSZ2      NUMERIC(10,2)=0,  
-            @I_EDSZ2      NUMERIC(10,2)=0,
-            @I_SAVIT      VARCHAR(1)='',  
-            @I_ADD1       CHAR(1)='Y';
+        <select id="fwdList" resultType="map">
+        <![CDATA[
+                DECLARE 
+                @I_JCODE VARCHAR(6)='A1',
+                @I_HOUSE      VARCHAR(6)='',
+                @I_CVCOD      VARCHAR(6)='D202',
+                @I_MITGU      VARCHAR(1)='',   
+                @I_ITCOD		 VARCHAR(6)='',  
+                @I_JJNAS		 VARCHAR(30)='',  
+                @I_MATRL		 VARCHAR(30)='', 
+                @I_STSZ1      NUMERIC(12,3)=0, 
+                @I_EDSZ1      NUMERIC(12,3)=0,
+                @I_STSZ2      NUMERIC(10,2)=0,  
+                @I_EDSZ2      NUMERIC(10,2)=0,
+                @I_SAVIT      VARCHAR(1)='',  
+                @I_ADD1       CHAR(1)='Y';
 
-               
-        DECLARE 
-        @I_STRDT CHAR(10)='2023-08-01',
-        @I_ENDDT CHAR(10)='2023-08-31';
+                
+                DECLARE 
+                @I_STRDT CHAR(10)='2023-08-01',
+                @I_ENDDT CHAR(10)='2023-08-31';
 
-        SELECT A1.TDATE,A1.SLINO,B1.ITNAM,A2.JAJIL,B2.JJNAS,B2.MATRL,A2.GOLDW,A2.ISIZE,SUM(A2.TRQTY)TRQTY,SUM(A2.TRWGT)TRWGT,
-            (SELECT HOUNM FROM HOUSEF A0 WITH (NOLOCK) WHERE A0.HOUSE=A1.HOUSE)HOUSE,A3.COILNO,A2.SUJNO,A1.RK,
-            STUFF((SELECT ','+A0.MITNO FROM SALE_D A0 WITH (NOLOCK) 
-                    WHERE  A1.SLINO=A0.SLINO AND A2.ISIZE=A0.ISIZE AND A2.JAJIL=A0.JAJIL
-                    ORDER  BY A0.SEQNO DESC FOR XML PATH('')),1,1,'')MITNO
-        FROM   SALE_M A1 WITH (NOLOCK)
-            INNER JOIN SALE_D A2 WITH (NOLOCK) ON (A1.SLINO=A2.SLINO)
-            LEFT  JOIN ITEMAS A3 WITH (NOLOCK) ON (A2.MITNO=A3.MITNO)
-            LEFT  JOIN ITEMPF B1 WITH (NOLOCK) ON (A2.ITCOD=B1.ITCOD) 
-            LEFT  JOIN SPECPF B2 WITH (NOLOCK) ON (A2.JAJIL=B2.JAJIL) 
-            LEFT  JOIN HOUSEF C1 WITH (NOLOCK) ON (A1.HOUSE=C1.HOUSE) 
-        WHERE  A1.TDATE BETWEEN @I_STRDT AND @I_ENDDT 
-        AND    ((ISNULL(@I_MITGU,'')='' AND 1=1) OR (@I_MITGU='1' AND A3.MITGU IN ('1','2')) OR (@I_MITGU='2' AND A3.MITGU IN ('3','5'))) --1.원소재,2.제품
-        AND    ((ISNULL(@I_ITCOD,'')='' AND 1=1) OR (A2.ITCOD=@I_ITCOD))
-        AND    ((ISNULL(@I_MATRL,'')='' AND 1=1) OR (B2.MATRL=@I_MATRL))
-        AND    ((ISNULL(@I_JJNAS,'')='' AND 1=1) OR (B2.JJNAS=@I_JJNAS))
-        AND    ((ISNULL(@I_STSZ1,0)+ISNULL(@I_EDSZ1,0) =0 AND 1=1) OR 
-                (ISNULL(@I_STSZ1,0)+ISNULL(@I_EDSZ1,0)<>0 AND A2.SIZE1 BETWEEN @I_STSZ1 AND @I_EDSZ1))
-        AND    ((ISNULL(@I_STSZ2,0)+ISNULL(@I_EDSZ2,0) =0 AND 1=1) OR 
-                (ISNULL(@I_STSZ2,0)+ISNULL(@I_EDSZ2,0)<>0 AND A2.SIZE2 BETWEEN @I_STSZ2 AND @I_EDSZ2))
-        AND    ((ISNULL(@I_SAVIT,'')='' AND 1=1) OR (@I_SAVIT='1' AND A3.SAVIT='Y') OR (@I_SAVIT='2' AND A3.SAVIT<>'Y'))
-        GROUP  BY A1.TDATE,A1.SLINO,B1.ITNAM,A2.JAJIL,B2.JJNAS,B2.MATRL,A2.GOLDW,A2.ISIZE,A1.HOUSE,
-            A3.COILNO,A2.SUJNO,A1.RK
-        ORDER  BY A1.TDATE,A1.SLINO;  ]]>
-    </select>
+                SELECT A1.TDATE,A1.SLINO,B1.ITNAM,A2.JAJIL,B2.JJNAS,B2.MATRL,A2.GOLDW,A2.ISIZE,SUM(A2.TRQTY)TRQTY,SUM(A2.TRWGT)TRWGT,
+                (SELECT HOUNM FROM HOUSEF A0 WITH (NOLOCK) WHERE A0.HOUSE=A1.HOUSE)HOUSE,A3.COILNO,A2.SUJNO,A1.RK,
+                STUFF((SELECT ','+A0.MITNO FROM SALE_D A0 WITH (NOLOCK) 
+                        WHERE  A1.SLINO=A0.SLINO AND A2.ISIZE=A0.ISIZE AND A2.JAJIL=A0.JAJIL
+                        ORDER  BY A0.SEQNO DESC FOR XML PATH('')),1,1,'')MITNO
+                FROM   SALE_M A1 WITH (NOLOCK)
+                INNER JOIN SALE_D A2 WITH (NOLOCK) ON (A1.SLINO=A2.SLINO)
+                LEFT  JOIN ITEMAS A3 WITH (NOLOCK) ON (A2.MITNO=A3.MITNO)
+                LEFT  JOIN ITEMPF B1 WITH (NOLOCK) ON (A2.ITCOD=B1.ITCOD) 
+                LEFT  JOIN SPECPF B2 WITH (NOLOCK) ON (A2.JAJIL=B2.JAJIL) 
+                LEFT  JOIN HOUSEF C1 WITH (NOLOCK) ON (A1.HOUSE=C1.HOUSE) 
+                WHERE  A1.TDATE BETWEEN @I_STRDT AND @I_ENDDT 
+                AND    ((ISNULL(@I_MITGU,'')='' AND 1=1) OR (@I_MITGU='1' AND A3.MITGU IN ('1','2')) OR (@I_MITGU='2' AND A3.MITGU IN ('3','5'))) --1.원소재,2.제품
+                AND    ((ISNULL(@I_ITCOD,'')='' AND 1=1) OR (A2.ITCOD=@I_ITCOD))
+                AND    ((ISNULL(@I_MATRL,'')='' AND 1=1) OR (B2.MATRL=@I_MATRL))
+                AND    ((ISNULL(@I_JJNAS,'')='' AND 1=1) OR (B2.JJNAS=@I_JJNAS))
+                AND    ((ISNULL(@I_STSZ1,0)+ISNULL(@I_EDSZ1,0) =0 AND 1=1) OR 
+                        (ISNULL(@I_STSZ1,0)+ISNULL(@I_EDSZ1,0)<>0 AND A2.SIZE1 BETWEEN @I_STSZ1 AND @I_EDSZ1))
+                AND    ((ISNULL(@I_STSZ2,0)+ISNULL(@I_EDSZ2,0) =0 AND 1=1) OR 
+                        (ISNULL(@I_STSZ2,0)+ISNULL(@I_EDSZ2,0)<>0 AND A2.SIZE2 BETWEEN @I_STSZ2 AND @I_EDSZ2))
+                AND    ((ISNULL(@I_SAVIT,'')='' AND 1=1) OR (@I_SAVIT='1' AND A3.SAVIT='Y') OR (@I_SAVIT='2' AND A3.SAVIT<>'Y'))
+                GROUP  BY A1.TDATE,A1.SLINO,B1.ITNAM,A2.JAJIL,B2.JJNAS,B2.MATRL,A2.GOLDW,A2.ISIZE,A1.HOUSE,
+                A3.COILNO,A2.SUJNO,A1.RK
+                ORDER  BY A1.TDATE,A1.SLINO;  ]]>
+        </select>
 
-    <select id="invCsList" resultType="map">
-    <![CDATA[
-        DECLARE 
-            @I_JCODE VARCHAR(6)='A1',
-            @I_HOUSE      VARCHAR(6)='',
-            @I_CVCOD      VARCHAR(6)='D202',
-            @I_MITGU      VARCHAR(1)='',   
-            @I_ITCOD		 VARCHAR(6)='',  
-            @I_JJNAS		 VARCHAR(30)='',  
-            @I_MATRL		 VARCHAR(30)='', 
-            @I_STSZ1      NUMERIC(12,3)=0, 
-            @I_EDSZ1      NUMERIC(12,3)=0,
-            @I_STSZ2      NUMERIC(10,2)=0,  
-            @I_EDSZ2      NUMERIC(10,2)=0,
-            @I_SAVIT      VARCHAR(1)='',  
-            @I_ADD1       CHAR(1)='Y';
+        <select id="invCsList" resultType="map">
+        <![CDATA[
+                DECLARE 
+                @I_JCODE VARCHAR(6)='A1',
+                @I_HOUSE      VARCHAR(6)='',
+                @I_CVCOD      VARCHAR(6)='D202',
+                @I_MITGU      VARCHAR(1)='',   
+                @I_ITCOD		 VARCHAR(6)='',  
+                @I_JJNAS		 VARCHAR(30)='',  
+                @I_MATRL		 VARCHAR(30)='', 
+                @I_STSZ1      NUMERIC(12,3)=0, 
+                @I_EDSZ1      NUMERIC(12,3)=0,
+                @I_STSZ2      NUMERIC(10,2)=0,  
+                @I_EDSZ2      NUMERIC(10,2)=0,
+                @I_SAVIT      VARCHAR(1)='',  
+                @I_ADD1       CHAR(1)='Y';
 
                 DECLARE @T_MAIN AS TABLE (
                 HOUSE  VARCHAR(6)    DEFAULT '',
@@ -125,7 +125,7 @@
                         AND    ((ISNULL(@I_JJNAS,'')='' AND 1=1) OR (B2.JJNAS=@I_JJNAS))
                         
                         AND    ((ISNULL(@I_STSZ1,0)+ISNULL(@I_EDSZ1,0) =0 AND 1=1) OR 
-                               (ISNULL(@I_STSZ1,0)+ISNULL(@I_EDSZ1,0)<>0 AND A2.SIZE1 BETWEEN @I_STSZ1 AND @I_EDSZ1))
+                        (ISNULL(@I_STSZ1,0)+ISNULL(@I_EDSZ1,0)<>0 AND A2.SIZE1 BETWEEN @I_STSZ1 AND @I_EDSZ1))
                         AND    ((ISNULL(@I_STSZ2,0)+ISNULL(@I_EDSZ2,0) =0 AND 1=1) OR 
                                 (ISNULL(@I_STSZ2,0)+ISNULL(@I_EDSZ2,0)<>0 AND A2.SIZE2 BETWEEN @I_STSZ2 AND @I_EDSZ2))
                         AND    ((ISNULL(@I_SAVIT,'')='' AND 1=1) OR (@I_SAVIT='1' AND A2.SAVIT='Y') OR (@I_SAVIT='2' AND A2.SAVIT<>'Y'))
@@ -155,14 +155,14 @@
                 
                 IF @I_ADD1='Y' 
                 BEGIN
-                    INSERT INTO @W_MAIN
+                INSERT INTO @W_MAIN
                         (GU,HOUNM,ITNAM,JJNAS,MATRL,GOLDW,SIZE1,SIZE2,SIZE3,DANWI,
-                            GQTY, GWGT,INDATE,ICVNM,MITNO,COLNO,RK,IDATE,CCOST,BCOST,
-                            ITCOD,HOUSE,ISIZE,OCVNM,ITWGT)
-                    SELECT 9,'',A1.ITNAM,A1.JJNAS,'','',NULL,NULL,NULL,'',
-                            SUM(GQTY),SUM(GWGT),'','','','','','',NULL,NULL,A1.ITCOD,'','','',NULL
-                    FROM   @W_MAIN A1 
-                    GROUP  BY A1.ITCOD,A1.ITNAM,A1.JJNAS;
+                        GQTY, GWGT,INDATE,ICVNM,MITNO,COLNO,RK,IDATE,CCOST,BCOST,
+                        ITCOD,HOUSE,ISIZE,OCVNM,ITWGT)
+                SELECT 9,'',A1.ITNAM,A1.JJNAS,'','',NULL,NULL,NULL,'',
+                        SUM(GQTY),SUM(GWGT),'','','','','','',NULL,NULL,A1.ITCOD,'','','',NULL
+                FROM   @W_MAIN A1 
+                GROUP  BY A1.ITCOD,A1.ITNAM,A1.JJNAS;
                 END; 
                 
                 SELECT (CASE WHEN GU=9 THEN '' ELSE HOUNM END)HOUNM,(CASE WHEN GU=9 THEN '' ELSE ITNAM END)ITNAM,
@@ -173,9 +173,10 @@
                                 ORDER  BY Z0.SIZE2 DESC FOR XML PATH('')),1,1,'')MITNO,
                         SUM(GQTY)GQTY, SUM(GWGT)GWGT, GU
                 FROM   @W_MAIN A1
+                WHERE GU != 9
                 GROUP  BY A1.ITNAM,A1.JJNAS,A1.GU,A1.MATRL,A1.GOLDW,A1.SIZE1,A1.SIZE2,A1.ISIZE,A1.HOUNM,A1.IDATE,A1.COLNO
                 ORDER  BY A1.ITNAM,A1.JJNAS,A1.GU,A1.MATRL;
                 ]]>
-    </select>
+        </select>
 
 </mapper>
