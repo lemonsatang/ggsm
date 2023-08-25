@@ -91,6 +91,10 @@
                             <p class="usr-info-body-title">소재지</p>
                             <input class="usr-info-body-text" type="text" v-model="item.NAME">
                         </article>
+                        <article>
+                            <p class="usr-info-body-title">상세주소</p>
+                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                        </article>
                     </div>
                     
                     <h2 class="usr-info-title">
@@ -455,7 +459,7 @@
             }
 
             &[data-usr-info-localine] {
-                grid-template-columns: 1fr 2fr;
+                grid-template-columns: 1fr 1fr 1fr;
             }
         }
     }
