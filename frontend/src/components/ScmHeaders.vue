@@ -251,11 +251,6 @@
         }, 3000)
     }
 
-    console.log(scmUsr.value[0].CVCOD)
-
-    console.log(scmUsr.value)
-    console.log(copyOfUsr)
-
     const CompModify = ref({
         new_pw: '',
     })
