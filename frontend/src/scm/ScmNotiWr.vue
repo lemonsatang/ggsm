@@ -90,9 +90,7 @@
 
     //input type="file"로 업로드 파일 정보 가져오기
     const inputToUpload = (e) => {
-        const inputDatas = ref(e.currentTarget.files)
-
-        console.log(inputDatas.value)
+        const inputDatas = ref(e.currentTarget.files)        
         
         for(let i=0; i<inputDatas.value.length; i++) {
             recentFile.name = inputDatas.value[i].name;
