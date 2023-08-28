@@ -52,7 +52,7 @@
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                     <p>Search</p>
                 </button>
-                <button class="common-filter-button bg-excel-green" id="scmExcelBtn" type="button">
+                <button @click="exDown()" class="common-filter-button bg-excel-green" id="scmExcelBtn" type="button">
                     <font-awesome-icon icon="fa-regular fa-file-excel" />
                     <p>Excel</p>
                 </button>
@@ -145,6 +145,9 @@
     import { onMounted } from 'vue'
     import axios from 'axios'
     import { toast } from 'vue3-toastify';
+    import { read, utils, writeFileXLSX } from 'xlsx';
+    import * as XLSX from 'xlsx'
+
 
     // const isShowModal = ref(false)
     const TooltipText = ref()
@@ -253,6 +256,26 @@
 
     function closeDetailP(i) {
         copyOfData.value[i].isShowMd = false
+    }
+
+
+    
+
+    function exDown() {
+        const book = XLSX.utils.book_new();
+        const sheetByJson = XLSX.utils.json_to_sheet(isViewList.value);
+
+        XLSX.utils.book_append_sheet(book, sheetByJson, 'json');
+
+        let date = new Date()
+        let getYear = date.getFullYear()
+        let getMonthAfter = date.getMonth()
+        let getMonth = ("0" + getMonthAfter).slice(-2);
+        let getDayAfter = date.getDate()
+        let getDay = ("0" + getDayAfter).slice(-2);
+
+        XLSX.writeFile(book, '재고현황' + '_' + getYear + getMonth + getDay + '.xlsx')
+
     }
 
 </script>

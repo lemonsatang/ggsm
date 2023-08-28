@@ -268,17 +268,17 @@
     }
 
     //전체 체크
-    watch(hdCheck, () => {
+    // watch(hdCheck, () => {
 
-        for(let i = 0; copyOfData.length > i; i++ ) {
-            if ( hdCheck.value[0] == 'allChecked' ) {
-                copyOfData[i].CHK = true
-                console.log('체크됨!')
-            } else {
-                copyOfData[i].CHK = false
-            }
-        }
-    })
+    //     for(let i = 0; copyOfData.length > i; i++ ) {
+    //         if ( hdCheck.value[0] == 'allChecked' ) {
+    //             copyOfData[i].CHK = true
+    //             console.log('체크됨!')
+    //         } else {
+    //             copyOfData[i].CHK = false
+    //         }
+    //     }
+    // })
 
     //합계 라인
     const viewTotalLine = ref({
