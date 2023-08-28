@@ -23,5 +23,7 @@ public class ScmDTO {
     private String i_edsz2;
     private String i_savit; // 보관품 유무
     private String i_add1;
+    private String i_date1; // 일자
+    private String i_date2;
 
 }

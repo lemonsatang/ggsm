@@ -21,8 +21,8 @@
 
                 
                 DECLARE 
-                @I_STRDT CHAR(10)='2023-08-01',
-                @I_ENDDT CHAR(10)='2023-08-31';
+                @I_STRDT CHAR(10)=#{i_date1},
+                @I_ENDDT CHAR(10)=#{i_date2};
 
                 SELECT A1.TDATE,A1.SLINO,B1.ITNAM,A2.JAJIL,B2.JJNAS,B2.MATRL,A2.GOLDW,A2.ISIZE,SUM(A2.TRQTY)TRQTY,SUM(A2.TRWGT)TRWGT,
                 (SELECT HOUNM FROM HOUSEF A0 WITH (NOLOCK) WHERE A0.HOUSE=A1.HOUSE)HOUSE,A3.COILNO,A2.SUJNO,A1.RK,
