@@ -192,8 +192,6 @@
     //폭
     const I_STSZ2 = ref()
     const I_EDSZ2 = ref()
-    //일자
-    const dateObj = { stDate: '', edDate: '' }
 
     //**필터 데이터 받아서 서버에 전달할 애들(일자는 dataObj로 별도)
     const sendDataList = ref({
@@ -204,6 +202,8 @@
         i_edsz1: '',
         i_stsz2: '',
         i_edsz2: '',
+        i_date1: '',
+        i_date2: ''
     })
 
     function searchFwd() {        
@@ -223,8 +223,8 @@
         let endDay = getEdYear + '-' + getEdMonth + '-' + getEdDay
 
         //날짜
-        dateObj.stDate = startDay
-        dateObj.edDate = endDay
+        sendDataList.value.i_date1 = startDay
+        sendDataList.value.i_date2 = endDay
         
         sendDataList.value.i_itcod = ITNAM.value.value//품목
         sendDataList.value.i_matrl = MATRL.value.value//재질
