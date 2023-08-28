@@ -38,15 +38,15 @@
                     <h2 class="ft-header">재고구분</h2>
                     <div class="filter-type-checkbox">
                         <label>
-                            <input ref="CATE_E" type="checkbox" name="stockCate" value="E">
+                            <input ref="CATE_E" type="checkbox" name="stockCate" value="1">
                             원소재
                         </label>
                         <label>
-                            <input ref="CATE_P" type="checkbox" name="stockCate" value="P">
+                            <input ref="CATE_P" type="checkbox" name="stockCate" value="2">
                             제품
                         </label>
                         <label>
-                            <input ref="CATE_K" type="checkbox" name="stockCate" value="K">
+                            <input ref="CATE_K" type="checkbox" name="stockCate" value="2">
                             보관품
                         </label>
                     </div>
@@ -192,18 +192,19 @@
     //폭
     const I_STSZ2 = ref()
     const I_EDSZ2 = ref()
-    //일자
-    const dateObj = { stDate: '', edDate: '' }
 
     //**필터 데이터 받아서 서버에 전달할 애들(일자는 dataObj로 별도)
     const sendDataList = ref({
         i_mitgu: '',
         i_itcod: '',
         i_matrl: '',
-        i_stsz1: '',
-        i_edsz1: '',
-        i_stsz2: '',
-        i_edsz2: '',
+        i_stsz1: 0,
+        i_edsz1: 0,
+        i_stsz2: 0,
+        i_edsz2: 0,
+        i_savit: '2',
+        i_date1: new Intl.DateTimeFormat("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}).format(Date.now()),
+        i_date2: new Intl.DateTimeFormat("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}).format(Date.now())
     })
 
     function searchFwd() {        
@@ -213,38 +214,60 @@
         let getStMonth = range.value.start.getMonth() + 1
         let getStDay = range.value.start.getDate()
 
-        let startDay = getStYear + '-' + getStMonth + '-' + getStDay
+        let startDay = getStYear + '-' + ('0' + (getStMonth)).slice(-2) + '-' + ('0' + (getStDay)).slice(-2)
 
         //끝 연, 월, 일 가져오기
         let getEdYear = range.value.end.getFullYear()
         let getEdMonth = range.value.end.getMonth() + 1
         let getEdDay = range.value.end.getDate()
 
-        let endDay = getEdYear + '-' + getEdMonth + '-' + getEdDay
+        let endDay = getEdYear + '-' + ('0' + (getEdMonth)).slice(-2) + '-' + ('0' + (getEdDay)).slice(-2)
 
         //날짜
-        dateObj.stDate = startDay
-        dateObj.edDate = endDay
+        sendDataList.value.i_date1 = startDay
+        sendDataList.value.i_date2 = endDay
         
         sendDataList.value.i_itcod = ITNAM.value.value//품목
         sendDataList.value.i_matrl = MATRL.value.value//재질
 
-        //재고구분(E=원소지, P=제품, K=보관품)
+        //재고구분(1=원소지, 2=제품, 1=보관품)
         if(CATE_E.value.checked) {
-            sendDataList.value.i_mitgu = 'E'
+            sendDataList.value.i_mitgu = '1'
         } else if(CATE_P.value.checked) {
-            sendDataList.value.i_mitgu = 'P'
-        } else if(CATE_K.value.checked) {
-            sendDataList.value.i_mitgu = 'K'
+            sendDataList.value.i_mitgu = '2'
+        } 
+        
+        if(CATE_K.value.checked) {
+            sendDataList.value.i_savit = '1'
+        } else {
+            sendDataList.value.i_savit = '2'
         }
         
         //두께
-        sendDataList.value.i_stsz1 = I_STSZ1.value.value
-        sendDataList.value.i_edsz1 = I_EDSZ1.value.value
+        if(I_STSZ1.value.value == null || I_STSZ1.value.value == '') {
+            sendDataList.value.i_stsz1 = 0
+        } else {
+            sendDataList.value.i_stsz1 = I_STSZ1.value.value
+        }
 
+        if(I_EDSZ1.value.value == null || I_EDSZ1.value.value == '') {
+            sendDataList.value.i_edsz1 = 0
+        } else {
+            sendDataList.value.i_edsz1 = I_EDSZ1.value.value
+        }
+        
         //폭
-        sendDataList.value.i_stsz2 = I_STSZ2.value.value
-        sendDataList.value.i_edsz2 = I_EDSZ2.value.value
+        if(I_STSZ2.value.value == null || I_STSZ2.value.value == '') {
+            sendDataList.value.i_stsz2 = 0
+        } else {
+            sendDataList.value.i_stsz2 = I_STSZ2.value.value
+        }
+
+        if(I_EDSZ2.value.value == null || I_EDSZ2.value.value == '') {
+            sendDataList.value.i_edsz2 = 0
+        } else {
+            sendDataList.value.i_edsz2 = I_EDSZ2.value.value
+        }
 
         console.log(sendDataList.value)
         
@@ -293,9 +316,8 @@
     })
 
     async function getList() {
-        console.log()
 
-        console.log(sendDataList.value.I_STSZ2)
+        console.log(sendDataList.value)
 
         axios.post('/api/fwdList', sendDataList.value)
             .then(res => {
