@@ -78,7 +78,7 @@
                         <li>수량</li>
                         <li>중량</li>
                         <li>비고</li>
-                        <li>파일첨부</li>
+                        <li>파일첨부 여부</li>
                     </ul>
                 </div>
                 <div class="scm-table-body">
@@ -183,7 +183,7 @@
                     <div class="scm-table-header bg-bid-blue">
                         <ul class="scm-table-line scm-data-table-line" data-scm-table-header>
                             <li>품목</li>
-                            <li>MAKER</li>
+                            
                             <li>강종</li>
                             <li>재질</li>
                             <li>도금량</li>
@@ -194,10 +194,7 @@
                             <li>단위</li>
                             <li>단중</li>
                             <li>중량</li>
-                            <li>단가</li>
-                            <li>공급가액</li>
-                            <li>부가세</li>
-                            <li>합계금액</li>
+                            
                         </ul>
                     </div>
                     <div class="scm-table-body">
@@ -205,9 +202,7 @@
                             <li>
                                 <input type="text" ref="MD_PROD">
                             </li>
-                            <li>
-                                <input type="text" ref="MD_MAKER">
-                            </li>
+                            
                             <li>
                                 <input type="text" ref="MD_KJ">
                             </li>
@@ -238,18 +233,7 @@
                             <li>
                                 <input type="text" ref="MD_WEIGHT">
                             </li>
-                            <li>
-                                <input type="text" ref="MD_UNPRICE">
-                            </li>
-                            <li>
-                                <input type="text" ref="MD_SPPRICE">
-                            </li>
-                            <li>
-                                <input type="text" ref="MD_VAT">
-                            </li>
-                            <li>
-                                <input type="text" ref="MD_SUMPRICE">
-                            </li>
+                            
                         </ul>
                     </div>
                     <ul class="scm-table-footer scm-table-line">
@@ -369,6 +353,12 @@
         padding: 0;
     }
 
+    #scmTexts {
+        .scm-table-header {
+            padding-right: 1rem;
+        }
+    }
+
     #scmTexts .scm-table-footer {
         li:nth-child(1) {
             grid-column: 1/8;
@@ -485,7 +475,7 @@
     }
 
     #addModal .scm-table-line {
-        grid-template-columns: 1fr 1fr .75fr 1fr repeat(6, .75fr) .8fr 1fr 1.15fr 1.15fr 1.15fr 1.15fr;
+        grid-template-columns: 1fr .75fr 1fr repeat(6, .75fr) .8fr 1fr;
     }
 
     #reqAddMdContainer {
