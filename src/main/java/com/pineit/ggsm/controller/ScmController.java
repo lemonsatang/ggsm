@@ -46,4 +46,17 @@ public class ScmController {
     }
 
     /* 재고관리 끝 */
+
+    /* 주문의뢰서 접수 */
+    @PostMapping("/reqRegList")
+    public List<Map<String, Object>> reqRegList(@RequestBody ScmDTO scmDTO) {
+        log.info("GET REQREG LIST.........");
+
+        System.out.println("===================scmDTO: " + scmDTO);
+
+        List<Map<String, Object>> result = scmService.reqRegList(scmDTO);
+
+        return result;
+    }
+    /* 주문의뢰서 접수 끝 */
 }

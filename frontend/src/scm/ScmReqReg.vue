@@ -45,7 +45,7 @@
 
             </div>
             <div class="filter-button-container">
-                <button @click="searchFwd" @keyup.enter="searchFwd" class="common-filter-button" id="scmSearchBtn" type="button">
+                <button @click="searchReqReg" @keyup.enter="searchReqReg" class="common-filter-button" id="scmSearchBtn" type="button">
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                     <p>Search</p>
                 </button>
@@ -82,36 +82,36 @@
                     </ul>
                 </div>
                 <div class="scm-table-body">
-                    <ul class="scm-table-line">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
+                    <ul v-for="(item, i) in copyOfData.value" class="scm-table-line">
+                        <li>{{ item.TDATE }}</li>
+                        <li>{{ item.SLINO }}</li>
+                        <li>{{ item.ITCOD }}</li>
+                        <li>{{ item.JJNAS }}</li>
+                        <li>{{ item.MATRL }}</li>
+                        <li>{{ item.GOLDW }}</li>
+                        <li>{{ item.SIZE1 }}</li>
+                        <li>{{ item.TRQTY }}</li>
+                        <li>{{ item.TRWGT }}</li>
+                        <li>{{ item.RK }}</li>
+                        <li>{{ item.FILEYN }}</li>
                     </ul>
                 </div>
                 <ul class="scm-table-footer scm-table-line">
                     <li>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 18L12.6796 12L5 6V4H19V6H8.26348L16 12L8.26348 18H19V20H5V18Z"></path></svg>
                         <p class="scm-footer-titles">
-                            합계 <span></span>건
+                            합계 <span>{{ isViewList.length }}</span>건
                         </p>
                         
                     </li>
                     <li>
                         <p class="scm-footer-titles">
-                            <span></span>
+                            <span>{{ totalQuantity }}</span>
                         </p>
                     </li>
                     <li>
                         <p class="scm-footer-titles">
-                            <span></span>
+                            <span>{{ totalWeight }}</span>
                         </p>
                     </li>
                     <li></li>
@@ -183,7 +183,6 @@
                     <div class="scm-table-header bg-bid-blue">
                         <ul class="scm-table-line scm-data-table-line" data-scm-table-header>
                             <li>품목</li>
-                            
                             <li>강종</li>
                             <li>재질</li>
                             <li>도금량</li>
@@ -194,7 +193,6 @@
                             <li>단위</li>
                             <li>단중</li>
                             <li>중량</li>
-                            
                         </ul>
                     </div>
                     <div class="scm-table-body">
@@ -280,8 +278,6 @@
 
 <script setup>
     import ScmHeaders from '@/components/ScmHeaders.vue';
-    
-    
 
     //store에서 영역별 데이터 import
     import { usehfStore } from '@/store/hfStore'
@@ -339,6 +335,116 @@
     }
 
     //'추가' 팝업창
+
+    // const copyOfData = [...scmInvGroup.value]
+    const copyOfData = reactive([])
+
+    //필터링 거친 데이터 여기 담기
+    const isViewList = ref([])
+
+    //**입력된 필터 데이터들 읽어들일것들
+    const MATRL = ref()
+    //두께
+    const I_STSZ1 = ref()
+    const I_EDSZ1 = ref()
+    //폭
+    const I_STSZ2 = ref()
+    const I_EDSZ2 = ref()
+
+    //**필터 데이터 받아서 서버에 전달할 애들
+    const sendDataList = ref({
+        i_matrl: '',
+        i_stsz1: 0,
+        i_edsz1: 0,
+        i_stsz2: 0,
+        i_edsz2: 0,
+        i_strdt: new Intl.DateTimeFormat("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}).format(Date.now()),
+        i_enddt: new Intl.DateTimeFormat("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}).format(Date.now())
+    })
+
+    function searchReqReg() {        
+
+        //시작 연, 월, 일 가져오기
+        let getStYear = range.value.start.getFullYear()
+        let getStMonth = range.value.start.getMonth() + 1
+        let getStDay = range.value.start.getDate()
+
+        let startDay = getStYear + '-' + ('0' + (getStMonth)).slice(-2) + '-' + ('0' + (getStDay)).slice(-2)
+
+        //끝 연, 월, 일 가져오기
+        let getEdYear = range.value.end.getFullYear()
+        let getEdMonth = range.value.end.getMonth() + 1
+        let getEdDay = range.value.end.getDate()
+
+        let endDay = getEdYear + '-' + ('0' + (getEdMonth)).slice(-2) + '-' + ('0' + (getEdDay)).slice(-2)
+
+        //날짜
+        sendDataList.value.i_strdt = startDay
+        sendDataList.value.i_enddt = endDay
+
+        sendDataList.value.i_matrl = MATRL.value.value//재질
+
+        //두께
+        if(I_STSZ1.value.value == null || I_STSZ1.value.value == '') {
+            sendDataList.value.i_stsz1 = 0
+        } else {
+            sendDataList.value.i_stsz1 = I_STSZ1.value.value
+        }
+
+        if(I_EDSZ1.value.value == null || I_EDSZ1.value.value == '') {
+            sendDataList.value.i_edsz1 = 0
+        } else {
+            sendDataList.value.i_edsz1 = I_EDSZ1.value.value
+        }
+
+        //폭
+        if(I_STSZ2.value.value == null || I_STSZ2.value.value == '') {
+            sendDataList.value.i_stsz2 = 0
+        } else {
+            sendDataList.value.i_stsz2 = I_STSZ2.value.value
+        }
+
+        if(I_EDSZ2.value.value == null || I_EDSZ2.value.value == '') {
+            sendDataList.value.i_edsz2 = 0
+        } else {
+            sendDataList.value.i_edsz2 = I_EDSZ2.value.value
+        }
+
+        console.log(sendDataList.value)
+
+        reqRegList()
+    }
+
+    //수량 합계
+    const totalQuantity = ref()
+
+    //중량 합계
+    const totalWeight = ref()
+
+    reqRegList()
+
+    function reqRegList() {
+        console.log(sendDataList.value)
+
+        axios.post('/api/reqRegList', sendDataList.value)
+            .then(res => {
+                console.log(res.data)
+                copyOfData.value = res.data
+
+                isViewList.value = Object.assign(copyOfData.value)
+
+                totalQuantity.value = isViewList.value.reduce((x, y) => {
+                    return parseInt(x) + parseInt(y.TRQTY);
+                }, 0);
+
+                totalWeight.value = isViewList.value.reduce((x, y) => {
+                    return parseInt(x) + parseInt(y.TRWGT);
+                }, 0);
+
+                
+            })
+            .catch(error => { toast.error('목록을 불러오지 못했습니다.') })
+    }
     
 
 </script>
