@@ -171,7 +171,7 @@
                         <p>저장</p>
                     </button>
                     <button @click="closeReqMd" class="common-filter-button" id="scmPrintBtn" type="button">
-                        <font-awesome-icon icon="fa-solid fa-print" />
+                        <font-awesome-icon icon="fa-xmark" />
                         <p>닫기</p>
                     </button>
                 </div>
@@ -354,6 +354,9 @@
         isShowAddMd.value = 'false'
     }
 
+    //'추가' 팝업창
+    
+
 </script>
 
 <style lang="scss" scoped>
@@ -512,6 +515,11 @@
             display: flex;
             align-items: center;
             gap: .5rem;
+            cursor: pointer;
+
+            &:hover {
+                opacity: .85;
+            }
         }
 
         span {
