@@ -32,4 +32,9 @@ public class ScmServiceImpl implements ScmService {
         return scmMapper.invCsList(scmDTO);
     }
 
+    @Override
+    public List<Map<String, Object>> reqRegList(ScmDTO scmDTO) {
+        return scmMapper.reqRegList(scmDTO);
+    }
+
 }

@@ -11,4 +11,6 @@ public interface ScmService {
 
     List<Map<String, Object>> invCsList(ScmDTO scmDTO);
 
+    List<Map<String, Object>> reqRegList(ScmDTO scmDTO);
+
 }

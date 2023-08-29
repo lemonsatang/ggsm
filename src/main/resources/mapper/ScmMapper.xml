@@ -6,18 +6,18 @@
         <![CDATA[
                 DECLARE 
                 @I_JCODE VARCHAR(6)='A1',
-                @I_HOUSE      VARCHAR(6)='',
-                @I_CVCOD      VARCHAR(6)='D202',
-                @I_MITGU      VARCHAR(1)=#{i_mitgu},   
-                @I_ITCOD      VARCHAR(6)=#{i_itcod},  
-                @I_JJNAS      VARCHAR(30)='',  
-                @I_MATRL      VARCHAR(30)=#{i_matrl}, 
-                @I_STSZ1      NUMERIC(12,3)= #{i_stsz1}, 
-                @I_EDSZ1      NUMERIC(12,3)= #{i_edsz1},
-                @I_STSZ2      NUMERIC(10,2)= #{i_stsz2},  
-                @I_EDSZ2      NUMERIC(10,2)= #{i_edsz2},
-                @I_SAVIT      VARCHAR(1)=#{i_savit},  
-                @I_ADD1       CHAR(1)='Y';
+                @I_HOUSE VARCHAR(6)='',
+                @I_CVCOD VARCHAR(6)='D202',
+                @I_MITGU VARCHAR(1)=#{i_mitgu},   
+                @I_ITCOD VARCHAR(6)=#{i_itcod},  
+                @I_JJNAS VARCHAR(30)='',  
+                @I_MATRL VARCHAR(30)=#{i_matrl}, 
+                @I_STSZ1 NUMERIC(12,3)= #{i_stsz1}, 
+                @I_EDSZ1 NUMERIC(12,3)= #{i_edsz1},
+                @I_STSZ2 NUMERIC(10,2)= #{i_stsz2},  
+                @I_EDSZ2 NUMERIC(10,2)= #{i_edsz2},
+                @I_SAVIT VARCHAR(1)=#{i_savit},  
+                @I_ADD1  CHAR(1)='Y';
 
                 
                 DECLARE 
@@ -54,18 +54,18 @@
         <![CDATA[
                 DECLARE 
                 @I_JCODE VARCHAR(6)='A1',
-                @I_HOUSE      VARCHAR(6)='',
-                @I_CVCOD      VARCHAR(6)='D202',
-                @I_MITGU      VARCHAR(1)='',   
-                @I_ITCOD		 VARCHAR(6)='',  
-                @I_JJNAS		 VARCHAR(30)='',  
-                @I_MATRL		 VARCHAR(30)='', 
-                @I_STSZ1      NUMERIC(12,3)=0, 
-                @I_EDSZ1      NUMERIC(12,3)=0,
-                @I_STSZ2      NUMERIC(10,2)=0,  
-                @I_EDSZ2      NUMERIC(10,2)=0,
-                @I_SAVIT      VARCHAR(1)='',  
-                @I_ADD1       CHAR(1)='Y';
+                @I_HOUSE VARCHAR(6)='',
+                @I_CVCOD VARCHAR(6)='D202',
+                @I_MITGU VARCHAR(1)='',   
+                @I_ITCOD VARCHAR(6)='',  
+                @I_JJNAS VARCHAR(30)='',  
+                @I_MATRL VARCHAR(30)='', 
+                @I_STSZ1 NUMERIC(12,3)=0, 
+                @I_EDSZ1 NUMERIC(12,3)=0,
+                @I_STSZ2 NUMERIC(10,2)=0,  
+                @I_EDSZ2 NUMERIC(10,2)=0,
+                @I_SAVIT VARCHAR(1)='',  
+                @I_ADD1  CHAR(1)='Y';
 
                 DECLARE @T_MAIN AS TABLE (
                 HOUSE  VARCHAR(6)    DEFAULT '',
@@ -176,6 +176,32 @@
                 WHERE GU != 9
                 GROUP  BY A1.ITNAM,A1.JJNAS,A1.GU,A1.MATRL,A1.GOLDW,A1.SIZE1,A1.SIZE2,A1.ISIZE,A1.HOUNM,A1.IDATE,A1.COLNO
                 ORDER  BY A1.ITNAM,A1.JJNAS,A1.GU,A1.MATRL;
+                ]]>
+        </select>
+
+        <select id="reqRegList" resultType="map">
+        <![CDATA[
+                DECLARE 
+		@I_MATRL      VARCHAR(30)= #{i_matrl}, 
+		@I_STSZ1      NUMERIC(12,3)= #{i_stsz1}, 
+                @I_EDSZ1      NUMERIC(12,3)= #{i_edsz1},
+                @I_STSZ2      NUMERIC(10,2)= #{i_stsz2},  
+                @I_EDSZ2      NUMERIC(10,2)= #{i_edsz2},
+                @I_STRDT CHAR(10)= #{i_strdt},
+                @I_ENDDT CHAR(10)= #{i_enddt}
+
+                SELECT B1.CVNAM,C1.ITNAM,A1.*,A2.*,CASE WHEN A1.ATTNM <> '' THEN 'Y' ELSE 'N' END AS FILEYN
+                        FROM   REQT_M A1 WITH (NOLOCK) 
+                        LEFT JOIN REQT_D A2 WITH (NOLOCK) ON (A1.SLINO=A2.SLINO)
+                        LEFT JOIN CVMAST B1 WITH (NOLOCK) ON (A1.CVCOD=B1.CVCOD)
+                        LEFT JOIN ITEMPF C1 WITH (NOLOCK) ON (A2.ITCOD=C1.ITCOD)
+                        WHERE A1.TDATE BETWEEN @I_STRDT AND @I_ENDDT
+                        AND    ((ISNULL(@I_MATRL,'')='' AND 1=1) OR (A2.MATRL=@I_MATRL))
+                        AND    ((ISNULL(@I_STSZ1,0)+ISNULL(@I_EDSZ1,0) =0 AND 1=1) OR 
+                        	(ISNULL(@I_STSZ1,0)+ISNULL(@I_EDSZ1,0)<>0 AND A2.SIZE1 BETWEEN @I_STSZ1 AND @I_EDSZ1))
+                	AND    ((ISNULL(@I_STSZ2,0)+ISNULL(@I_EDSZ2,0) =0 AND 1=1) OR 
+                        	(ISNULL(@I_STSZ2,0)+ISNULL(@I_EDSZ2,0)<>0 AND A2.SIZE2 BETWEEN @I_STSZ2 AND @I_EDSZ2))
+                        ORDER BY A1.TDATE,A1.SLINO;
                 ]]>
         </select>
 

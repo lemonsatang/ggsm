@@ -25,5 +25,7 @@ public class ScmDTO {
     private String i_add1;
     private String i_date1; // 일자
     private String i_date2;
+    private String i_strdt; // 검색 일자
+    private String i_enddt;
 
 }
