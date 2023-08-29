@@ -68,12 +68,12 @@
         margin-bottom: 0.25rem;
         min-width: 8.625rem;
 
-        &[type=checkbox] {
+        &[type=checkbox], &[type=radio] {
             min-width: 1rem;
         }
     }
 
-    input[type="checkbox"] {
+    input[type="checkbox"], input[type="radio"] {
         width: 1rem;
         cursor: pointer;
     }
@@ -142,7 +142,7 @@
     }
 }
 
-.filter-type-checkbox {
+.filter-type-radio {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -153,7 +153,7 @@
         cursor: pointer;
         user-select: none;
 
-        input[type="checkbox"] {
+        input[type="checkbox"], input[type="radio"] {
             margin: 0 .5rem 0 0;
         }
     }
@@ -285,7 +285,7 @@
         white-space: nowrap;
         height: -webkit-fill-available;
         border-right: 1px solid rgba(var(--main-black), .1);
-        padding: .5rem 1rem;
+        padding: .5rem .75rem;
         text-align: left;
         font-size: var(--font13);
         position: relative;
@@ -293,15 +293,17 @@
 
         &.have-a-tooltip {
             overflow: inherit;
+            font-size: 12px;
+            padding-right: 2.5rem;
 
-            span {
+            > span {
                 text-overflow: ellipsis;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 1;
                 overflow: hidden;
-                word-break: keep-all;
-                white-space: nowrap;
+                word-break: break-all;
+                white-space: break-spaces;
                 height: -webkit-fill-available;
                 
             }
@@ -932,4 +934,12 @@
 
 .scm-footer-titles {
     
+}
+
+.ellipsis-total-number-count {
+    position: absolute;
+    right: .5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
 }
