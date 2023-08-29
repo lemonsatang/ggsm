@@ -23,7 +23,7 @@
     "vue-remix-icons": "^3.0.0",
     "vue-router": "^4.1.6",
     "vue3-toastify": "^0.1.12",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
+    "xlsx-js-style": "^1.2.0"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
