@@ -68,7 +68,7 @@
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                     <p>Search</p>
                 </button>
-                <button class="common-filter-button bg-excel-green" id="scmExcelBtn" type="button">
+                <button @click="exDown()" class="common-filter-button bg-excel-green" id="scmExcelBtn" type="button">
                     <font-awesome-icon icon="fa-regular fa-file-excel" />
                     <p>Excel</p>
                 </button>

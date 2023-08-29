@@ -141,10 +141,10 @@
 
     //store에서 영역별 데이터 import
     import { useScmInvStore } from '@/store/scmInvStore'
-    import { storeToRefs } from 'pinia';
+    import { storeToRefs } from 'pinia'
     import { onMounted } from 'vue'
     import axios from 'axios'
-    import { toast } from 'vue3-toastify';
+    import { toast } from 'vue3-toastify'
     import * as XLSX from 'xlsx-js-style'
 
     // const isShowModal = ref(false)
