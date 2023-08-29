@@ -105,13 +105,15 @@
                         <li>{{ item.HOUNM }}</li>
                         <li>{{ item.IDATE }}</li>
                         <li class="have-a-tooltip" @mouseover="showDetailP(i, event)" @mouseleave="closeDetailP(i)">
-                            <span> {{ item.MITNO }} </span>
+                            <span v-if="item.MITNO.split(',').length < 2">{{ item.MITNO }}</span>
+                            <span v-else>{{ item.MITNO.split(",")[0] }}, {{ item.MITNO.split(",").filter((x, index) => index != 0).join() }}</span>
+
                             <label class="ellipsis-total-number-count">({{ item.MITNO.split(",").length }}건)</label>
                             <p class="table-hidden-modal" v-if="item.isShowMd === true">
                                 <font-awesome-icon icon="fa-eye" />
                                 <span v-html="TooltipText"></span>
                             </p>
-                        </li>
+                        </li><!-- 제품번호 -->
                         <li>{{ item.COLNO }}</li>
                         <li>{{ item.RK }}</li>
                         

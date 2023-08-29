@@ -36,17 +36,17 @@
                 <!-- -->
                 <div class="each-filter">
                     <h2 class="ft-header">재고구분</h2>
-                    <div class="filter-type-checkbox">
+                    <div class="filter-type-radio">
                         <label>
-                            <input ref="CATE_E" type="checkbox" name="stockCate" value="1">
+                            <input ref="CATE_E" type="radio" name="stockCate" value="1">
                             원소재
                         </label>
                         <label>
-                            <input ref="CATE_P" type="checkbox" name="stockCate" value="2">
+                            <input ref="CATE_P" type="radio" name="stockCate" value="2">
                             제품
                         </label>
                         <label>
-                            <input ref="CATE_K" type="checkbox" name="stockCate" value="2">
+                            <input ref="CATE_K" type="radio" name="stockCate" value="2">
                             보관품
                         </label>
                     </div>
@@ -72,7 +72,14 @@
                     <font-awesome-icon icon="fa-regular fa-file-excel" />
                     <p>Excel</p>
                 </button>
-                <button class="common-filter-button" id="scmPrintBtn" type="button">
+                <button @click="printJS({
+                            printable: 'scmTexts', 
+                            css: ['/public/assets/scss/print.css'], 
+                            scanStyles: false, 
+                            type: 'html', 
+                            header: '<h3 data-for-print-header>출고관리 리스트</h3>',
+                            documentTitle: '금강에스엠 SCM',
+                        })" class="common-filter-button" id="scmPrintBtn" type="button">
                     <font-awesome-icon icon="fa-solid fa-print" />
                     <p>Print</p>
                 </button>
@@ -81,7 +88,7 @@
         </div>
 
         <!-- 본문 -->
-        <div id="scmTexts" class="ani_down scm-common-body">
+        <div id="scmTexts" data-scm-fwd-body class="ani_down scm-common-body">
             <div class="scm-common-table">
                 <div class="scm-table-header bg-bid-blue">
                     <ul class="scm-table-line scm-data-table-line" data-scm-table-header>
@@ -114,7 +121,10 @@
                         <li>{{ item.TRWGT }}</li><!-- 중량 -->
                         <li>{{ item.HOUSE }}</li><!-- 창고 -->
                         <li class="have-a-tooltip" @mouseover="showDetailP(i, event)" @mouseleave="closeDetailP(i)">
-                            <span>{{ item.MITNO }}</span>
+                            <span v-if="item.MITNO.split(',').length < 2">{{ item.MITNO }}</span>
+                            <span v-else>{{ item.MITNO.split(",")[0] }}, {{ item.MITNO.split(",").filter((x, index) => index != 0).join() }}</span>
+
+                            <label class="ellipsis-total-number-count">({{ item.MITNO.split(",").length }}건)</label>
                             <p class="table-hidden-modal" v-if="item.isShowMd === true">
                                 <font-awesome-icon icon="fa-eye" />
                                 <span v-html="TooltipText"></span>
@@ -154,6 +164,7 @@
 </template>
 
 <script setup>
+    import printJS from 'print-js'
     import ScmHeaders from '@/components/ScmHeaders.vue';
 
     //store에서 영역별 데이터 import
@@ -473,7 +484,7 @@
     // table
 
     .scm-table-line {
-        grid-template-columns: 7.5rem 1.1fr .75fr .5fR 1fr .75fr 1fr 4.5rem .75fr .75fr 12rem 1fr 10rem 1.5fr;
+        grid-template-columns: 7.5rem 1.1fr .75fr .5fR 1fr .75fr 1fr 4.5rem .75fr .5fr 13rem .7fr 10rem 1.5fr;
         padding: 0;
     }
 

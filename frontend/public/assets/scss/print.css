@@ -48,6 +48,23 @@
         font-size: var(--font13);
         position: relative;
     }
+    
+    .scm-table-line li.have-a-tooltip {
+        overflow: inherit;
+        font-size: 12px;
+        padding-right: 2.5rem;
+    }
+
+    .scm-table-line li.have-a-tooltip > span {
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        word-break: break-all;
+        white-space: break-spaces;
+        height: -webkit-fill-available;
+    }
 
     .scm-table-line li:nth-child(1) {
         border-left: 1px solid #000;
@@ -154,6 +171,8 @@
     }
 
     /* table footer */
+
+    /* 재고현황 그리드 크기 */
     .scm-table-footer li:nth-child(1) {
         grid-column: 1/6 !important;
         justify-content: flex-start;
@@ -171,6 +190,8 @@
     .scm-table-footer li:nth-child(4) {
         grid-column: 10/15;
     }
+
+
 
     .scm-table-footer.scm-table-line {
         width: 100%;
@@ -208,6 +229,29 @@
         user-select: none;
         font-size: 14px;
         font-weight: bold;
+    }
+
+    /* 출고관리 전용 */
+
+    [data-scm-fwd-body ].scm-table-footer li:nth-child(1) {
+        grid-column: 1/8;
+    }
+
+    [data-scm-fwd-body ].scm-table-footer li:nth-child(2) {
+        padding: .75rem .75rem .75rem 1.25rem !important;
+    }
+
+    [data-scm-fwd-body ].scm-table-footer li:nth-child(3) {
+        padding: .75rem .75rem .75rem 1rem !important;
+    }
+
+    [data-scm-fwd-body ].scm-table-footer li:nth-child(4) {
+        grid-column: 10/15;
+    }
+
+    [data-scm-fwd-body ] .scm-table-line {
+        grid-template-columns: 7.5rem 1.25fr .75fr .5fr 1.25fr .75fr 1.2fr 4.5rem .75fr .75fr 10rem 1fr 9rem 1.5fr;
+        padding: 0;
     }
 
 }
