@@ -145,9 +145,7 @@
     import { onMounted } from 'vue'
     import axios from 'axios'
     import { toast } from 'vue3-toastify';
-    import { read, utils, writeFileXLSX } from 'xlsx';
-    import * as XLSX from 'xlsx'
-
+    import * as XLSX from 'xlsx-js-style'
 
     // const isShowModal = ref(false)
     const TooltipText = ref()
@@ -227,6 +225,7 @@
     function invCsList() {
         axios.post('/api/invCsList', { })
             .then(res => {
+                console.log(res.data)
                 copyOfData.value = res.data
 
                 //mouse hover시 툴팁출력을 위하여 가져온 배열들마다 isShowMd key와 false value를 추가
@@ -260,12 +259,95 @@
 
 
     
-
+    // 엑셀 다운로드
     function exDown() {
-        const book = XLSX.utils.book_new();
-        const sheetByJson = XLSX.utils.json_to_sheet(isViewList.value);
+        const wb = XLSX.utils.book_new();
+        
+        let excelData = isViewList.value.map(x => {
+            const mutedObj = {
+                품목: x.ITNAM,
+                강종: x.JJNAS,
+                재질: x.MATRL,
+                도금량: x.GOLDW,
+                치수: x.ISIZE,
+                수량: x.GQTY,
+                중량: x.GWGT,
+                창고: x.HOUNM,
+                입고일자: x.IDATE,
+                제품번호: x.MITNO,
+                코일번호: x.COLNO,
+                비고: x.RK
+            }
 
-        XLSX.utils.book_append_sheet(book, sheetByJson, 'json');
+            return mutedObj
+        })
+
+        const sheetByJson = XLSX.utils.json_to_sheet(excelData);
+
+        const wscols = [
+                {width: 5, fill: { fgColor: { rgb: "E9E9E9" } }},
+                {width: 5},
+                {width: 10},
+                {width: 10},
+                {width: 15},
+                {width: 5},
+                {width: 7},
+                {width: 7},
+                {width: 13},
+                {width: 18},
+                {width: 10},
+                {width: 20},
+        ];
+
+        // 높이, 넓이 길이 지정 (아래 스타일 지정에서 불가능)
+        sheetByJson['!cols'] = wscols;
+        sheetByJson['!rows'] = [{
+            hpt: 24
+        }];
+
+        // 스타일 지정
+        for (let i in sheetByJson) {
+            if (typeof(sheetByJson[i]) != "object") continue
+            let cell = XLSX.utils.decode_cell(i)
+
+            if (cell.r === 0) {
+                sheetByJson[i].s = {
+                    font: {
+                        bold: true
+                    },
+                    alignment: {
+                        vertical: 'center',
+                        horizontal: 'center'
+                    },
+                    fill: {
+                        fgColor: { rgb: 'E9E9E9' }
+                    },
+                    border: {
+                        right: {
+                            style: "thin",
+                            color: "000000"
+                        },
+                        left: {
+                            style: "thin",
+                            color: "000000"
+                        },
+                        bottom: {
+                            style: "thin",
+                            color: "000000"
+                        },
+                    }
+                }
+            }
+
+            if (cell.r !== 0) {
+                sheetByJson[i].s = {
+                    alignment: {
+                        horizontal: 'right'
+                    }
+                }
+            }
+        }
+        XLSX.utils.book_append_sheet(wb, sheetByJson, '재고현황');
 
         let date = new Date()
         let getYear = date.getFullYear()
@@ -274,8 +356,7 @@
         let getDayAfter = date.getDate()
         let getDay = ("0" + getDayAfter).slice(-2);
 
-        XLSX.writeFile(book, '재고현황' + '_' + getYear + getMonth + getDay + '.xlsx')
-
+        XLSX.writeFile(wb, '재고현황' + '_' + getYear + getMonth + getDay + '.xlsx')
     }
 
 </script>

@@ -37,13 +37,15 @@ export const useScmStore = defineStore('scm', () => {
     const addr1Data = localStorage.getItem('ADDR1') // 기본주소
     const addr2Data = localStorage.getItem('ADDR2') // 상세주소
 
+    console.log(uptaeData)
+
     const scmUsr = ref([
         {
             CVCOD: cvcodData,
             NAME: cvnamData,
             SANO: sanoData,
             OWNAM: ownamData,
-            UPDAE: uptaeData,
+            UPTAE: uptaeData,
             JONGK: jongkData,
             ZIPCD: zipcdData,
             ADDR1: addr1Data,

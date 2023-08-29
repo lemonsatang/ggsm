@@ -4,7 +4,6 @@ import App from './App.vue' // 최상위 App.vue 컴포넌트 지정
 import router from './router/index.js'
 import 'vue-global-api'
 import Vue3Toastify from 'vue3-toastify'
-import { read, utils, writeFileXLSX } from 'xlsx';
 
 import '/public/assets/scss/style.css'
 import 'vue3-toastify/dist/index.css'
