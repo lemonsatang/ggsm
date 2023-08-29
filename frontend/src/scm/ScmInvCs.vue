@@ -7,17 +7,17 @@
             <div class="common-filter-container">
                 <div class="each-filter">
                     <h2 class="ft-header">재고구분</h2>
-                    <div class="filter-type-checkbox">
+                    <div class="filter-type-radio">
                         <label>
-                            <input ref="CATE_E" type="checkbox" name="stockCate" value="E">
+                            <input ref="CATE_E" type="radio" name="stockCate" value="E">
                             원소재
                         </label>
                         <label>
-                            <input ref="CATE_P" type="checkbox" name="stockCate" value="P">
+                            <input ref="CATE_P" type="radio" name="stockCate" value="P">
                             제품
                         </label>
                         <label>
-                            <input ref="CATE_K" type="checkbox" name="stockCate" value="K">
+                            <input ref="CATE_K" type="radio" name="stockCate" value="K">
                             보관품
                         </label>
                     </div>
@@ -56,7 +56,17 @@
                     <font-awesome-icon icon="fa-regular fa-file-excel" />
                     <p>Excel</p>
                 </button>
-                <button class="common-filter-button" id="scmPrintBtn" type="button">
+                    <!-- <button @click="printJS({printable: isViewList, properties: ['ITNAM', 'JJNAS', 'MATRL', 'GOLDW', 'ISIZE', 'GQTY', 'GWGT', 'HOUNM', 'IDATE', 'MITNO', 'COLNO', 'RK'], type: 'json'})" class="common-filter-button" id="scmPrintBtn" type="button"> -->
+                    <!-- <button @click="printJS({printable: 'scmTexts', css: ['/public/assets/scss/style.css'], scanStyles: false, type: 'html'})" class="common-filter-button" id="scmPrintBtn" type="button"> -->
+                        <!-- <button @click="printJS({printable: 'scmTexts', targetStyle: ['/public/assets/scss/common.scss'], scanStyles: false, type: 'html'})" class="common-filter-button" id="scmPrintBtn" type="button"> -->
+                <button @click="printJS({
+                            printable: 'scmTexts', 
+                            css: ['/public/assets/scss/print.css'], 
+                            scanStyles: false, 
+                            type: 'html', 
+                            header: '<h3 data-for-print-header>재고현황 리스트</h3>',
+                            documentTitle: '금강에스엠 SCM',
+                        })" class="common-filter-button" id="scmPrintBtn" type="button">
                     <font-awesome-icon icon="fa-solid fa-print" />
                     <p>Print</p>
                 </button>
@@ -95,7 +105,8 @@
                         <li>{{ item.HOUNM }}</li>
                         <li>{{ item.IDATE }}</li>
                         <li class="have-a-tooltip" @mouseover="showDetailP(i, event)" @mouseleave="closeDetailP(i)">
-                            <span>{{ item.MITNO }}</span>
+                            <span> {{ item.MITNO }} </span>
+                            <label class="ellipsis-total-number-count">({{ item.MITNO.split(",").length }}건)</label>
                             <p class="table-hidden-modal" v-if="item.isShowMd === true">
                                 <font-awesome-icon icon="fa-eye" />
                                 <span v-html="TooltipText"></span>
@@ -134,9 +145,11 @@
             
         </div><!-- 본문 끝 -->
     </section>
+
 </template>
 
 <script setup>
+    import printJS from 'print-js'
     import ScmHeaders from '@/components/ScmHeaders.vue';
 
     //store에서 영역별 데이터 import
@@ -359,6 +372,9 @@
         XLSX.writeFile(wb, '재고현황' + '_' + getYear + getMonth + getDay + '.xlsx')
     }
 
+
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -367,7 +383,7 @@
     }
 
     .scm-table-line {
-        grid-template-columns: .75fr .65fr 1fr .75fr .75fr .5fr .75fr .75fr .75fr 11rem minmax(7.5rem, 1fr) 1.25fr;
+        grid-template-columns: .5fr 6rem .75fr .75fr .75fr 5rem .5fr .5fr .75fr 11rem 7.5rem 1.25fr;
     }
 
     .scm-table-header {
