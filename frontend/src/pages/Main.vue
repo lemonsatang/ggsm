@@ -32,7 +32,7 @@
         background-image: url('/img/login_back.jpg');
         background-repeat: no-repeat;
         background-size: cover;
-        background-position: center;
+        background-position: top;
         z-index: -1;
     }
 

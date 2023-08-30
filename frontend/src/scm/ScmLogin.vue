@@ -1,7 +1,7 @@
 <template>
     <section id="loginBack">
         <div id="loginBody" class="common-inner">
-            <p data-login-subt>GEUMGANG SM</p>
+            <p data-login-subt @click="router.push('/')">GEUMGANG SM</p>
             <h1>Login <span>to</span> <label class="display-block">SCM<span>.</span></label> </h1>
             <div data-login-input-box>
                 <font-awesome-icon icon="fa-solid fa-user" />
@@ -63,20 +63,40 @@
             if (response.status === 200) {
                 if (response.data.result == "Success") {
 
-                    console.log(response.data.info)
-                    localStorage.setItem('CVCOD', response.data.info.cvcod)
-                    localStorage.setItem('CVNAM', response.data.info.cvnam)
-                    localStorage.setItem('SANO', response.data.info.sano)
-                    localStorage.setItem('OWNAM', response.data.info.ownam)
-                    localStorage.setItem('UPTAE', response.data.info.uptae)
-                    localStorage.setItem('JONGK', response.data.info.jongk)
-                    localStorage.setItem('ZIPCD', response.data.info.zipcd)
-                    localStorage.setItem('ADDR1', response.data.info.addr1)
-                    localStorage.setItem('ADDR2', response.data.info.addr2)
+                    if(sessionStorage.getItem("whatsNext") == 'nonScm') {
+                        console.log('일반 Web 로그인')
 
-                    router.push('/scm/fwd')
+                        sessionStorage.setItem("whatsNext", "")
+                        
+                        router.go(-1)
 
-                    toast.success('로그인에 성공했습니다.')
+                        localStorage.setItem('CVCOD', response.data.info.cvcod)
+                        localStorage.setItem('CVNAM', response.data.info.cvnam)
+                        localStorage.setItem('SANO', response.data.info.sano)
+                        localStorage.setItem('OWNAM', response.data.info.ownam)
+                        localStorage.setItem('UPTAE', response.data.info.uptae)
+                        localStorage.setItem('JONGK', response.data.info.jongk)
+                        localStorage.setItem('ZIPCD', response.data.info.zipcd)
+                        localStorage.setItem('ADDR1', response.data.info.addr1)
+                        localStorage.setItem('ADDR2', response.data.info.addr2)
+
+                    } else {
+                        router.push('/scm/fwd')
+
+                        console.log(response.data.info)
+                        localStorage.setItem('CVCOD', response.data.info.cvcod)
+                        localStorage.setItem('CVNAM', response.data.info.cvnam)
+                        localStorage.setItem('SANO', response.data.info.sano)
+                        localStorage.setItem('OWNAM', response.data.info.ownam)
+                        localStorage.setItem('UPTAE', response.data.info.uptae)
+                        localStorage.setItem('JONGK', response.data.info.jongk)
+                        localStorage.setItem('ZIPCD', response.data.info.zipcd)
+                        localStorage.setItem('ADDR1', response.data.info.addr1)
+                        localStorage.setItem('ADDR2', response.data.info.addr2)
+
+                        toast.success('로그인에 성공했습니다.')
+                    }                  
+                    
                 } else {
                     loginMsgAlert.value = true
                     setTimeout(() => {
@@ -103,6 +123,8 @@
             inputPW.value.type = 'text'
         }
     })
+
+    console.log(localStorage.getItem('CVNAM'))
     
 </script>
 

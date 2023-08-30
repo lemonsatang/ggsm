@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory, useRoute } from 'vue-router'
 import Main from '@/pages/Main.vue'
-import { loginDataStore } from '@/store/userStore'
 
 const routes = [
   { 
@@ -87,6 +86,8 @@ const routes = [
     path: '/login',
     name: 'ScmLogin',
     component: () => import( /* webpackChunkName: 'ScmLogin' */ '@/scm/ScmLogin.vue'),
+
+    // beforeEnter: fromUrlPass()
   },
   {  
     path: '/scm/:category',
@@ -131,6 +132,10 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const route = useRoute()
   const loginUserData = localStorage.getItem('CVCOD')
+  const loginUserName = localStorage.getItem('CVNAM')
+  const userName = ref()
+
+  console.log(loginUserName)
 
   if (to.path.includes('scm')) {
     if (loginUserData === null) {
@@ -146,5 +151,7 @@ router.beforeEach((to, from) => {
 })
 
 export default router
+
+
 
 //webpackChunkName 방식으로 별도의 js로 분리하여 해당 페이지 방문할때 데이터를 불러옴

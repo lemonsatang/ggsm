@@ -1,7 +1,7 @@
 <template>
     <SubpHero />
     <section class="common-inner">
-        <h1 data-common-head-title>자료실</h1>
+        <h1 data-common-head-title>자료실<span data-common-head-subtitle>DataRoom</span></h1>
         <div id="dataTexts" class="ani_down">
             <div data-dataroom-item v-for="item in dataGroup">
                 <img :src="item.imgSrc" alt="">
@@ -14,6 +14,7 @@
                     <a :href="item.download">
                         <button class="common-button-style">
                             <font-awesome-icon icon="fa-regular fa-circle-down" />
+                            <p>다운로드</p>
                         </button>
                     </a>
                 </div>
@@ -50,6 +51,13 @@
 
         gap: 1rem;     
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    button.common-button-style {                
+
+        p {
+            margin-bottom: 0;            
+        }
     }
    
     [data-dataroom-item] {

@@ -9,5 +9,9 @@ export const loginDataStore = defineStore('userst', () => {
         CVNAM: ''
     })
 
-    return { userGroup }
+    const whereFrom = ref({
+        url: '',
+    })
+
+    return { userGroup, whereFrom }
 })
