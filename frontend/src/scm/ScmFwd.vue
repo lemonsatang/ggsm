@@ -215,8 +215,8 @@
         i_stsz2: 0,
         i_edsz2: 0,
         i_savit: '2',
-        i_date1: new Intl.DateTimeFormat("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}).format(Date.now()),
-        i_date2: new Intl.DateTimeFormat("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}).format(Date.now())
+        i_strdt: new Intl.DateTimeFormat("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}).format(Date.now()),
+        i_enddt: new Intl.DateTimeFormat("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}).format(Date.now())
     })
 
     function searchFwd() {        
@@ -236,8 +236,8 @@
         let endDay = getEdYear + '-' + ('0' + (getEdMonth)).slice(-2) + '-' + ('0' + (getEdDay)).slice(-2)
 
         //날짜
-        sendDataList.value.i_date1 = startDay
-        sendDataList.value.i_date2 = endDay
+        sendDataList.value.i_strdt = startDay
+        sendDataList.value.i_enddt = endDay
         
         sendDataList.value.i_itcod = ITNAM.value.value//품목
         sendDataList.value.i_matrl = MATRL.value.value//재질

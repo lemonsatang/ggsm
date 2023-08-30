@@ -21,8 +21,8 @@
 
                 
                 DECLARE 
-                @I_STRDT CHAR(10)=#{i_date1},
-                @I_ENDDT CHAR(10)=#{i_date2};
+                @I_STRDT CHAR(10)=#{i_strdt},
+                @I_ENDDT CHAR(10)=#{i_enddt};
 
                 SELECT A1.TDATE,A1.SLINO,B1.ITNAM,A2.JAJIL,B2.JJNAS,B2.MATRL,A2.GOLDW,A2.ISIZE,SUM(A2.TRQTY)TRQTY,SUM(A2.TRWGT)TRWGT,
                 (SELECT HOUNM FROM HOUSEF A0 WITH (NOLOCK) WHERE A0.HOUSE=A1.HOUSE)HOUSE,A3.COILNO,A2.SUJNO,A1.RK,
@@ -56,15 +56,15 @@
                 @I_JCODE VARCHAR(6)='A1',
                 @I_HOUSE VARCHAR(6)='',
                 @I_CVCOD VARCHAR(6)='D202',
-                @I_MITGU VARCHAR(1)='',   
+                @I_MITGU VARCHAR(1)= #{i_mitgu},   
                 @I_ITCOD VARCHAR(6)='',  
                 @I_JJNAS VARCHAR(30)='',  
-                @I_MATRL VARCHAR(30)='', 
-                @I_STSZ1 NUMERIC(12,3)=0, 
-                @I_EDSZ1 NUMERIC(12,3)=0,
-                @I_STSZ2 NUMERIC(10,2)=0,  
-                @I_EDSZ2 NUMERIC(10,2)=0,
-                @I_SAVIT VARCHAR(1)='',  
+                @I_MATRL VARCHAR(30)= #{i_matrl}, 
+                @I_STSZ1 NUMERIC(12,3)= #{i_stsz1}, 
+                @I_EDSZ1 NUMERIC(12,3)= #{i_edsz1},
+                @I_STSZ2 NUMERIC(10,2)= #{i_stsz2},  
+                @I_EDSZ2 NUMERIC(10,2)= #{i_edsz2},
+                @I_SAVIT VARCHAR(1)= #{i_savit},  
                 @I_ADD1  CHAR(1)='Y';
 
                 DECLARE @T_MAIN AS TABLE (

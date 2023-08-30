@@ -191,43 +191,65 @@
 
     //**필터 데이터 받아서 서버에 전달할 애들
     const sendDataList = ref({
-        I_MITGU: '',
-        I_ITCOD: '',
-        I_MATRL: '',
-        I_STSZ1: '',
-        I_EDSZ1: '',
-        I_STSZ2: '',
-        I_EDSZ2: '',
+        i_mitgu: '',
+        i_itcod: '',
+        i_matrl: '',
+        i_stsz1: 0,
+        i_edsz1: 0,
+        i_stsz2: 0,
+        i_edsz2: 0,
+        i_savit: '2',
     })
 
     function srchInv() {
-        
+
         //재고구분(E=원소재, P=제품, K=보관품)
         if(CATE_E.value.checked) {
-            sendDataList.value.I_MITGU = 'E'
+            sendDataList.value.i_mitgu = '1'
         } else if(CATE_P.value.checked) {
-            sendDataList.value.I_MITGU = 'P'
-        } else if(CATE_K.value.checked) {
-            sendDataList.value.I_MITGU = 'K'
+            sendDataList.value.i_mitgu = '2'
+        } 
+        
+        if(CATE_K.value.checked) {
+            sendDataList.value.i_savit = '1'
+        } else {
+            sendDataList.value.i_savit = '2'
         }
 
         //품목
-        sendDataList.value.I_ITCOD = I_ITCOD.value.value
+        sendDataList.value.i_itcod = I_ITCOD.value.value
 
         //재질
-        sendDataList.value.I_MATRL = I_MATRL.value.value
+        sendDataList.value.i_matrl = I_MATRL.value.value
 
         //두께
-        sendDataList.value.I_STSZ1 = I_STSZ1.value.value
-        sendDataList.value.I_EDSZ1 = I_EDSZ1.value.value
+        if(I_STSZ1.value.value == null || I_STSZ1.value.value == '') {
+            sendDataList.value.i_stsz1 = 0
+        } else {
+            sendDataList.value.i_stsz1 = I_STSZ1.value.value
+        }
+
+        if(I_EDSZ1.value.value == null || I_EDSZ1.value.value == '') {
+            sendDataList.value.i_edsz1 = 0
+        } else {
+            sendDataList.value.i_edsz1 = I_EDSZ1.value.value
+        }
 
         //폭
-        sendDataList.value.I_STSZ2 = I_STSZ2.value.value
-        sendDataList.value.I_EDSZ2 = I_EDSZ2.value.value
+        if(I_STSZ2.value.value == null || I_STSZ2.value.value == '') {
+            sendDataList.value.i_stsz2 = 0
+        } else {
+            sendDataList.value.i_stsz2 = I_STSZ2.value.value
+        }
 
-        console.log(sendDataList.value)
+        if(I_EDSZ2.value.value == null || I_EDSZ2.value.value == '') {
+            sendDataList.value.i_edsz2 = 0
+        } else {
+            sendDataList.value.i_edsz2 = I_EDSZ2.value.value
+        }
+
+        invCsList()
     }
-
     
     //수량 합계
     const totalQuantity = ref()
@@ -238,9 +260,8 @@
     invCsList()        
 
     function invCsList() {
-        axios.post('/api/invCsList', { })
+        axios.post('/api/invCsList', sendDataList.value)
             .then(res => {
-                console.log(res.data)
                 copyOfData.value = res.data
 
                 //mouse hover시 툴팁출력을 위하여 가져온 배열들마다 isShowMd key와 false value를 추가
