@@ -122,9 +122,9 @@
                         <li>{{ item.HOUSE }}</li><!-- 창고 -->
                         <li class="have-a-tooltip" @mouseover="showDetailP(i, event)" @mouseleave="closeDetailP(i)">
                             <span v-if="item.MITNO.split(',').length < 2">{{ item.MITNO }}</span>
-                            <span v-else>{{ item.MITNO.split(",")[0] }}, {{ item.MITNO.split(",").filter((x, index) => index != 0).join() }}</span>
+                            <span v-else>{{ item.MITNO.split(",")[0] }}, <span class="for-ellipsis">{{ item.MITNO.split(",").filter((x, index) => index != 0).join() }}</span></span>
 
-                            <label class="ellipsis-total-number-count">({{ item.MITNO.split(",").length }}건)</label>
+                            <label v-if="item.MITNO.split(',').length > 1" class="ellipsis-total-number-count">({{ item.MITNO.split(",").length }}건)</label>
                             <p class="table-hidden-modal" v-if="item.isShowMd === true">
                                 <font-awesome-icon icon="fa-eye" />
                                 <span v-html="TooltipText"></span>
