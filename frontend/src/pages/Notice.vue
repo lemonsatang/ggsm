@@ -1,7 +1,7 @@
 <template>
     <SubpHero />
     <section id="histBody" class="common-inner">
-        <h1 data-common-head-title>공지사항</h1>
+        <h1 data-common-head-title>공지사항<span data-common-head-subtitle>Notice</span></h1>
         <div id="notiTexts" class="ani_down">
             <!-- item -->            
             <!-- <div v-for="item in copyOfData" data-notice-item @click="[isOpened = true, getNum(item.index)]"> -->
@@ -23,7 +23,9 @@
             
             <!-- 상세페이지 modal -->
             <div data-notice-modal v-if="isOpened">
+                
                 <div v-for="mdItem in isViewModal.value" data-notice-modal-texts>
+                    <h1>공지사항</h1>
                     <div data-notice-item-dates>
                         <h3 class="notice-modal-title">{{ mdItem.title }}</h3>
                         <div class="notice-modal-dates">
@@ -60,7 +62,8 @@
                         
                     </ul>
                     <button @click="isOpened = !isOpened" class="common-button-style">
-                        <font-awesome-icon icon="fa-regular fa-circle-xmark" />
+                        <font-awesome-icon icon="fa-xmark" />
+                        닫기
                     </button>
                 </div>
             </div>
@@ -214,8 +217,8 @@
 
     [data-notice-item-showmore] {
         margin: 1rem 0 0 auto;
-        opacity: .5;
-        border-bottom: 1px solid rgba(var(--main-black), .5);
+        border-bottom: 1px solid rgba(var(--deepblue), .5);
+        color: rgba(var(--deepblue), .5);
         display: flex;
         align-items: center;
 
@@ -277,8 +280,21 @@
         button {
             @apply absolute;
 
+            svg {
+                color: rgb(var(--white));    
+            }
+
+            gap: .5rem;
+            background-color: rgba(var(--deepblue), 1);
+            color: rgb(var(--white));
             bottom: 2rem;
             right: 3rem;
+            border-radius: 2rem;
+            min-width: 5rem;
+
+            &:hover {
+                opacity: .85;
+            }
         }
         
     }
@@ -300,11 +316,11 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: rgba(var(--white), 1);
-        padding: 2rem;
+        padding: 1rem 2rem 2rem 2rem;
         width: calc(100% - 1rem);
         min-width: 50vw;
         max-width: 60rem;
-        height: 75vh;
+        height: 82vh;
         border-radius: 0.5rem;
 
         .notice-modal-dates {
@@ -319,6 +335,15 @@
                 font-weight: 400;
             }
         }
+
+        h1 {
+            font-size: var(--fontMT);
+            margin-bottom: 2rem;
+        }
+    }
+
+    [data-notice-modal-texts] [data-notice-item-texts] {
+        padding: 0 1rem;
     }
 
     // milestone
@@ -412,7 +437,7 @@
             [data-notice-modal-texts] {
                 padding: 1.5rem 1.5rem 5rem 1.5rem;
                 min-height: 50vh;
-                max-height: 75vh;
+                max-height: 82vh;
                 height: auto;
 
                 h3 {

@@ -106,6 +106,9 @@
         p {
             font-size: var(--fontM);
             min-width: 8rem;
+            opacity: .5;
+            margin-left: auto;
+            text-align: right;
         }
     }
 

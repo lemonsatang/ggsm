@@ -207,7 +207,8 @@
     //로그아웃
     function scmLogout() {
         localStorage.removeItem('CVCOD')
-
+        localStorage.removeItem('CVNAM')
+        
         router.push('/')
     }
 

@@ -95,17 +95,28 @@
 
 .common-button-style {
   @apply cursor-pointer flex justify-center items-center absolute;
-  background-color: rgb(var(--white));
-  width: 3.5rem;
+  background-color: rgb(var(--deepblue));
+  min-width: 5rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
   height: 2.5rem;
   border-radius: 0.25rem;
   filter: drop-shadow(0 6px 2px rgba(var(--black) 0.3));
   margin-left: auto;
   bottom: 1rem;
   right: 1rem;
+  border-radius: 2rem;
+}
+.common-button-style:hover {
+  opacity: 0.85;
 }
 .common-button-style svg {
-  color: rgba(var(--deepblue), 1);
+  color: rgba(var(--white), 1);
+}
+.common-button-style p {
+  color: rgba(var(--white), 1);
 }
 .common-button-style font-awesome-icon {
   width: 1rem;
@@ -140,6 +151,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  word-break: break-all;
 }
 
 @media (max-width: 767px) {

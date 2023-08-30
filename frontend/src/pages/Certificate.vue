@@ -3,7 +3,7 @@
         <section class="common-inner">
             <h1 data-common-head-title>인증서<span data-common-head-subtitle>Certificate</span></h1>
             <div id="cerTexts" class="ani_down">
-                <div @click="item.detailView = !item.detailView" v-for="item in certGroup" data-cert-item>
+                <div @click="item.detailView = !item.detailView" v-for="(item, i) in certGroup" data-cert-item>
                     <article>
                         <img data-cert-thumnail :src="item.thumImg" alt="">
                         <h3>{{ item.title }}</h3>
@@ -54,6 +54,7 @@
         aspect-ratio: 1/1;
         padding: 2rem;
         border-radius: 1rem;
+        border: 1px solid rgba(var(--deepblue), .15);
 
         [data-cert-thumnail] {
             border-radius: 50%;
@@ -69,7 +70,7 @@
             font-weight: bold;
             margin-bottom:.75rem;
             width: 100%;
-            border-bottom: 1px solid rgba(var(--main-black), .2);
+            border-bottom: 1px solid rgba(var(--deepblue), .1);
             text-align: center;
             padding-bottom: .5rem;
         }
