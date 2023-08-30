@@ -57,14 +57,21 @@
                     <font-awesome-icon icon="fa-regular fa-file-excel" />
                     <p>Excel</p>
                 </button>
-                <button class="common-filter-button" id="scmPrintBtn" type="button">
+                <button @click="printJS({
+                            printable: 'scmTexts', 
+                            css: ['/public/assets/scss/print.css'], 
+                            scanStyles: false, 
+                            type: 'html', 
+                            header: '<h3 data-for-print-header>주문의뢰서 접수 리스트</h3>',
+                            documentTitle: '금강에스엠 SCM',
+                        })" class="common-filter-button" id="scmPrintBtn" type="button">
                     <font-awesome-icon icon="fa-solid fa-print" />
                     <p>Print</p>
                 </button>
             </div>
             
         </div>
-        <div id="scmTexts" class="ani_down scm-common-body">
+        <div id="scmTexts" data-scm-req-body class="ani_down scm-common-body">
             <div class="scm-common-table">
                 <div class="scm-table-header bg-bid-blue">
                     <ul class="scm-table-line scm-data-table-line" data-scm-table-header>
@@ -277,6 +284,7 @@
 </template>
 
 <script setup>
+    import printJS from 'print-js'
     import ScmHeaders from '@/components/ScmHeaders.vue';
 
     //store에서 영역별 데이터 import
