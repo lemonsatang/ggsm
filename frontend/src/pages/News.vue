@@ -1,7 +1,7 @@
 <template>
     <SubpHero />
     <section class="common-inner">
-        <h1 data-common-head-title>뉴스</h1>
+        <h1 data-common-head-title>뉴스<span data-common-head-subtitle>News</span></h1>
         <div id="newsTexts" class="ani_down">
             <div v-for="item in newsGroup" data-news-item>
                 <a :href="item.linkTo" target="_blank">
@@ -130,11 +130,12 @@
 
     [data-news-item-showmore] {
         margin: 1.5rem 1rem 0 auto;
-        color: rgba(var(--main-black), .5);
-        border-bottom: 1px solid rgba(var(--main-black), .35);
+        color: rgba(var(--deepblue), .5);
+        border-bottom: 1px solid rgba(var(--deepblue), .5);
         display: flex;
         align-items: center;
         width: fit-content;
+        cursor: pointer;
 
         svg {
             padding-top: .15rem;

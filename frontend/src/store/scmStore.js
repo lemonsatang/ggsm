@@ -35,9 +35,7 @@ export const useScmStore = defineStore('scm', () => {
     const jongkData = localStorage.getItem('JONGK') // 종목
     const zipcdData = localStorage.getItem('ZIPCD') // 우편번호
     const addr1Data = localStorage.getItem('ADDR1') // 기본주소
-    const addr2Data = localStorage.getItem('ADDR2') // 상세주소
-
-    console.log(uptaeData)
+    const addr2Data = localStorage.getItem('ADDR2') // 상세주소    
 
     const scmUsr = ref(
         {

@@ -6,8 +6,8 @@
                 <div data-hist-line v-for="item in hsGroup">
                     <article data-hist-years>
                         <section>
-                            <p>20</p>
-                            <p>{{ item.years }}</p>
+                            <p data-hist-year-top>20</p>
+                            <p data-hist-year-bottom>{{ item.years }}</p>
                             <div data-hist-years-back>
                                 <span></span>
                                 <span></span>
@@ -53,7 +53,7 @@
         @apply flex;
 
         padding: 2rem 0;
-        border-bottom: 1px solid rgba(var(--main-black), .15);
+        border-bottom: 1px solid rgba(var(--deepblue), .15);
 
         &:last-child {
             border-bottom: 0;
@@ -88,6 +88,14 @@
             p {
                 font-size: 1.75rem;
             }
+        }
+
+        [data-hist-year-top] {
+            padding-right: 1rem;
+        }
+
+        [data-hist-year-bottom] {
+            padding-left: 1rem;
         }
 
         // &:nth-child(even) {

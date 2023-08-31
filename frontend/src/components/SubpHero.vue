@@ -5,7 +5,7 @@
             <div class="common-inner" data-subp-bottom v-for="item in navGroup">
                 
                     <ul v-if="item.childrens.find(e => e.subTo === '/prod')" data-subp-tap>
-                        <router-link v-for="subItem in item.childrens" :to="subItem.category">
+                        <router-link v-for="subItem in item.childrens" :to="{ name: 'Prod', params: {category: subItem.category}}">
                             <li v-if="item.childrens.find(e => e.category === getCate)" :class="{'recent-page': subItem.category == getCate}">{{ subItem.category }}</li>
                         </router-link>
                     </ul>
