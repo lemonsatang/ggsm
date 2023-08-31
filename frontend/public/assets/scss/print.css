@@ -281,4 +281,28 @@
         padding: 0;
     }
 
+    /* 주문의뢰서 접수 인쇄전용 영역 */
+
+    #PrintObj {
+        display: block;
+    }
+
+    #PrintObj .scm-table-line {
+        grid-template-columns: 1fr 1fr 1fr .75fr  1.25fr .75fr 1.25fr .75fr 1fr 2fr .9fr;
+        padding: 0;
+        border-bottom: 0;
+    }
+
+    #PrintObj .scm-table-line.scm-table-footer li {
+        border-bottom: 2px solid rgb(0, 0, 0);
+    }
+
+    #PrintObj .scm-table-line li {
+        border-bottom: 1px solid rgb(0, 0, 0);
+    }
+
+    #PrintObj .scm-table-body .scm-table-line li:nth-child(1), #PrintObj .scm-table-body .scm-table-line li:nth-child(2) {
+        border-bottom: 0;
+    }
+
 }

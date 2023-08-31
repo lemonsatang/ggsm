@@ -306,7 +306,7 @@
 .common-filter-button svg {
   color: rgb(var(--white));
   font-size: var(--font13);
-  margin-right: 0.75rem;
+  margin-right: 0.5rem;
 }
 
 .filter-type-radio {
@@ -395,11 +395,11 @@
 .scm-table-body .scm-table-line:hover {
   background-color: rgb(var(--main-black), 0.1);
 }
-.scm-table-body ul:nth-child(even) {
-  background-color: rgba(var(--main-black), 0.05);
-}
 .scm-table-body .scm-table-line:last-child {
   border-bottom: 1px solid rgba(var(--main-black), 0.15);
+}
+.scm-table-body .scm-table-line:nth-child(even) {
+  background-color: rgba(var(--main-black), 0.05);
 }
 
 .board-table-body a:nth-child(even) {
