@@ -39,7 +39,7 @@ export const useScmStore = defineStore('scm', () => {
 
     console.log(uptaeData)
 
-    const scmUsr = ref([
+    const scmUsr = ref(
         {
             CVCOD: cvcodData,
             NAME: cvnamData,
@@ -52,7 +52,7 @@ export const useScmStore = defineStore('scm', () => {
             ADDR2: addr2Data
             
         },
-    ])
+    )
 
     return { scmGroup, scmUsr }
 
