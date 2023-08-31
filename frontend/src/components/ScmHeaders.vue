@@ -9,12 +9,12 @@
                 <p v-if="isScmMobile == true" data-scm-mob-nav-close>
                     <font-awesome-icon @click="closeUsrInfo()" icon="fa-regular fa-circle-xmark" />
                 </p>
-                <div v-for="item in copyOfUsr" id="usrInfoNav">
+                <div id="usrInfoNav">
                     
                     <p>
                         <font-awesome-icon icon="fa-solid fa-user" />
-                        <span data-comp-name>{{ item.NAME }}</span>
-                        <span data-comp-no>[{{ item.SANO }}]</span>
+                        <span data-comp-name>{{ copyOfUsr.NAME }}</span>
+                        <span data-comp-no>[{{ copyOfUsr.SANO }}]</span>
                         <span class="scm-mob-none">님 안녕하세요.</span>
                     </p>
                     <button @click="viewUsrInfo()" id="scmUsrModify" type="button">
@@ -50,7 +50,7 @@
                 </p>
                 <font-awesome-icon @click="closeUsrInfo()" icon="fa-regular fa-circle-xmark" />
             </div>
-            <div v-for="item in copyOfUsr" class="usr-info-body">
+            <div class="usr-info-body">
                 <div class="usr-info-body-list">
                     <h2 class="usr-info-title">
                         <font-awesome-icon icon="fa-user" />
@@ -59,41 +59,41 @@
                     <div class="usr-info-line" data-usr-info-nameline>
                         <article>
                             <p class="usr-info-body-title">고객사명</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.NAME">
+                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.NAME">
                         </article>
                         <article>
                             <p class="usr-info-body-title">사업자등록번호</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.SANO">
+                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.SANO">
                         </article>
                         <article>
                             <p class="usr-info-body-title">대표자</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.OWNAM">
+                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.OWNAM">
                         </article>
                     </div>
 
                     <div class="usr-info-line" data-usr-info-cateline>
                         <article>
                             <p class="usr-info-body-title">업태</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.UPTAE">
+                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.UPTAE">
                         </article>
                         <article>
                             <p class="usr-info-body-title">종목</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.JONGK">
+                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.JONGK">
                         </article>
                     </div>
 
                     <div class="usr-info-line" data-usr-info-localine>
                         <article>
                             <p class="usr-info-body-title">우편번호</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.ZIPCD">
+                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.ZIPCD">
                         </article>
                         <article>
                             <p class="usr-info-body-title">소재지</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.ADDR1">
+                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.ADDR1">
                         </article>
                         <article>
                             <p class="usr-info-body-title">상세주소</p>
-                            <input class="usr-info-body-text" type="text" v-model="item.ADDR2">
+                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.ADDR2">
                         </article>
                     </div>
                     
@@ -159,13 +159,15 @@
 <script setup>
     //store에서 영역별 데이터 import
     import { useScmStore } from '@/store/scmStore'
+    import axios from 'axios';
     import { storeToRefs } from 'pinia';
+    import { toast } from 'vue3-toastify';
 
     const scmStore = useScmStore()
     const { scmGroup, scmUsr, isTap } = storeToRefs(scmStore)   
     
     //가져온 원본 데이터 그대로 사용 X -> 복사해서 사용하기
-    const copyOfUsr = [...scmUsr.value]
+    const copyOfUsr = scmUsr.value
 
     import { routerKey, useRoute, useRouter } from 'vue-router'
 
@@ -186,6 +188,7 @@
     const usrInfoMd = ref(false)
     const usrInfoSaveText = ref(false)
 
+
     function viewUsrInfo() {
         usrInfoMd.value = true
     }
@@ -196,12 +199,42 @@
         pwHide.value = true
     }
 
-    function usrInfoSave() {
-        usrInfoSaveText.value = true
+    const udtUserData = ref({
+        cvcod: copyOfUsr.CVCOD,
+        cvnam: copyOfUsr.NAME,
+        sano: copyOfUsr.SANO,
+        ownam: copyOfUsr.OWNAM,
+        uptae: copyOfUsr.UPTAE,
+        jongk: copyOfUsr.JONGK,
+        zipcd: copyOfUsr.ZIPCD,
+        addr1: copyOfUsr.ADDR1,
+        addr2: copyOfUsr.ADDR2,
+        passwd: null
+    })
 
-        setTimeout(() => {
-            usrInfoSaveText.value = false
-        }, 3000)
+    function usrInfoSave() {
+
+        if((recentPW.value.value == '' && newPW.value.value != '') || (recentPW.value.value != '' && newPW.value.value == '')) {
+            toast.error('비밀번호를 입력해주세요.')
+            return
+        } else if(isSamePW.value == 'false') {
+            toast.error('비밀번호가 일치하지 않습니다.')
+            return
+        } else if(recentPW.value.value != '' && newPW.value.value != '') {
+            udtUserData.value.passwd = recentPW.value.value
+        }
+
+        console.log(udtUserData.value)
+
+        axios.post('/api/user/udtUser', udtUserData.value)
+            .then(res => {
+                usrInfoSaveText.value = true
+
+                setTimeout(() => {
+                    usrInfoSaveText.value = false
+                }, 3000)
+            })
+            .catch(error => { toast.error('저장하던 도중 오류가 발생했습니다.') })
     }
 
     //로그아웃
@@ -239,10 +272,10 @@
     })
 
     function isSameChk() {
-        if ( newPW.value[0].value != recentPW.value[0].value ) {
+        if ( newPW.value.value != recentPW.value.value ) {
             isSamePW.value = 'false'
 
-        } else if ( newPW.value[0].value = recentPW.value[0].value ) {
+        } else if ( newPW.value.value = recentPW.value.value ) {
             isSamePW.value = 'true'
 
         } 
