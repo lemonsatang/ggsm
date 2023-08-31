@@ -58,7 +58,7 @@
                     <p>Excel</p>
                 </button>
                 <button @click="printJS({
-                            printable: 'scmTexts', 
+                            printable: 'PrintObj', 
                             css: ['/public/assets/scss/print.css'], 
                             scanStyles: false, 
                             type: 'html', 
@@ -89,19 +89,22 @@
                     </ul>
                 </div>
                 <div class="scm-table-body">
-                    <ul v-for="(item, i) in copyOfData.value" class="scm-table-line">
-                        <li>{{ item.TDATE }}</li>
-                        <li>{{ item.SLINO }}</li>
-                        <li>{{ item.ITCOD }}</li>
-                        <li>{{ item.JJNAS }}</li>
-                        <li>{{ item.MATRL }}</li>
-                        <li>{{ item.GOLDW }}</li>
-                        <li>{{ item.SIZE1 }}</li>
-                        <li>{{ item.TRQTY }}</li>
-                        <li>{{ item.TRWGT }}</li>
-                        <li>{{ item.RK }}</li>
-                        <li>{{ item.FILEYN }}</li>
-                    </ul>
+                    <div v-for="(item, i) in objBySLINO" class="scm-table-line-container">
+                        <ul v-for="subitem in item" class="scm-table-line">
+                            <li>{{ subitem === item[0] ? subitem.TDATE : '' }}</li>
+                            <li>{{ subitem === item[0] ? subitem.SLINO: '' }}</li>
+                            <li>{{ subitem.ITCOD }}</li>
+                            <li>{{ subitem.JJNAS }}</li>
+                            <li>{{ subitem.MATRL }}</li>
+                            <li>{{ subitem.GOLDW }}</li>
+                            <li>{{ subitem.SIZE1 }}</li>
+                            <li>{{ subitem.TRQTY }}</li>
+                            <li>{{ subitem.TRWGT }}</li>
+                            <li>{{ subitem.RK }}</li>
+                            <li>{{ subitem.FILEYN }}</li>
+                        </ul>
+                    </div>
+                    
                 </div>
                 <ul class="scm-table-footer scm-table-line">
                     <li>
@@ -124,6 +127,66 @@
                     <li></li>
                 </ul>
             </div>
+
+            <!-- 인쇄전용 레이아웃 -->
+            <section id="PrintObj">
+                <div class="scm-common-table">
+                    <div class="scm-table-header bg-bid-blue">
+                        <ul class="scm-table-line scm-data-table-line" data-scm-table-header>
+                            <li>주문일자</li>
+                            <li>주문번호</li>
+                            <li>품목</li>
+                            <li>강종</li>
+                            <li>재질</li>
+                            <li>도금량</li>
+                            <li>치수</li>
+                            <li>수량</li>
+                            <li>중량</li>
+                            <li>비고</li>
+                            <li>파일첨부 여부</li>
+                        </ul>
+                    </div>
+                    <div class="scm-table-body">
+                        <div v-for="(item, i) in objBySLINO" class="scm-table-line-container">
+                            <ul v-for="subitem in item" class="scm-table-line">
+                                <li>{{ subitem === item[0] ? subitem.TDATE : '' }}</li>
+                                <li>{{ subitem === item[0] ? subitem.SLINO: '' }}</li>
+                                <li>{{ subitem.ITCOD }}</li>
+                                <li>{{ subitem.JJNAS }}</li>
+                                <li>{{ subitem.MATRL }}</li>
+                                <li>{{ subitem.GOLDW }}</li>
+                                <li>{{ subitem.SIZE1 }}</li>
+                                <li>{{ subitem.TRQTY }}</li>
+                                <li>{{ subitem.TRWGT }}</li>
+                                <li>{{ subitem.RK }}</li>
+                                <li>{{ subitem.FILEYN }}</li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                    <ul class="scm-table-footer scm-table-line">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 18L12.6796 12L5 6V4H19V6H8.26348L16 12L8.26348 18H19V20H5V18Z"></path></svg>
+                            <p class="scm-footer-titles">
+                                합계 <span>{{ isViewList.length }}</span>건
+                            </p>
+                            
+                        </li>
+                        <li>
+                            <p class="scm-footer-titles">
+                                <span>{{ totalQuantity }}</span>
+                            </p>
+                        </li>
+                        <li>
+                            <p class="scm-footer-titles">
+                                <span>{{ totalWeight }}</span>
+                            </p>
+                        </li>
+                        <li></li>
+                    </ul>
+                </div>
+            </section>
+            <!-- 인쇄전용 레이아웃 끝 -->
         </div>
     </section>
 
@@ -173,8 +236,12 @@
 
                 </div>
                 <div class="filter-button-container">
-                    <button @click="" class="common-filter-button" id="scmPrintBtn" type="button">
+                    <button @click="addRow" class="common-filter-button" id="scmPrintBtn" type="button">
                         <font-awesome-icon icon="fa-solid fa-plus" />
+                        <p>행 추가</p>
+                    </button>
+                    <button @click="" class="common-filter-button" id="scmPrintBtn" type="button">
+                        <font-awesome-icon icon="fa-floppy-disk" />
                         <p>저장</p>
                     </button>
                     <button @click="closeReqMd" class="common-filter-button" id="scmPrintBtn" type="button">
@@ -197,19 +264,18 @@
                             <li>폭</li>
                             <li>길이</li>
                             <li>수량</li>
-                            <li>단위</li>
                             <li>단중</li>
                             <li>중량</li>
                         </ul>
                     </div>
                     <div class="scm-table-body">
-                        <ul class="scm-table-line">
+                        <ul v-for="item in addTemp" class="scm-table-line">
                             <li>
-                                <input type="text" ref="MD_PROD">
+                                <input type="text" ref="MD_PROD" v-model="item.ITCOD">
                             </li>
                             
                             <li>
-                                <input type="text" ref="MD_KJ">
+                                <input type="text" ref="MD_KJ" v-model="item.JJNAS">
                             </li>
                             <li>
                                 <input type="text" ref="MD_MAT">
@@ -230,13 +296,10 @@
                                 <input type="text" ref="MD_AMOUNT">
                             </li>
                             <li>
-                                <input type="text" ref="MD_UNIT">
-                            </li>
-                            <li>
                                 <input type="text" ref="MD_DJ">
                             </li>
                             <li>
-                                <input type="text" ref="MD_WEIGHT">
+                                <input @keyup.enter="addRow" type="text" ref="MD_WEIGHT">
                             </li>
                             
                         </ul>
@@ -280,7 +343,6 @@
             </div>
         </div>
     </section>
-    
 </template>
 
 <script setup>
@@ -338,9 +400,26 @@
 
     }
 
+    function testss() {
+        
+
+        console.log('기존 배열은', copyOfData.value)
+        console.log('reduce된 배열은', objBySLINO)
+    }    
+    
+    
+
     function closeReqMd() {
+        let addTempCount = addTemp.length
+        addTemp.splice(1, addTempCount - 1)
+        console.log(addTemp.length)
         isShowAddMd.value = 'false'
     }
+
+    // const objBySLINO = 
+
+    
+
 
     //'추가' 팝업창
 
@@ -418,8 +497,6 @@
             sendDataList.value.i_edsz2 = I_EDSZ2.value.value
         }
 
-        console.log(sendDataList.value)
-
         reqRegList()
     }
 
@@ -431,6 +508,8 @@
 
     reqRegList()
 
+    const objBySLINO = ref([])
+
     function reqRegList() {
         console.log(sendDataList.value)
 
@@ -438,6 +517,7 @@
             .then(res => {
                 console.log(res.data)
                 copyOfData.value = res.data
+
 
                 isViewList.value = Object.assign(copyOfData.value)
 
@@ -449,10 +529,41 @@
                     return parseInt(x) + parseInt(y.TRWGT);
                 }, 0);
 
+
+
+                objBySLINO.value = copyOfData.value.reduce((acc, obj) => {
+                    const { SLINO } = obj;
+
+                    acc[SLINO] = acc[SLINO] ?? [];
+                    acc[SLINO].push(obj);
+                    return acc;
                 
+                }, {})
+            
             })
             .catch(error => { toast.error('목록을 불러오지 못했습니다.') })
     }
+    
+    const addTemp = reactive([{
+        ITCOD: '',//품목
+        JJNAS: '',//강종
+        MATRL: '',//재질
+        GOLDW: '',//도금량
+        SIZE1: '',//둒께
+        SIZE2: '',//폭
+        SIZE3: '',//길이
+        TRQTY: '',//수량
+        //단위
+        ITWGT: '',//단중
+        TRWGT: '',//중량
+
+    }])
+
+    function addRow() {
+        let newRow = Object.keys(addTemp)
+        addTemp.push({...newRow})
+    }
+
     
 
 </script>
@@ -460,6 +571,11 @@
 <style lang="scss" scoped>
     .common-filter-container {
         grid-template-columns: repeat(2, minmax(3rem, 1fr));
+    }
+
+    .scm-table-line-container {
+        display: grid;
+        flex-direction: column;
     }
 
     .scm-table-line {
@@ -580,6 +696,9 @@
 
             input {
                 outline: 0;
+                width: 100%;
+                background-color: transparent;
+
             }
         }
 
@@ -589,7 +708,7 @@
     }
 
     #addModal .scm-table-line {
-        grid-template-columns: 1fr .75fr 1fr repeat(6, .75fr) .8fr 1fr;
+        grid-template-columns: 1fr .75fr 1fr repeat(5, .75fr) .8fr 1fr;
     }
 
     #reqAddMdContainer {
@@ -629,5 +748,11 @@
         span {
             opacity: .5;
         }
+    }
+
+    //인쇄용
+
+    #PrintObj {
+        display: none;
     }
 </style>

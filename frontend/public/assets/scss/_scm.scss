@@ -138,7 +138,7 @@
     svg {
         color: rgb(var(--white));
         font-size: var(--font13);
-        margin-right: .75rem;
+        margin-right: .5rem;
     }
 }
 
@@ -245,16 +245,16 @@
         background-color: rgb(var(--main-black), .1);
     }
 
-    ul:nth-child(even) {
-        
-        background-color: rgba(var(--main-black), .05);
-    }
-
     .scm-table-line {
         &:last-child {
             border-bottom: 1px solid rgba(var(--main-black), .15);
         }
+
+        &:nth-child(even) {
+            background-color: rgba(var(--main-black), .05);    
+        }
     }
+
 }
 
 .board-table-body {
