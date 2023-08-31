@@ -37,7 +37,7 @@ export const useScmStore = defineStore('scm', () => {
     const addr1Data = localStorage.getItem('ADDR1') // 기본주소
     const addr2Data = localStorage.getItem('ADDR2') // 상세주소    
 
-    const scmUsr = ref([
+    const scmUsr = ref(
         {
             CVCOD: cvcodData,
             NAME: cvnamData,
@@ -50,7 +50,7 @@ export const useScmStore = defineStore('scm', () => {
             ADDR2: addr2Data
             
         },
-    ])
+    )
 
     return { scmGroup, scmUsr }
 

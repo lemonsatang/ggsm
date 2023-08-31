@@ -5,6 +5,7 @@ import com.pineit.ggsm.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,18 @@ public class UserController {
         log.info("User Check.........");
 
         Map<String, Object> result = userService.getUserCheck(userDTO);
+
+        return result;
+    }
+
+    @PostMapping("/udtUser")
+    public Map<String, Object> udtUser(@RequestBody UserDTO userDTO) {
+        log.info("UPDATE USER.........");
+
+        System.out.println("==============INFO: " + userDTO);
+
+        Map<String, Object> result = userService.udtUser(userDTO);
+        // Map<String, Object> result = new HashMap<>();
 
         System.out.println("==============RESULT: " + result);
 
