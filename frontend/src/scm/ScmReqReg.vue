@@ -89,7 +89,7 @@
                     </ul>
                 </div>
                 <div class="scm-table-body">
-                    <div v-for="(item, i) in objBySLINO" class="scm-table-line-container">
+                    <div v-for="(item, i) in objBySLINO">
                         <ul v-for="subitem in item" class="scm-table-line">
                             <li>{{ subitem === item[0] ? subitem.TDATE : '' }}</li>
                             <li>{{ subitem === item[0] ? subitem.SLINO: '' }}</li>
@@ -129,7 +129,7 @@
             </div>
 
             <!-- 인쇄전용 레이아웃 -->
-            <section id="PrintObj">
+            <!-- <section id="PrintObj">
                 <div class="scm-common-table">
                     <div class="scm-table-header bg-bid-blue">
                         <ul class="scm-table-line scm-data-table-line" data-scm-table-header>
@@ -185,6 +185,78 @@
                         <li></li>
                     </ul>
                 </div>
+            </section> -->
+
+            <section id="PrintObj">
+                
+                <table class="scm-common-table">
+
+                    <thead class="scm-table-header bg-bid-blue">
+                        <tr class="scm-table-lines" data-scm-table-header>
+                            <td>주문일자</td>
+                            <td>주문번호</td>
+                            <td>품목</td>
+                            <td>강종</td>
+                            <td>재질</td>
+                            <td>도금량</td>
+                            <td>치수</td>
+                            <td>수량</td>
+                            <td>중량</td>
+                            <td>비고</td>
+                            <td>파일 여부</td>
+                        </tr>
+                    </thead>
+                    <tbody v-for="(item, i) in objBySLINO" class="scm-table-body">
+                        <!-- <tr class="req-obj-header">
+                            <td colspan="4">{{ item.PCVNM }}</td>
+                            <td>{{ item.LNNAM }}</td>
+                            <td>{{ item.LNPLN }}</td>
+                            <td colspan="3">{{ item.LNADR}}</td>
+                        </tr> -->
+                        <!-- <tr class="req-obj-header">
+                            <td colspan="11">{{ item.LNADR}}</td>
+                        </tr> -->
+                        <tr v-for="subitem in item" class="scm-table-line">
+                            <td>{{ subitem === item[0] ? subitem.TDATE : '' }}</td>
+                            <td>{{ subitem === item[0] ? subitem.SLINO: '' }}</td>
+                            <td>{{ subitem.ITCOD }}</td>
+                            <td>{{ subitem.JJNAS }}</td>
+                            <td>{{ subitem.MATRL }}</td>
+                            <td>{{ subitem.GOLDW }}</td>
+                            <td>{{ subitem.SIZE1 }}</td>
+                            <td>{{ subitem.TRQTY }}</td>
+                            <td>{{ subitem.TRWGT }}</td>
+                            <td>{{ subitem.RK }}</td>
+                            <td>{{ subitem.FILEYN }}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="scm-table-footer scm-table-lines">
+                        <td>
+                            <p class="scm-footer-titles">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 18L12.6796 12L5 6V4H19V6H8.26348L16 12L8.26348 18H19V20H5V18Z"></path></svg>
+                                합계 <span>{{ isViewList.length }}</span>건
+                            </p>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <p class="scm-footer-titles">
+                                <span>{{ totalQuantity }}</span>
+                            </p>
+                        </td>
+                        <td>
+                            <p class="scm-footer-titles">
+                                <span>{{ totalWeight }}</span>
+                            </p>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tfoot>
+                </table>
             </section>
             <!-- 인쇄전용 레이아웃 끝 -->
         </div>
@@ -574,8 +646,7 @@
     }
 
     .scm-table-line-container {
-        display: grid;
-        flex-direction: column;
+        display: contents;        
     }
 
     .scm-table-line {
