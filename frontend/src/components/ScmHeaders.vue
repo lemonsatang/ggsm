@@ -13,8 +13,8 @@
                     
                     <p>
                         <font-awesome-icon icon="fa-solid fa-user" />
-                        <span data-comp-name>{{ copyOfUsr.NAME }}</span>
-                        <span data-comp-no>[{{ copyOfUsr.SANO }}]</span>
+                        <span data-comp-name>{{ loginInfo.cvnam }}</span>
+                        <span data-comp-no>[{{ loginInfo.sano }}]</span>
                         <span class="scm-mob-none">님 안녕하세요.</span>
                     </p>
                     <button @click="viewUsrInfo()" id="scmUsrModify" type="button">
@@ -59,41 +59,41 @@
                     <div class="usr-info-line" data-usr-info-nameline>
                         <article>
                             <p class="usr-info-body-title">고객사명</p>
-                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.NAME">
+                            <input class="usr-info-body-text" type="text" v-model="loginInfo.cvnam">
                         </article>
                         <article>
                             <p class="usr-info-body-title">사업자등록번호</p>
-                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.SANO">
+                            <input class="usr-info-body-text" type="text" v-model="loginInfo.sano">
                         </article>
                         <article>
                             <p class="usr-info-body-title">대표자</p>
-                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.OWNAM">
+                            <input class="usr-info-body-text" type="text" v-model="loginInfo.ownam">
                         </article>
                     </div>
 
                     <div class="usr-info-line" data-usr-info-cateline>
                         <article>
                             <p class="usr-info-body-title">업태</p>
-                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.UPTAE">
+                            <input class="usr-info-body-text" type="text" v-model="loginInfo.uptae">
                         </article>
                         <article>
                             <p class="usr-info-body-title">종목</p>
-                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.JONGK">
+                            <input class="usr-info-body-text" type="text" v-model="loginInfo.jongk">
                         </article>
                     </div>
 
                     <div class="usr-info-line" data-usr-info-localine>
                         <article>
                             <p class="usr-info-body-title">우편번호</p>
-                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.ZIPCD">
+                            <input class="usr-info-body-text" type="text" v-model="loginInfo.zipcd">
                         </article>
                         <article>
                             <p class="usr-info-body-title">소재지</p>
-                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.ADDR1">
+                            <input class="usr-info-body-text" type="text" v-model="loginInfo.addr1">
                         </article>
                         <article>
                             <p class="usr-info-body-title">상세주소</p>
-                            <input class="usr-info-body-text" type="text" v-model="copyOfUsr.ADDR2">
+                            <input class="usr-info-body-text" type="text" v-model="loginInfo.addr2">
                         </article>
                     </div>
                     
@@ -164,10 +164,18 @@
     import { toast } from 'vue3-toastify';
 
     const scmStore = useScmStore()
-    const { scmGroup, scmUsr, isTap } = storeToRefs(scmStore)   
+    const { scmGroup, isTap } = storeToRefs(scmStore)   
     
-    //가져온 원본 데이터 그대로 사용 X -> 복사해서 사용하기
-    const copyOfUsr = scmUsr.value
+    // 로그인 정보
+    const loginInfo = ref({})
+
+    axios.post('/api/user/getUserInfo', {
+        cvcod: localStorage.getItem('CVCOD')
+    })
+    .then(res => {
+        loginInfo.value = res.data
+    })
+    .catch(error => toast.error('사용자 정보를 가져오던 도중 오류가 발생했습니다.'))
 
     import { routerKey, useRoute, useRouter } from 'vue-router'
 
@@ -199,20 +207,8 @@
         pwHide.value = true
     }
 
-    const udtUserData = ref({
-        cvcod: copyOfUsr.CVCOD,
-        cvnam: copyOfUsr.NAME,
-        sano: copyOfUsr.SANO,
-        ownam: copyOfUsr.OWNAM,
-        uptae: copyOfUsr.UPTAE,
-        jongk: copyOfUsr.JONGK,
-        zipcd: copyOfUsr.ZIPCD,
-        addr1: copyOfUsr.ADDR1,
-        addr2: copyOfUsr.ADDR2,
-        passwd: null
-    })
-
     function usrInfoSave() {
+        const userValue = loginInfo.value
 
         if((recentPW.value.value == '' && newPW.value.value != '') || (recentPW.value.value != '' && newPW.value.value == '')) {
             toast.error('비밀번호를 입력해주세요.')
@@ -221,12 +217,10 @@
             toast.error('비밀번호가 일치하지 않습니다.')
             return
         } else if(recentPW.value.value != '' && newPW.value.value != '') {
-            udtUserData.value.passwd = recentPW.value.value
+            userValue.passwd = recentPW.value.value
         }
 
-        console.log(udtUserData.value)
-
-        axios.post('/api/user/udtUser', udtUserData.value)
+        axios.post('/api/user/udtUser', userValue)
             .then(res => {
                 usrInfoSaveText.value = true
 
@@ -241,6 +235,13 @@
     function scmLogout() {
         localStorage.removeItem('CVCOD')
         localStorage.removeItem('CVNAM')
+        localStorage.removeItem('SANO')
+        localStorage.removeItem('OWNAM')
+        localStorage.removeItem('UPTAE')
+        localStorage.removeItem('JONGK')
+        localStorage.removeItem('ZIPCD')
+        localStorage.removeItem('ADDR1')
+        localStorage.removeItem('ADDR2')
         
         router.push('/')
     }
@@ -288,8 +289,6 @@
     const CompModify = ref({
         new_pw: '',
     })
-
-
 
 </script>
 

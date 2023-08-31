@@ -14,6 +14,10 @@ public interface UserRepository extends JpaRepository<USER, String> {
     Optional<USER> getUserCheck(@Param("param") USER user);
 
     @Modifying
+    @Query(value = "UPDATE CVMAST SET ADDR1 = :#{#param.addr1}, ADDR2 = :#{#param.addr2}, UPTAE = :#{#param.uptae}, JONGK = :#{#param.jongk}, OWNAM = :#{#param.ownam}, SANO = :#{#param.sano}, ZIPCD= :#{#param.zipcd} WHERE CVCOD = :#{#param.cvcod}", nativeQuery = true)
+    int udtUserNew(@Param("param") USER user);
+
+    @Modifying
     @Query(value = "UPDATE CVMAST SET ADDR1 = :#{#param.addr1}, ADDR2 = :#{#param.addr2}, UPTAE = :#{#param.uptae}, JONGK = :#{#param.jongk}, OWNAM = :#{#param.ownam}, SANO = :#{#param.sano}, ZIPCD= :#{#param.zipcd}, PASSWD = HASHBYTES('SHA2_256', CONVERT(VARCHAR, :#{#param.passwd})) WHERE CVCOD = :#{#param.cvcod}", nativeQuery = true)
     int udtUser(@Param("param") USER user);
 

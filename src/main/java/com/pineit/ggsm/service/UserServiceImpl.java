@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,7 +45,7 @@ public class UserServiceImpl implements UserService {
         USER user = dtoToEntity(dto);
 
         if (user.getPasswd() == null) {
-            USER udt = userRepository.save(user);
+            int udt = userRepository.udtUserNew(user);
             result.put("USER", udt);
         } else {
             int passUdt = userRepository.udtUser(user);
@@ -59,10 +58,20 @@ public class UserServiceImpl implements UserService {
     // 현재 날짜, 시간 가져오기
     public static String getCurrentDateTime() {
         SimpleDateFormat sDate2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        System.out.println(sDate2.format(new Date()));
 
         String today = sDate2.format(new Date());
 
         return today;
+    }
+
+    @Override
+    public Optional<USER> getUserInfo(UserDTO dto) {
+
+        dto.setMdate(getCurrentDateTime());
+        USER user = dtoToEntity(dto);
+
+        Optional<USER> info = userRepository.findById(user.getCvcod());
+
+        return info;
     }
 }

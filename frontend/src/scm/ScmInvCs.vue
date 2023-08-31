@@ -191,6 +191,7 @@
 
     //**필터 데이터 받아서 서버에 전달할 애들
     const sendDataList = ref({
+        i_cvcod: localStorage.getItem('CVCOD'),
         i_mitgu: '',
         i_itcod: '',
         i_matrl: '',
