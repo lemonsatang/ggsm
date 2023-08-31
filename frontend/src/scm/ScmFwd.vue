@@ -207,8 +207,8 @@
 
     //**필터 데이터 받아서 서버에 전달할 애들(일자는 dataObj로 별도)
     const sendDataList = ref({
+        i_cvcod: localStorage.getItem('CVCOD'),
         i_mitgu: '',
-        i_itcod: '',
         i_matrl: '',
         i_stsz1: 0,
         i_edsz1: 0,
@@ -219,8 +219,8 @@
         i_enddt: new Intl.DateTimeFormat("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}).format(Date.now())
     })
 
-    function searchFwd() {        
-
+    function searchFwd() {
+        
         //시작 연, 월, 일 가져오기
         let getStYear = range.value.start.getFullYear()
         let getStMonth = range.value.start.getMonth() + 1
