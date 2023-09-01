@@ -128,71 +128,13 @@
                 </ul>
             </div>
 
-            <!-- 인쇄전용 레이아웃 -->
-            <!-- <section id="PrintObj">
-                <div class="scm-common-table">
-                    <div class="scm-table-header bg-bid-blue">
-                        <ul class="scm-table-line scm-data-table-line" data-scm-table-header>
-                            <li>주문일자</li>
-                            <li>주문번호</li>
-                            <li>품목</li>
-                            <li>강종</li>
-                            <li>재질</li>
-                            <li>도금량</li>
-                            <li>치수</li>
-                            <li>수량</li>
-                            <li>중량</li>
-                            <li>비고</li>
-                            <li>파일첨부 여부</li>
-                        </ul>
-                    </div>
-                    <div class="scm-table-body">
-                        <div v-for="(item, i) in objBySLINO" class="scm-table-line-container">
-                            <ul v-for="subitem in item" class="scm-table-line">
-                                <li>{{ subitem === item[0] ? subitem.TDATE : '' }}</li>
-                                <li>{{ subitem === item[0] ? subitem.SLINO: '' }}</li>
-                                <li>{{ subitem.ITCOD }}</li>
-                                <li>{{ subitem.JJNAS }}</li>
-                                <li>{{ subitem.MATRL }}</li>
-                                <li>{{ subitem.GOLDW }}</li>
-                                <li>{{ subitem.SIZE1 }}</li>
-                                <li>{{ subitem.TRQTY }}</li>
-                                <li>{{ subitem.TRWGT }}</li>
-                                <li>{{ subitem.RK }}</li>
-                                <li>{{ subitem.FILEYN }}</li>
-                            </ul>
-                        </div>
-                        
-                    </div>
-                    <ul class="scm-table-footer scm-table-line">
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 18L12.6796 12L5 6V4H19V6H8.26348L16 12L8.26348 18H19V20H5V18Z"></path></svg>
-                            <p class="scm-footer-titles">
-                                합계 <span>{{ isViewList.length }}</span>건
-                            </p>
-                            
-                        </li>
-                        <li>
-                            <p class="scm-footer-titles">
-                                <span>{{ totalQuantity }}</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p class="scm-footer-titles">
-                                <span>{{ totalWeight }}</span>
-                            </p>
-                        </li>
-                        <li></li>
-                    </ul>
-                </div>
-            </section> -->
-
             <section id="PrintObj">
                 
                 <table class="scm-common-table">
 
                     <thead class="scm-table-header bg-bid-blue">
                         <tr class="scm-table-lines" data-scm-table-header>
+                            <td></td>
                             <td>주문일자</td>
                             <td>주문번호</td>
                             <td>품목</td>
@@ -207,18 +149,16 @@
                         </tr>
                     </thead>
                     <tbody v-for="(item, i) in objBySLINO" class="scm-table-body">
-                        <!-- <tr class="req-obj-header">
-                            <td colspan="4">{{ item.PCVNM }}</td>
-                            <td>{{ item.LNNAM }}</td>
-                            <td>{{ item.LNPLN }}</td>
-                            <td colspan="3">{{ item.LNADR}}</td>
-                        </tr> -->
-                        <!-- <tr class="req-obj-header">
-                            <td colspan="11">{{ item.LNADR}}</td>
-                        </tr> -->
+                        
                         <tr v-for="subitem in item" class="scm-table-line">
-                            <td>{{ subitem === item[0] ? subitem.TDATE : '' }}</td>
-                            <td>{{ subitem === item[0] ? subitem.SLINO: '' }}</td>
+                            <td v-if="subitem === item[0]" class="req-obj-header" :rowspan="item.length">
+                                <p>거래처: {{ subitem.PCVNM }}</p>
+                                <p>착지명: {{ subitem.LNNAM }}</p>
+                                <p>착지담당: {{ subitem.LNPLN }}</p>
+                                <p>착지주소: {{ subitem.LNADR }}</p>   
+                            </td>                            
+                            <td v-if="subitem === item[0]" :rowspan="item.length">{{ subitem.TDATE }}</td>
+                            <td v-if="subitem === item[0]" :rowspan="item.length">{{ subitem.SLINO }}</td>
                             <td>{{ subitem.ITCOD }}</td>
                             <td>{{ subitem.JJNAS }}</td>
                             <td>{{ subitem.MATRL }}</td>
@@ -253,6 +193,7 @@
                                 <span>{{ totalWeight }}</span>
                             </p>
                         </td>
+                        <td></td>
                         <td></td>
                         <td></td>
                     </tfoot>
@@ -312,7 +253,7 @@
                         <font-awesome-icon icon="fa-solid fa-plus" />
                         <p>행 추가</p>
                     </button>
-                    <button @click="" class="common-filter-button" id="scmPrintBtn" type="button">
+                    <button @click="addReqReg" class="common-filter-button" id="scmPrintBtn" type="button">
                         <font-awesome-icon icon="fa-floppy-disk" />
                         <p>저장</p>
                     </button>
@@ -350,28 +291,28 @@
                                 <input type="text" ref="MD_KJ" v-model="item.JJNAS">
                             </li>
                             <li>
-                                <input type="text" ref="MD_MAT">
+                                <input type="text" ref="MD_MAT" v-model="item.MATRL">
                             </li>
                             <li>
-                                <input type="text" ref="MD_COAT">
+                                <input type="text" ref="MD_COAT" v-model="item.GOLDW">
                             </li>
                             <li>
-                                <input type="text" ref="MD_HEIGHT">
+                                <input type="text" ref="MD_HEIGHT" v-model="item.SIZE1">
                             </li>
                             <li>
-                                <input type="text" ref="MD_WIDTH">
+                                <input type="text" ref="MD_WIDTH" v-model="item.SIZE2">
                             </li>
                             <li>
-                                <input type="text" ref="MD_LENGTH">
+                                <input type="text" ref="MD_LENGTH" v-model="item.SIZE3">
                             </li>
                             <li>
-                                <input type="text" ref="MD_AMOUNT">
+                                <input type="text" ref="MD_AMOUNT" v-model="item.TRQTY">
                             </li>
                             <li>
-                                <input type="text" ref="MD_DJ">
+                                <input type="text" ref="MD_DJ" v-model="item.ITWGT">
                             </li>
                             <li>
-                                <input @keyup.enter="addRow" type="text" ref="MD_WEIGHT">
+                                <input @keyup.enter="addRow" type="text" ref="MD_WEIGHT" v-model="item.TRWGT">
                             </li>
                             
                         </ul>
@@ -452,6 +393,7 @@
 
     const upFileSize = ref() //업로드 파일 사이즈
     let isUploaded = false //업로드 되었는지 상태
+    let uploadFile = ref() //업로드 파일 정보
     
     //input type='file'로 업로드 파일 정보 가져오기
     let recentFile = reactive({})
@@ -459,6 +401,8 @@
 
     const inputToReq = (e) => {
         let inputDatas = e.currentTarget.files
+
+        uploadFile = inputDatas[0]
 
         console.log(inputDatas)
 
@@ -487,13 +431,6 @@
         console.log(addTemp.length)
         isShowAddMd.value = 'false'
     }
-
-    // const objBySLINO = 
-
-    
-
-
-    //'추가' 팝업창
 
     // const copyOfData = [...scmInvGroup.value]
     const copyOfData = reactive([])
@@ -587,9 +524,7 @@
 
         axios.post('/api/reqRegList', sendDataList.value)
             .then(res => {
-                console.log(res.data)
                 copyOfData.value = res.data
-
 
                 isViewList.value = Object.assign(copyOfData.value)
 
@@ -600,8 +535,6 @@
                 totalWeight.value = isViewList.value.reduce((x, y) => {
                     return parseInt(x) + parseInt(y.TRWGT);
                 }, 0);
-
-
 
                 objBySLINO.value = copyOfData.value.reduce((acc, obj) => {
                     const { SLINO } = obj;
@@ -632,11 +565,60 @@
     }])
 
     function addRow() {
-        let newRow = Object.keys(addTemp)
+        let newRow = {
+            ITCOD: '',//품목
+            JJNAS: '',//강종
+            MATRL: '',//재질
+            GOLDW: '',//도금량
+            SIZE1: '',//둒께
+            SIZE2: '',//폭
+            SIZE3: '',//길이
+            TRQTY: '',//수량
+            //단위
+            ITWGT: '',//단중
+            TRWGT: '',//중량
+        }
         addTemp.push({...newRow})
     }
 
+    // 주문의뢰서 추가
+    function addReqReg() {
     
+        let data = {
+            CVCOD: localStorage.getItem('CVCOD'),
+            PCVNM: CORP_NAME.value.value,
+            LNNAM: PLC_NAME.value.value,
+            LNPLN: PLC_PERSON.value.value,
+            LNADR: PLC_LOCATION.value.value
+        }
+
+        const formData = new FormData()
+        formData.append('data', JSON.stringify(data))
+        formData.append('dataList', JSON.stringify(addTemp))
+        formData.append('file', uploadFile)
+
+        axios.post('/api/addReqReg', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        })
+        .then(res => {
+            console.log(res)
+        })
+        .catch(error => toast.error('주문의뢰서를 저장하던 도중 오류가 발생했습니다.'))
+
+        // const CORP_NAME = ref() //거래처
+        // const PLC_NAME = ref() //착지명
+        // const PLC_PERSON = ref() //착지담당
+        // const PLC_LOCATION = ref() //착지주소
+
+        // const upFileSize = ref() //업로드 파일 사이즈
+        // let isUploaded = false //업로드 되었는지 상태
+        
+        // //input type='file'로 업로드 파일 정보 가져오기
+        // let recentFile = reactive({})
+        // const recentFileList = reactive([])
+    }
 
 </script>
 

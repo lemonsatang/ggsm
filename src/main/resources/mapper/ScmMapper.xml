@@ -205,4 +205,104 @@
                 ]]>
         </select>
 
+        <select id="getSlino" resultType="String">
+                DECLARE @W_SLINO VARCHAR(15)='';
+                EXEC dbo.usp_getAutoNo 'R',#{date1},@W_SLINO OUTPUT;
+                SELECT @W_SLINO;
+        </select>
+
+        <select id="addReqReg" resultType="map">
+                BEGIN TRY
+			BEGIN TRAN
+				DECLARE @ERROR_GB CHAR(1), @OUT_RESULT_MSG NVARCHAR(200) = NULL, @SEQNO INT
+				
+                                INSERT INTO REQT_M
+                                                ( SLINO
+                                                , TDATE
+                                                , CVCOD
+                                                , PCVNM
+                                                , LNNAM
+                                                , LNPLN
+                                                , LNADR
+                                                , ATTNM
+                                                , RK_M
+                                                , CUSER )
+                                                VALUES
+                                                ( #{SLINO}
+                                                , #{TDATE}
+                                                , #{CVCOD}
+                                                , #{PCVNM}
+                                                , #{LNNAM}
+                                                , #{LNPLN}
+                                                , #{LNADR}
+                                                , #{ATTNM}
+                                                , #{RK_M}
+                                                , #{CVCOD} )
+
+                                <foreach collection="dataList" item="item">
+                                        SELECT @SEQNO = ISNULL(MAX(SEQNO), 0)+1
+                                        FROM REQT_D
+                                        WHERE SLINO = #{SLINO}
+							
+                                        INSERT INTO REQT_D( SLINO
+                                                        , SEQNO
+                                                        , ITCOD
+                                                        , JJNAS
+                                                        , MATRL
+                                                        , GOLDW
+                                                        , SIZE1
+                                                        , SIZE2
+                                                        , SIZE3
+                                                        , TRQTY
+                                                        , ITWGT
+                                                        , TRWGT
+                                                        , RK_D
+                                                        , CUSER )
+                                                        VALUES(  #{SLINO}
+                                                        , @SEQNO
+                                                        , #{item.ITCOD}
+                                                        , #{item.JJNAS}
+                                                        , #{item.MATRL}
+                                                        , #{item.GOLDW}
+                                                        , #{item.SIZE1}
+                                                        , #{item.SIZE2}
+                                                        , #{item.SIZE3}
+                                                        , #{item.TRQTY}
+                                                        , #{item.ITWGT}
+                                                        , #{item.TRWGT}
+                                                        , #{item.RK_D}
+                                                        , #{CVCOD})
+                                </foreach>
+					
+			COMMIT TRAN;
+                SET @ERROR_GB = '1';
+                SET @OUT_RESULT_MSG = '등록이 완료되었습니다.';
+                
+        END TRY
+                
+		BEGIN CATCH
+			ROLLBACK TRAN;
+                SET @ERROR_GB = '0';
+                SET @OUT_RESULT_MSG = CONCAT( '오류 메시지 : ', ERROR_MESSAGE()
+                                        , '\r\n줄번호 : ', ERROR_LINE()
+                                        , '\r\n오류번호 : ', ERROR_NUMBER()
+                                        , '\r\n상태코드 : ', ERROR_STATE()
+                                        , '\r\n프로시저명 : ', ERROR_PROCEDURE()
+                                        , '\r\n심각도 : ', ERROR_SEVERITY()
+                                        , '\r\n오류줄번호 : ', @@ERROR);   
+		
+		END CATCH
+		
+		IF @ERROR_GB = '1'
+                BEGIN
+                        SELECT @ERROR_GB AS RESULT
+                        , @OUT_RESULT_MSG AS MSG
+                END 
+        ELSE IF @ERROR_GB = '0'
+        BEGIN
+                SELECT @ERROR_GB AS RESULT
+                , @OUT_RESULT_MSG AS MSG
+        END
+        </select>
+
 </mapper>
