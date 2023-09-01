@@ -1,17 +1,24 @@
 package com.pineit.ggsm.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.pineit.ggsm.dto.ScmDTO;
 import com.pineit.ggsm.service.ScmService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.sf.json.JSONArray;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,9 +59,24 @@ public class ScmController {
     public List<Map<String, Object>> reqRegList(@RequestBody ScmDTO scmDTO) {
         log.info("GET REQREG LIST.........");
 
-        System.out.println("===================scmDTO: " + scmDTO);
-
         List<Map<String, Object>> result = scmService.reqRegList(scmDTO);
+
+        return result;
+    }
+
+    @PostMapping("/addReqReg")
+    public Map<String, Object> addReqReg(HttpServletRequest request, MultipartHttpServletRequest mRequest)
+            throws ParseException {
+        log.info("ADD REQREG.........");
+
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(request.getParameter("data"));
+        JSONObject jsonObj = (JSONObject) obj;
+
+        List<Map<String, Object>> dataListMap = JSONArray.fromObject(request.getParameter("dataList"));
+        jsonObj.put("dataList", dataListMap);
+
+        Map<String, Object> result = scmService.addReqReg(jsonObj, mRequest);
 
         return result;
     }
