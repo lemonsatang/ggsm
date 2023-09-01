@@ -256,7 +256,7 @@
     /* 주문의뢰서 접수 전용 */
 
     [data-scm-req-body] #scmTexts .scm-table-footer li:nth-child(1) {
-        grid-column: 1/8;
+        grid-column: 1/9;
     }
 
     [data-scm-req-body] #scmTexts .scm-table-footer li:nth-child(2) {
@@ -268,7 +268,7 @@
     }
 
     [data-scm-req-body] #scmTexts .scm-table-footer li:nth-child(4) {
-        grid-column: 10/12;
+        grid-column: 11/4;
     }
 
     [data-scm-req-body] .scm-table-line {
@@ -279,15 +279,11 @@
     /* 주문의뢰서 접수 인쇄전용 영역 */
 
     #PrintObj {
-        display: block;
+        /* display: block; */
     }
 
     #PrintObj .scm-table-header {
         border-bottom: 2px solid #000;
-    }
-
-    #PrintObj .scm-table-header tr.scm-table-line td {
-        border-right: 1px solid #000 !important;
     }
 
     #PrintObj .scm-common-table {
@@ -302,23 +298,24 @@
         padding: 0;
         border-bottom: 0;
         display: table-row;
+        /* border-bottom: 1px solid rgb(0, 0, 0); */
     }
 
     #PrintObj .scm-table-line td {
         border-bottom: 1px solid #000;
-        border-right: 1px solid #000;
+        border-right: 1px solid rgb(0,0,0);
         height: 2rem;
+    }
+
+    #PrintObj .scm-table-body .scm-table-line td.req-obj-header {        
+        border-top: 1px solid #000;
     }
 
     #PrintObj .scm-table-line td:last-child {
         border-right: 0;
     }
 
-    #PrintObj tbody .scm-table-line td:nth-child(1), #PrintObj tbody .scm-table-line td:nth-child(2) {
-        border-bottom: 0;
-    }
-
-    #PrintObj tbody .scm-table-line:last-child td:nth-child(1), #PrintObj tbody .scm-table-line:last-child td:nth-child(2) {
+    #PrintObj tbody .scm-table-line:last-child td:nth-child(1), #PrintObj tbody .scm-table-line:last-child td:nth-child(2), #PrintObj tbody .scm-table-line:last-child td:nth-child(3) {
         border-bottom: 1px solid rgb(0, 0, 0);
     }
 
@@ -342,10 +339,6 @@
         border-right: none;
         border-top: 2px solid rgb(0, 0, 0);
         border-bottom: 1px solid rgb(0, 0, 0);
-    }
-
-    #PrintObj .scm-table-lines.scm-table-footer td:nth-child(n+2):nth-child(-n+7) {
-        border-right: 0;
     }
 
     #PrintObj .scm-table-lines.scm-table-footer td:nth-child(8) {
@@ -375,6 +368,7 @@
         text-align: center;
         font-weight: 700;
         border-right: 1px solid rgb(0, 0, 0);
+        font-size: 12px;
     }
 
     #PrintObj .scm-table-header .scm-table-lines td:last-child {
@@ -382,12 +376,18 @@
     }
 
     .req-obj-header {
-        -webkit-print-color-adjust: exact;
-        background: #dbdbdb;
+        /* -webkit-print-color-adjust: exact; */
+        /* background: #f8f8f8; */
+        border-right: 1px solid rgb(0, 0, 0);
+        border-bottom: 1px solid rgb(0, 0, 0);
+        padding:.5rem 0;
     }
     
-    .req-obj-header td{
-        border-right: 1px solid rgb(0, 0, 0);
+    .req-obj-header p {
+        font-weight: 900;
+        margin-bottom: .5rem;
+        font-size: 10px;
+        text-align: left;
     }
 
 }
