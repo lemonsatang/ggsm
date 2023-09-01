@@ -53,7 +53,7 @@
                     <font-awesome-icon icon="fa-solid fa-plus" />
                     <p>Add</p>
                 </button>
-                <button class="common-filter-button bg-excel-green" id="scmExcelBtn" type="button">
+                <button @click="exDown()" class="common-filter-button bg-excel-green" id="scmExcelBtn" type="button">
                     <font-awesome-icon icon="fa-regular fa-file-excel" />
                     <p>Excel</p>
                 </button>
@@ -130,7 +130,7 @@
 
             <section id="PrintObj">
                 
-                <table class="scm-common-table">
+                <table id="reqTable" class="scm-common-table">
 
                     <thead class="scm-table-header bg-bid-blue">
                         <tr class="scm-table-lines" data-scm-table-header>
@@ -367,7 +367,8 @@
     import { storeToRefs } from 'pinia'
     import { onMounted } from 'vue'
     import axios from 'axios'
-    import { toast } from 'vue3-toastify';
+    import { toast } from 'vue3-toastify'
+    import * as XLSX from 'xlsx-js-style'
 
     const hfStore = usehfStore()
     const { navGroup, navText } = storeToRefs(hfStore)
@@ -583,7 +584,7 @@
 
     // 주문의뢰서 추가
     function addReqReg() {
-    
+
         let data = {
             CVCOD: localStorage.getItem('CVCOD'),
             PCVNM: CORP_NAME.value.value,
@@ -606,18 +607,13 @@
             console.log(res)
         })
         .catch(error => toast.error('주문의뢰서를 저장하던 도중 오류가 발생했습니다.'))
+    }
 
-        // const CORP_NAME = ref() //거래처
-        // const PLC_NAME = ref() //착지명
-        // const PLC_PERSON = ref() //착지담당
-        // const PLC_LOCATION = ref() //착지주소
-
-        // const upFileSize = ref() //업로드 파일 사이즈
-        // let isUploaded = false //업로드 되었는지 상태
-        
-        // //input type='file'로 업로드 파일 정보 가져오기
-        // let recentFile = reactive({})
-        // const recentFileList = reactive([])
+    function exDown() {
+        var excelData = XLSX.utils.table_to_sheet(reqTable); // table id를 넣어주면된다
+        var workBook = XLSX.utils.book_new(); // 새 시트 생성 
+        XLSX.utils.book_append_sheet(workBook, excelData, '주문의뢰서');  // 시트 명명, 데이터 지정
+        XLSX.writeFile(workBook, '주문의뢰서.xlsx'); // 엑셀파일 만듬
     }
 
 </script>
